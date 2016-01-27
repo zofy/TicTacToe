@@ -1,0 +1,10 @@
+h1{
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 50px;
+}
+#board{
+    margin: auto;
+    border-collapse: collapse;
+}
+

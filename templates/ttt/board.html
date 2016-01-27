@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'ttt/board.css' %}"/>
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <style>
+        #board td{
+            width: {{ width }}px;
+            height: {{ width }}px;
+        }
+        #board tr:nth-child(-n+{{ s }}) td {
+            border-bottom: 1px solid black;
+        }
+        #board tr td:nth-child(-n+{{ s }}){
+            border-right: 1px solid black;
+        }
+    </style>
+    <title>Board</title>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <table id="board">
+    {% for row in size %}
+        <tr>
+            {% for column in size %}
+                <td></td>
+             {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
