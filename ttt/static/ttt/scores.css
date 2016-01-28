@@ -1,0 +1,16 @@
+#results{
+    margin: auto;
+}
+#results th{
+    padding-bottom: 20px;
+    padding-right: 15px;
+}
+#results tr td{
+    text-align: center;
+    margin: auto 10px auto 5px;
+}
+#title{
+    text-align: center;
+    font-size: 65px;
+    font-family: 'Indie Flower', cursive;
+}

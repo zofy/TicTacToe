@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'ttt/scores.css' %}">
+    <title>Scores</title>
+</head>
+<body>
+    <p id="title">Scores</p>
+    <table id="results">
+        <tr>
+            <th>Name</th>
+            <th>vs Comp</th>
+            <th>vs Player</th>
+        </tr>
+        {% for score in scores %}
+            <tr>
+                <td>{{ score.player.name }}</td>
+                <td>{{ score.vs_comp }}</td>
+                <td>{{ score.vs_player }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</body>
+</html>
