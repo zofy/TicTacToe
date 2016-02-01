@@ -1,7 +1,9 @@
 #results{
+    width: auto;
     margin: auto;
 }
 #results th{
+    text-align: center;
     padding-bottom: 20px;
     padding-right: 15px;
 }
@@ -10,6 +12,7 @@
     margin: auto 10px auto 5px;
 }
 #title{
+    margin: 75px;
     text-align: center;
     font-size: 65px;
     font-family: 'Indie Flower', cursive;

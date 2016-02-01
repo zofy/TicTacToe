@@ -3,13 +3,14 @@
 <head>
     {% load staticfiles %}
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{% static 'ttt/scores.css' %}">
     <title>Scores</title>
 </head>
 <body>
     <p id="title">Scores</p>
-    <table id="results">
+    <table class='table table-hover' id="results">
         <tr>
             <th>Name</th>
             <th>vs Comp</th>
