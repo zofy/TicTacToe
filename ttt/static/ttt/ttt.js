@@ -1,36 +1,45 @@
 /**
  * Created by Patrik on 20. 2. 2016.
  */
-var squares = document.querySelectorAll('.square');
-var colors = []; // colors of squares
-var nums = []; // array for nums in rgb color
 
-function generateColors(){
-    for(i = 0; i < squares.length; i++){
-        for(j = 0; j < 3; j++){
-            nums.push(Math.round(256*Math.random()));
+var game = {};
+
+    game.squares = document.querySelectorAll('.square');
+    game.colors = []; // colors of squares
+    game.nums = []; // array for nums in rgb color
+
+
+    game.init = function(){
+        this.generateColors();
+        this.setUpSquares();
+    }
+
+    game.generateColors = function(){
+        for(i = 0; i < this.squares.length; i++){
+            for(j = 0; j < 3; j++){
+                this.nums.push(Math.round(256*Math.random()));
+            }
+            this.colors[i] = 'rgb(' + this.nums[0] + ', ' + this.nums[1] + ', ' + this.nums[2] + ')';
+            this.nums.length = 0;
         }
-        colors[i] = 'rgb(' + nums[0] + ', ' + nums[1] + ', ' + nums[2] + ')';
-        nums.length = 0;
     }
-}
 
-function randomColor(){
-    return 'rgb(' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ')';
-}
-
-function changeColor(square){
-    square.style.background = randomColor();
-}
-
-function setUpSquares(){
-    for(i = 0; i < squares.length; i++){
-        squares[i].style.background = colors[i];
-        squares[i].addEventListener('click', function(){
-            changeColor(this);
-        })
+    game.randomColor = function(){
+        return 'rgb(' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ')';
     }
-}
 
-generateColors();
-setUpSquares();
+    game.changeColor = function(square){
+        square.style.background = this.randomColor();
+    }
+
+    game.setUpSquares = function(){
+        for(i = 0; i < this.squares.length; i++){
+            this.squares[i].style.background = this.colors[i];
+            this.squares[i].addEventListener('click', function(){
+                game.changeColor(this);
+            })
+        }
+    }
+
+
+game.init();

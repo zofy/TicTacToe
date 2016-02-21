@@ -6,12 +6,19 @@
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <meta charset="UTF-8">
     <title>Board</title>
+    <style>
+        .squareSize{
+            margin: {{ margin }}%;
+            width: {{ width }}%;
+            padding-bottom: {{ width }}%;
+        }
+    </style>
 </head>
 <body>
     <h1>Tic Tac Toe</h1>
     <div id="container">
         {% for square in size %}
-            <div class="square"></div>
+            <div class="square squareSize"></div>
         {% endfor %}
     </div>
 <script type="text/javascript" src="{% static 'ttt/ttt.js' %}"></script>
