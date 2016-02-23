@@ -16,11 +16,16 @@
 </head>
 <body>
     <h1>Tic Tac Toe</h1>
-    <div id="container">
-        {% for square in size %}
-            <div class="square squareSize"></div>
-        {% endfor %}
-    </div>
+        <div id="container">
+            {% for square in size %}
+                <div class="square squareSize"></div>
+            {% endfor %}
+        </div>
+
+        <div id="sideContainer">
+            <h4>Choose your Color</h4>
+            <div class="player"></div>
+        </div>
 <script type="text/javascript" src="{% static 'ttt/ttt.js' %}"></script>
 </body>
 </html>

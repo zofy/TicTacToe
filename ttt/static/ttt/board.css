@@ -1,18 +1,24 @@
 h1{
-    color: white;
     text-align: center;
-    font-family: 'Indie Flower', cursive;
     font-size: 50px;
 }
 body{
-    margin: auto;
+    /*margin: auto;*/
     background: #232323;
+    font-family: 'Indie Flower', cursive;
+    color: white;
 }
 #container{
-    margin: 20px auto;
-    max-width: 390px;
+    margin-left: 35%;
+    max-width: 30%;
 }
-.square{
+#sideContainer{
+    margin: 6% auto 0 65%;
+    max-width: 30%;
+    text-align: center;
+    font-size: 30px;
+}
+.square, .player{
     background: hotpink;
     float: left;
     /*These values are set up in accordance to the size of board*/
@@ -22,4 +28,7 @@ body{
     border-radius: 15%;
     transition: background .4s;
 }
-
+.player{
+    margin: 13% 35% auto;
+    float: none;
+}

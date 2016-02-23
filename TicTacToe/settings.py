@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ttt',
+    'ws4redis',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -61,16 +62,20 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.core.context_processors.request',
+                'django.core.context_processors.static',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'ws4redis.context_processors.default',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'TicTacToe.wsgi.application'
+# WSGI_APPLICATION = 'TicTacToe.wsgi.application'
+WSGI_APPLICATION = 'ws4redis.django_runserver.application'
 
 
 # Database
@@ -121,3 +126,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+WEBSOCKET_URL = '/ws/'
+
+WS4REDIS_EXPIRE = 7200
+
+WS4REDIS_PREFIX = 'ws'
+
+# WS4REDIS_SUBSCRIBER = 'myapp.redis_store.RedisSubscriber'
