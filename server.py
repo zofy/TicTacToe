@@ -2,6 +2,7 @@ from websocket_server import WebsocketServer
 
 
 # Called for every client connecting (after handshake)
+from kernel import Game
 
 
 def new_client(client, server):
@@ -18,10 +19,12 @@ def client_left(client, server):
 def message_received(client, server, message):
     if len(message) > 200:
         message = message[:200] + '..'
+
     print("Client(%d) said: %s" % (client['id'], message))
+    # server.send_message(client, '0')
 
 
-PORT = 9000
+PORT = 9001
 server = WebsocketServer(PORT)
 server.set_fn_new_client(new_client)
 server.set_fn_client_left(client_left)

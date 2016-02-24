@@ -2,9 +2,9 @@
  * Created by Patrik on 20. 2. 2016.
  */
 
-var ws = new WebSocket('ws://localhost:9000/')
 var game = {};
 
+    game.ws = new WebSocket('ws://localhost:9001/');
     game.squares = [].slice.call(document.querySelectorAll('.square'));
     game.colors = []; // colors of squares
     game.nums = []; // array for nums in rgb color
@@ -15,6 +15,10 @@ var game = {};
 
     game.init = function(){
         this.setUpSquares();
+    }
+
+    game.ws.onmessage = function(msg){
+        console.log(msg.data);
     }
 
     game.randomColor = function(){
@@ -58,7 +62,7 @@ var game = {};
         this.squares.forEach(function(square){
             square.style.background = game.randomColor();
             square.addEventListener('click', function(){
-                ws.send(square);
+                game.ws.send(game.squares.indexOf(square));
                 game.changeColor(this);
             });
         });

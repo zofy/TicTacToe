@@ -133,4 +133,3 @@ WS4REDIS_EXPIRE = 7200
 
 WS4REDIS_PREFIX = 'ws'
 
-# WS4REDIS_SUBSCRIBER = 'myapp.redis_store.RedisSubscriber'
