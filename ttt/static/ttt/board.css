@@ -32,3 +32,6 @@ body{
     margin: 13% 35% auto;
     float: none;
 }
+.noEvent{
+    pointer-events: none;
+}
