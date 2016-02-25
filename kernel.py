@@ -1,12 +1,7 @@
 class Game(object):
     directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
 
-    def __init__(self, id, size=3, game_length=3):
-        """
-
-        :type id: integer
-        """
-        self.id = id
+    def __init__(self,size=3, game_length=3):
         self.size = size
         self.game_length = game_length
         self.board = ''
