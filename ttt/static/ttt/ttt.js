@@ -2,22 +2,41 @@
  * Created by Patrik on 20. 2. 2016.
  */
 
+
 var game = {};
 
     game.ws = new WebSocket('ws://localhost:9001/');
     game.squares = [].slice.call(document.querySelectorAll('.square'));
-    game.colors = []; // colors of squares
-    game.nums = []; // array for nums in rgb color
     game.playerSquare = document.querySelector('.player'); // square color of the player
     game.playerColor = ''; //color of player
-    game.squaresOfPlayer = [];
+    game.compColor = 'pink'; // color of computer
+    game.squaresOfPlayer = []; // squares that have already been clicked by the player
+    game.boardSize = 3; // size of the board
+    game.boardPoints = [[3, 1], [3, 2], [3, 3], [2, 1], [2, 2], [2, 3], [1, 1], [1, 2], [1, 3]];
 
 
     game.init = function(){
         this.setUpSquares();
     }
 
+    game.idxOfPoint = function(point){
+        for(var i=0; i< this.boardPoints.length; i++) {
+            if (this.boardPoints[i][0] == point[1] && this.boardPoints[i][1] == point[4]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // server sends msg what move comp makes
     game.ws.onmessage = function(msg){
+        //var point = msg.data.toString();
+        //var idx = game.idxOfPoint(point); // index of point in boardPoints
+        //console.log(idx);
+        //game.squares[idx].style.background = game.compColor;
+        //game.squares[idx].classList.add('noEvent');
+        //game.boardPoints.splice(idx, 1);
+        //game.squares.splice(idx, 1);
         console.log(msg.data);
     }
 
@@ -57,13 +76,28 @@ var game = {};
         }
     }
 
+    // msg is sent only when it is user's turn
+    game.msgToServer = function(square, event){
+        if(event !== 'change' && square !== this.playerSquare){
+            var idx = this.squares.indexOf(square);
+            if(game.ws.readyState === 1) {
+                console.log('sme tu');
+                game.ws.send(this.boardPoints[idx]);
+                //game.ws.close();
+            }
+            this.boardPoints.splice(idx, 1);
+        }
+    }
+
     game.setUpSquares = function(){
         this.squares.push(this.playerSquare);
         this.squares.forEach(function(square){
             square.style.background = game.randomColor();
-            square.addEventListener('click', function(){
-                game.ws.send(game.squares.indexOf(square));
-                game.changeColor(this);
+            ('click change').split(' ').forEach(function(event) {
+                square.addEventListener(event, function () {
+                    game.msgToServer(square, event);
+                    game.changeColor(this);
+                });
             });
         });
         this.playerColor = this.playerSquare.style.background;

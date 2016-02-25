@@ -1,7 +1,12 @@
 class Game(object):
     directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
 
-    def __init__(self, size=3, game_length=3):
+    def __init__(self, id, size=3, game_length=3):
+        """
+
+        :type id: integer
+        """
+        self.id = id
         self.size = size
         self.game_length = game_length
         self.board = ''
@@ -9,6 +14,9 @@ class Game(object):
         self.superior = set()
         self.board_points = [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
         self.point_move = ()
+
+    def __str__(self):
+        return 'Tic Tac Toe: id: %d, size: %d, game length: %d' % (self.id, self.size, self.game_length)
 
     def print_board(self):
         end = ''
@@ -27,9 +35,9 @@ class Game(object):
         self.board = self.board[:number] + char + self.board[number + 1:len(self.board)]
         print(self.board)
 
-    def create_point(self):
-        x = raw_input()
-        y = raw_input()
+    def create_point(self, msgFromServer):
+        x = msgFromServer[0]
+        y = msgFromServer[2]
         return int(x), int(y)
 
     def check_count(self, direction, point, me):
@@ -69,7 +77,7 @@ class Game(object):
                 idx = i
         return idx
 
-    def rec(self, player, point, i):
+    def rec(self, point, player=1, i=0):
 
         if self.check_win(point, self.superior):
             return -10
@@ -86,7 +94,7 @@ class Game(object):
                 self.superior.add(point)
                 moves.append(point)
                 self.board_points[i], self.board_points[step] = self.board_points[step], self.board_points[i]
-                scores.append(self.rec(1, point, i + 1))
+                scores.append(self.rec(point, 1, i + 1))
                 self.board_points[i], self.board_points[step] = self.board_points[step], self.board_points[i]
                 self.superior.remove(point)
             else:
@@ -94,7 +102,7 @@ class Game(object):
                 self.me.add(point)
                 moves.append(point)
                 self.board_points[i], self.board_points[step] = self.board_points[step], self.board_points[i]
-                scores.append(self.rec(0, point, i + 1))
+                scores.append(self.rec(point, 0, i + 1))
                 self.board_points[i], self.board_points[step] = self.board_points[step], self.board_points[i]
                 self.me.remove(point)
 
@@ -107,8 +115,17 @@ class Game(object):
             self.point_move = moves[max_score_idx]
             return scores[max_score_idx]
 
+    def play(self, point):
+        self.superior.add(point)
+        self.board_points.remove(point)
+        if self.check_win(point, self.superior):
+            return 'Player won!'
+        self.rec(point)
+        c_point = self.point_move
+        self.me.add(c_point)
+        self.board_points.remove(c_point)
+        if self.check_win(c_point, self.me):
+            print('Computer won!')
+        return self.point_move
 
-g = Game(4)
-gg = Game()
-print(g.print_board())
-print(gg.print_board())
+
