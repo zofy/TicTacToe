@@ -1,7 +1,7 @@
 from websocket_server import WebsocketServer
 from kernel import Game
 
-connections = {1: 2, 2: 1}
+connections = {}
 
 
 # Called for every client connecting (after handshake)

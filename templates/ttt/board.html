@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{% static 'ttt/board.css' %}"/>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <meta charset="UTF-8">
-    <title>Board</title>
+    <title>Tic Tac Toe</title>
     <style>
         .squareSize{
             margin: {{ margin }}%;
@@ -31,6 +31,10 @@
         <div id="sideRContainer">
             <h4>Choose your Color</h4>
             <div class="player"></div>
+        </div>
+
+        <div id="stripe">
+            <button>Reset</button>
         </div>
 
 <script type="text/javascript" src="{% static 'ttt/ttt.js' %}"></script>

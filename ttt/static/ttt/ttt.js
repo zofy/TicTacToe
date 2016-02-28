@@ -6,17 +6,28 @@
 var game = {};
 
     game.ws = new WebSocket('ws://localhost:9001/');
-    game.squares = [].slice.call(document.querySelectorAll('.square'));
+    game.squares = [];
     game.playerSquare = document.querySelector('.player'); // square color of the player
     game.playerColor = ''; //color of player
     game.compColor = 'hotpink'; // color of computer
     game.squaresOfPlayer = []; // squares that have already been clicked by the player
     game.boardSize = 3; // size of the board
-    game.boardPoints = [[3, 1], [3, 2], [3, 3], [2, 1], [2, 2], [2, 3], [1, 1], [1, 2], [1, 3]];
+    game.boardPoints = [];
+
 
 
     game.init = function(){
-        this.setUpSquares();
+        this.reset();
+        this.setUpBoard();
+        this.setUpGame();
+    }
+
+    game.setUpBoard = function(){
+        for(var i = 1; i < this.boardSize + 1; i++){
+            for(var j = 1; j < this.boardSize + 1; j++) {
+                this.boardPoints.push([i, j]);
+            }
+        }
     }
 
     game.idxOfPoint = function(point){
@@ -93,10 +104,24 @@ var game = {};
         }
     }
 
-    game.setUpSquares = function(){
-        this.squares.push(this.playerSquare);
+    game.reset = function(){
+        this.squares = [].slice.call(document.querySelectorAll('.square'));
+        this.squaresOfPlayer = [];
         this.squares.forEach(function(square){
             square.style.background = game.randomColor();
+            square.classList.remove('noEvent');
+        });
+        var color = this.randomColor();
+        while(color == this.compColor) {
+            color = this.randomColor();
+        }
+        this.playerColor = color;
+        this.playerSquare.style.background = color;
+    }
+
+    game.setUpGame = function(){
+        this.squares.push(this.playerSquare);
+        this.squares.forEach(function(square){
             ('click change').split(' ').forEach(function(event) {
                 square.addEventListener(event, function () {
                     game.msgToServer(square, event);
@@ -104,7 +129,9 @@ var game = {};
                 });
             });
         });
-        this.playerColor = this.playerSquare.style.background;
+        document.querySelector('#stripe button').addEventListener('click', function(){
+           game.reset();
+        });
     }
 
 

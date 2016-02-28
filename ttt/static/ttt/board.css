@@ -32,3 +32,26 @@ body{
 .noEvent{
     pointer-events: none;
 }
+#stripe{
+    /*margin: 100px auto;*/
+    clear: both;
+    text-align: center;
+}
+#stripe button{
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    font-family: inherit;
+    font-size: 40px;
+    /*font-weight: 700;*/
+    height: 100%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all .2s;
+    text-align: center;
+}
+#stripe button:hover{
+    font-size: 42px;
+    font-weight: 600;
+}
