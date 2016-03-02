@@ -8,7 +8,8 @@ connections = {}
 
 def new_client(client, server):
     print("New client connected and was given id %d" % client['id'])
-    server.send_message_to_all("Hey all, a new client has joined us")
+    # server.send_message_to_all("Hey all, a new client has joined us")
+    server.send_message(client, str([client['id'] for client in server.clients]))
 
 
 # Called for every client disconnecting
@@ -32,11 +33,7 @@ def get_client(id):
     print('Sorry client terminated his connection.')
 
 
-# Called when a client sends a message
-def message_received(client, server, message):
-    if len(message) > 200:
-        message = message[:200] + '..'
-
+def playerVsPlayer(client, server, message):
     if client['game'] is None:
         client['game'] = Game()
     point = client['game'].create_point(message)
@@ -49,6 +46,19 @@ def message_received(client, server, message):
         server.send_message(client, str(c_point)) # server sends msg to user
         print(c_point)
 
+
+# Called when a client sends a message
+def message_received(client, server, message):
+    if len(message) > 200:
+        message = message[:200] + '..'
+
+    if client['status'] == 1:
+        playerVsPlayer(client, server, message)
+    elif client['status'] == 0:
+        pass
+        # playerVsComputer(client, server, message)
+    elif client['status'] == -1:
+        server.send_message(client, str([client['id'] for client in server.clients]))
 
 PORT = 9001
 server = WebsocketServer(PORT)

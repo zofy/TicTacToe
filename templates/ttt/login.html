@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'ttt/login.css' %}"/>
+</head>
+<body>
+<div id="container">
+    <form action="/ttt/auth/" method="post">
+        {% csrf_token %}
+        <label for="username">Username: </label>
+        <input name="username" type="text" placeholder="enter your name">
+        <label for="password">Password: </label>
+        <input name="password" type="password" placeholder="password">
+        <input type="submit" value="Login"/>
+    </form>
+    <span>{{ appendix }}</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+body {
+    background: #FC354C;
+    background: -webkit-linear-gradient(to left, #FC354C, #0ABFBC);
+    background: linear-gradient(to left, #FC354C, #0ABFBC);
+    transition: all 1s ease;
+}
+
+#container {
+    margin: 300px auto;
+    width: 20%;
+}
+
+form label, input {
+    display: block;
+    margin: 5px auto;
+}
+
+span {
+    text-align: center;
+    margin-left: 20%;
+    width: 100%;
+}

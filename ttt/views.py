@@ -1,16 +1,17 @@
+from django.contrib.auth import authenticate
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from models import Score, Player
-from .forms import LoginForm
 
 
 def home(request):
-    return render(request, 'ttt/board.html', {'size': [0]*3})
+    return render(request, 'ttt/board.html', {'size': [0] * 3})
 
 
 def game(request, size):
-    listSize = range(0, int(size)**2)
-    return render(request, 'ttt/board.html', {'size': listSize, 'width': 90.0/int(size), 'margin': 10.0/(int(size)*2)})
+    listSize = range(0, int(size) ** 2)
+    return render(request, 'ttt/board.html',
+                  {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2)})
 
 
 def show_scores(request):
@@ -19,27 +20,23 @@ def show_scores(request):
 
 
 def login(request):
-    access = 'false'
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = LoginForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            p_name = form.cleaned_data['name']
-            p_passw = form.cleaned_data['password']
+    return render(request, 'ttt/login.html')
 
-            # overim hraca
 
-            player = Player.objects.filter(name=p_name)
-            if player and player[0].password == p_passw:
-                access = 'true'
-            # redirect to a new URL:
-            return render(request, 'ttt/index.html', {'form': form, 'access': access})
+def auth_view(request):
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
 
-    # if a GET (or any other method) we'll create a blank form
+    try:
+        user = Player.objects.get(name=username, password=password)
+    except:
+        user = None
+
+    if user is not None:
+        return HttpResponseRedirect('/ttt/3/')
     else:
-        form = LoginForm()
+        return HttpResponseRedirect('/ttt/invalid/')
 
-    return render(request, 'ttt/index.html', {'form': form, 'access': access})
+
+def invalid(request):
+    return render(request, 'ttt/login.html', {'appendix': 'Invalid input, try again!'})
