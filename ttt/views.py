@@ -12,23 +12,26 @@ def authenticate(username, password):
         return None
 
 
-def check_session(request):
-    return 'user' not in request.session
+def check_session(func):
+    def wraper(request, *args, **kwargs):
+        if 'user' not in request.session:
+            return HttpResponseRedirect('/ttt/login/')
+        else:
+            return func(request, *args, **kwargs)
+
+    return wraper
 
 
 def home(request):
     return render(request, 'ttt/board.html', {'size': [0] * 3})
 
 
+@check_session
 def game(request, size):
     listSize = range(0, int(size) ** 2)
-
-    if check_session(request):
-        return HttpResponseRedirect('/ttt/login/')
-
     return render(request, 'ttt/board.html',
                   {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2),
-                   'users': request.session['user']})
+                   'user': request.session['user']})
 
 
 def show_scores(request):
@@ -51,7 +54,8 @@ def auth_view(request):
 
     if user is not None:
         request.session['user'] = user.name
-        return HttpResponseRedirect('/ttt/3/')
+        request.session.set_expiry(0)
+        return HttpResponseRedirect('/ttt/menu/')
     else:
         return HttpResponseRedirect('/ttt/invalid/')
 
@@ -68,5 +72,6 @@ def logout(request):
     return render(request, 'ttt/login.html', {'appendix': 'You have successfully been logged out!'})
 
 
+@check_session
 def menu(request):
-    pass
+    return render(request, 'ttt/menu.html')
