@@ -58,6 +58,8 @@ def message_received(client, server, message):
         pass
         # playerVsComputer(client, server, message)
     elif client['status'] == -1:
+        if 'name' not in client:
+            client['name'] = message.split(':')[0]
         server.send_message(client, str([client['id'] for client in server.clients]))
 
 PORT = 9001

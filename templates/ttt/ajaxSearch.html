@@ -1,0 +1,7 @@
+{% if players > 0 %}
+    {% for p in players %}
+        <li>{{ p.name }}</li>
+    {% endfor %}
+{% else %}
+    <li>No matches</li>
+{% endif %}

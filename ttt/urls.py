@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
 
     url(r'^menu/$', views.menu, name='menu'),
+    url(r'^menu/searchPlayer/$', views.search_player, name='search'),
 ]

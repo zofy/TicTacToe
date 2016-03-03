@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from models import Score, Player
+from ttt.forms import RegisterForm
 
 
 def authenticate(username, password):
@@ -40,7 +41,8 @@ def show_scores(request):
 
 
 def login(request):
-    return render(request, 'ttt/login.html')
+    form = RegisterForm()
+    return render(request, 'ttt/login.html', {'form': form})
 
 
 def auth_view(request):
@@ -69,9 +71,20 @@ def logout(request):
         del request.session['user']
     except:
         pass
-    return render(request, 'ttt/login.html', {'appendix': 'You have successfully been logged out!'})
+    return render(request, 'ttt/login.html',
+                  {'form': RegisterForm(), 'appendix': 'You have successfully been logged out!'})
 
 
 @check_session
 def menu(request):
-    return render(request, 'ttt/menu.html')
+    return render(request, 'ttt/menu.html', {'user': request.session['user']})
+
+
+def search_player(request):
+    if request.method == 'POST':
+        player = request.POST['player']
+    else:
+        player = ''
+    players = Player.objects.filter(name__contains=player)
+    return render(request, 'ttt/ajaxSearch.html', {'players': players})
+

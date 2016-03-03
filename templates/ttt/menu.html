@@ -5,17 +5,20 @@
     <link rel="stylesheet" href="{% static 'ttt/menu.css' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css">
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <script src="{% static 'jquery-2.2.1.min.js' %}"></script>
     <meta charset="UTF-8">
     <title>Tic Tac Toe</title>
 </head>
 <body>
     <div id="container">
         <h1>Choose your superior <i class="fa fa-search"></i></h1>
-        <input type="text" placeholder="find your partner">
-        <ul id="box">
-
+        {% csrf_token %}
+        <input id='search' type="text" placeholder="find your partner">
+        <ul id="search_results">
+{#            <li>{{ user }}</li>#}
         </ul>
         <button>Me VS Computer</button>
     </div>
+    <script src="{% static 'ttt/menu.js' %}"></script>
 </body>
 </html>
