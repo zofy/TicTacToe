@@ -1,5 +1,6 @@
 # from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect
+import simplejson as simplejson
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from models import Score, Player
@@ -81,10 +82,14 @@ def menu(request):
 
 
 def search_player(request):
+    if request.method == 'GET':
+        return JsonResponse({'name': request.session['user']})
     if request.method == 'POST':
         player = request.POST['player']
     else:
         player = ''
     players = Player.objects.filter(name__contains=player)
-    return render(request, 'ttt/ajaxSearch.html', {'players': players})
+    response_data = {}
+    response_data['players'] = [p.name for p in players]
 
+    return JsonResponse(response_data)
