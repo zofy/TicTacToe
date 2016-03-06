@@ -17,9 +17,11 @@ def status_check(func):
             client['status'] = msg['status']
             client['name'] = msg['name']
         elif msg['status'] == 1:
-            p_point = msg['point']
-            print(p_point)
-            playerVsComputer(client, server, p_point)
+            if 'refresh' in msg:
+                client['game'] = None
+            else:
+                p_point = msg['point']
+                playerVsComputer(client, server, p_point)
 
     return wraper
 
@@ -27,7 +29,6 @@ def status_check(func):
 # Called for every client connecting (after handshake)
 def new_client(client, server):
     print("New client connected and was given id %d" % client['id'])
-    server.send_message_to_all("Hey all, a new client has joined us")
 
 
 # Called for every client disconnecting

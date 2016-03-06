@@ -35,6 +35,7 @@ var game = {};
     game.idxOfPoint = function(point){
         for(var i=0; i< this.boardPoints.length; i++) {
             if (this.boardPoints[i][0] == point[1] && this.boardPoints[i][1] == point[4]) {
+                console.log(this.boardPoints[i][0]);
                 return i;
             }
         }
@@ -99,12 +100,9 @@ var game = {};
             var idx = this.squares.indexOf(square);
             if(game.ws.readyState === 1) {
                 console.log('sme tu');
-                //var msg = '{"status": ' + '"' + game.status + '"' + ', "point": ' + '"' + this.boardPoints[idx] + '"' + '}';
-                //console.log(msg);
-                //var msg = '{"status": 0, "name": mama}';
-                //console.log(msg);
-                //game.ws.send(msg);
-                //game.ws.close();
+                var msg = '{"status": ' + game.status + ', "point": ' + '"' + this.boardPoints[idx] + '"' + '}';
+                console.log(msg);
+                game.ws.send(msg);
             }
             this.boardPoints.splice(idx, 1);
         }
@@ -112,6 +110,8 @@ var game = {};
 
     game.reset = function(){
         this.squares = [].slice.call(document.querySelectorAll('.square'));
+        this.boardPoints = [];
+        this.setUpBoard();
         this.squaresOfPlayer = [];
         this.squares.forEach(function(square){
             square.style.background = game.randomColor();
@@ -136,7 +136,8 @@ var game = {};
             });
         });
         document.querySelector('#stripe button').addEventListener('click', function(){
-           game.reset();
+            game.reset();
+            game.ws.send('{"status": 1, "refresh": 1}');
         });
         if(this.computer){
             game.status = 1;
