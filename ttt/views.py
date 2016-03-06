@@ -32,8 +32,14 @@ def home(request):
 def game(request, size):
     listSize = range(0, int(size) ** 2)
     return render(request, 'ttt/board.html',
-                  {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2),
-                   'user': request.session['user']})
+                  {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2)})
+
+
+@check_session
+def gameVsComp(request, size):
+    listSize = range(0, int(size) ** 2)
+    return render(request, 'ttt/board.html',
+                  {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2), 'computer': 'true'})
 
 
 def show_scores(request):

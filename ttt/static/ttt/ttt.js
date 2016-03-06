@@ -13,6 +13,8 @@ var game = {};
     game.squaresOfPlayer = []; // squares that have already been clicked by the player
     game.boardSize = 3; // size of the board
     game.boardPoints = [];
+    game.computer = document.querySelector('.hidden').textContent;
+    game.status = -1;
 
 
 
@@ -97,7 +99,11 @@ var game = {};
             var idx = this.squares.indexOf(square);
             if(game.ws.readyState === 1) {
                 console.log('sme tu');
-                game.ws.send(this.boardPoints[idx]);
+                //var msg = '{"status": ' + '"' + game.status + '"' + ', "point": ' + '"' + this.boardPoints[idx] + '"' + '}';
+                //console.log(msg);
+                //var msg = '{"status": 0, "name": mama}';
+                //console.log(msg);
+                //game.ws.send(msg);
                 //game.ws.close();
             }
             this.boardPoints.splice(idx, 1);
@@ -132,6 +138,11 @@ var game = {};
         document.querySelector('#stripe button').addEventListener('click', function(){
            game.reset();
         });
+        if(this.computer){
+            game.status = 1;
+        }else{
+            game.status = 2;
+        }
     }
 
 

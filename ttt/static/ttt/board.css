@@ -8,6 +8,9 @@ body{
     color: white;
 
 }
+.hidden{
+    display: none;
+}
 #sideRContainer, #sideLContainer, #container{
     width: 30%;
     margin: 1.66%;
