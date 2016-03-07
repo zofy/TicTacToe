@@ -75,8 +75,8 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'TicTacToe.wsgi.application'
-WSGI_APPLICATION = 'ws4redis.django_runserver.application'
+WSGI_APPLICATION = 'TicTacToe.wsgi.application'
+# WSGI_APPLICATION = 'ws4redis.django_runserver.application'
 
 
 # Database

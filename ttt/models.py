@@ -16,3 +16,5 @@ class Score(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
 
 
+class LoggedUser(models.Model):
+    name = models.CharField(max_length=20)

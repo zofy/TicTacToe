@@ -7,17 +7,22 @@
     menu.name = '';
     menu.ws = new WebSocket('ws://localhost:9001/');
 
-
     menu.ws.onmessage = function(msg){
-        console.log(msg.data);
-        menu.refreshPlayers(msg);
+        try {
+            var json = JSON.parse(msg.data);
+            menu.refreshPlayers(json);
+        }catch (e){
+            console.log(msg.data);
+            if(msg.data == 'make_request'){
+            //    here comes ajax request for logged players
+            }
+        }
     }
 
     menu.ws.onopen = function(){
         console.log('Connection established!');
         if(menu.name != '') {
             var msg = '{"status": 0, "name": ' + '"' + menu.name + '"' + '}';
-            console.log(msg);
             menu.ws.send(msg);
         }
     }
@@ -34,11 +39,12 @@
         });
     }
 
-    menu.refreshPlayers = function(msg){
-        var data = JSON.parse(msg.data);
-        var names = data.slice(1, -1).split(',');
-        names.forEach(function(name){
-            $('#search_results').append('<li>' + name.trim().slice(1, -1) + '</li>')
+    menu.refreshPlayers = function(json){
+        $('#search_results').html('');
+        console.log(json.names);
+        json.names.forEach(function(player){
+            console.log(player);
+           $('#search_results').append('<li>' + player + '</li>');
         });
     }
 
@@ -48,24 +54,26 @@
                 type: 'POST',
                 url: '/ttt/menu/searchPlayer/',
                 data: {'player': $('#search').val(), 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()},
-                success: menu.getPlayers,
+                success: menu.refreshPlayers,
                 dataType: 'json'
             });
         });
     }
 
-    menu.getPlayers = function(data){
-        console.log(data)
-        var arr = [];
-        for(var x in data){
-             arr.push(data[x]);
-        }
+    menu.findPlayers = function() {
+        $.ajax({
+            type: 'GET',
+            url: '/ttt/menu/searchPlayer/',
+            success: menu.refreshPlayers,
+            dataType: 'json'
+        });
     }
+
 
     menu.getName = function(){
         $.ajax({
             type: 'GET',
-            url: '/ttt/menu/searchPlayer/',
+            url: '/ttt/menu/getUser/',
             success: function(name){
                 console.log(name['name']);
                 menu.name =  name['name'];

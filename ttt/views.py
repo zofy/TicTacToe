@@ -3,7 +3,7 @@ import simplejson as simplejson
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from models import Score, Player
+from models import Score, Player, LoggedUser
 from ttt.forms import RegisterForm
 
 
@@ -84,18 +84,24 @@ def logout(request):
 
 @check_session
 def menu(request):
-    return render(request, 'ttt/menu.html', {'user': request.session['user']})
+    return render(request, 'ttt/menu.html')
 
 
 def search_player(request):
     if request.method == 'GET':
-        return JsonResponse({'name': request.session['user']})
-    if request.method == 'POST':
-        player = request.POST['player']
-    else:
-        player = ''
-    players = Player.objects.filter(name__contains=player)
-    response_data = {}
-    response_data['players'] = [p.name for p in players]
+        # names of logged users
+        players = LoggedUser.objects.all()
+        return JsonResponse({'names': players})
 
+    if request.method == 'POST':
+        # get particular logged user
+        searched_player = request.POST['player']
+    else:
+        searched_player = ''
+    players = Player.objects.filter(name__contains=searched_player)
+    response_data = {'players': [p.name for p in players]}
     return JsonResponse(response_data)
+
+
+def get_user(request):
+    return JsonResponse({'name': request.session['user']})

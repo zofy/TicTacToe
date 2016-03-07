@@ -1,7 +1,7 @@
 class Game(object):
     directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
 
-    def __init__(self,size=3, game_length=3):
+    def __init__(self, size=3, game_length=3):
         self.size = size
         self.game_length = game_length
         self.board = ''
@@ -110,17 +110,23 @@ class Game(object):
             self.point_move = moves[max_score_idx]
             return scores[max_score_idx]
 
+    def end_of_game_check(func):
+        def wraper(self, point, *args, **kwargs):
+            if len(self.board_points) > 1:
+                return func(self, point)
+            return None
+        return wraper
+
+    @end_of_game_check
     def play(self, point):
         self.superior.add(point)
         self.board_points.remove(point)
         if self.check_win(point, self.superior):
-            return 'Player won!'
+            return None
         self.rec(point)
         c_point = self.point_move
         self.me.add(c_point)
         self.board_points.remove(c_point)
         if self.check_win(c_point, self.me):
-            print('Computer won!')
+            return None
         return self.point_move
-
-
