@@ -90,7 +90,8 @@ def menu(request):
 def search_player(request):
     if request.method == 'GET':
         # names of logged users
-        players = LoggedUser.objects.all()
+        data = LoggedUser.objects.exclude(name=request.session['user'])
+        players = [p.name for p in data]
         return JsonResponse({'names': players})
 
     if request.method == 'POST':

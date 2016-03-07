@@ -14,7 +14,7 @@
         }catch (e){
             console.log(msg.data);
             if(msg.data == 'make_request'){
-            //    here comes ajax request for logged players
+                menu.refreshPlayers();
             }
         }
     }
@@ -39,7 +39,7 @@
         });
     }
 
-    menu.refreshPlayers = function(json){
+    menu.getPlayers = function(json){
         $('#search_results').html('');
         console.log(json.names);
         json.names.forEach(function(player){
@@ -60,11 +60,11 @@
         });
     }
 
-    menu.findPlayers = function() {
+    menu.refreshPlayers = function() {
         $.ajax({
             type: 'GET',
             url: '/ttt/menu/searchPlayer/',
-            success: menu.refreshPlayers,
+            success: menu.getPlayers,
             dataType: 'json'
         });
     }

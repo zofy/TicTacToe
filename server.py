@@ -2,10 +2,15 @@ import json
 
 from websocket_server import WebsocketServer
 from kernel import Game
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TicTacToe.settings")
+django.setup()
 from ttt.models import LoggedUser
 
 connections = {}
-users = {"names": ["Martin", "Ashton"]}
+users = {"names": []}
 
 
 # deletes logged user from db
@@ -13,7 +18,7 @@ def user_logout(func):
     def wraper(client, server, *args, **kwargs):
         if client['status'] == 0:
             users['names'].remove(client['name'])
-            LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
+            map(lambda u: u.delete(), LoggedUser.objects.filter(name=client['name']))  # delete logged user from db
             server.send_message_to_all('make_request')
 
     return wraper
@@ -35,6 +40,7 @@ def status_check(func):
 # reads json file and decides what to do according status
 def read_json(client, msg):
     if msg['status'] == 0:
+        print(msg)
         LoggedUser(name=msg['name']).save()  # create logged user
         server.send_message_to_all('make_request')
         users['names'].append(msg['name'])
