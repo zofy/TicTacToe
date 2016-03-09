@@ -54,7 +54,7 @@
                 type: 'POST',
                 url: '/ttt/menu/searchPlayer/',
                 data: {'player': $('#search').val(), 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()},
-                success: menu.refreshPlayers,
+                success: menu.getPlayers,
                 dataType: 'json'
             });
         });

@@ -1,5 +1,6 @@
 import json
 
+from django.http import HttpResponse
 from websocket_server import WebsocketServer
 from kernel import Game
 import os
@@ -10,17 +11,19 @@ django.setup()
 from ttt.models import LoggedUser
 
 connections = {}
-users = {"names": []}
+users = {}
 
 
 # deletes logged user from db
 def user_logout(func):
     def wraper(client, server, *args, **kwargs):
         if client['status'] == 0:
-            users['names'].remove(client['name'])
-            map(lambda u: u.delete(), LoggedUser.objects.filter(name=client['name']))  # delete logged user from db
+            if users[client['name']] == 1:
+                del users[client['name']]
+                LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
+            else:
+                users[client['name']] -= 1
             server.send_message_to_all('make_request')
-
     return wraper
 
 
@@ -41,10 +44,12 @@ def status_check(func):
 def read_json(client, msg):
     if msg['status'] == 0:
         print(msg)
-        LoggedUser(name=msg['name']).save()  # create logged user
+        if msg['name'] not in users:
+            LoggedUser(name=msg['name']).save()  # create logged user
+        users.setdefault(msg['name'], 0)
+        users[msg['name']] += 1
         server.send_message_to_all('make_request')
-        users['names'].append(msg['name'])
-        client['status'] = msg['status']
+        client['status'] = 0
         client['name'] = msg['name']
     elif msg['status'] == 1:
         if 'refresh' in msg:
@@ -123,4 +128,7 @@ server = WebsocketServer(PORT)
 server.set_fn_new_client(new_client)
 server.set_fn_client_left(client_left)
 server.set_fn_message_received(message_received)
+# clear all LoggedUsers
+LoggedUser.objects.all().delete()
+# then run server
 server.run_forever()

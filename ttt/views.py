@@ -1,8 +1,9 @@
 # from django.contrib.auth import authenticate
-import simplejson as simplejson
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.contrib.auth.models import User
 from django.shortcuts import render
+# from django.contrib.sessions.models import Session
+from django.utils import timezone
+
 from models import Score, Player, LoggedUser
 from ttt.forms import RegisterForm
 
@@ -76,7 +77,7 @@ def invalid(request):
 def logout(request):
     try:
         del request.session['user']
-    except:
+    except KeyError:
         pass
     return render(request, 'ttt/login.html',
                   {'form': RegisterForm(), 'appendix': 'You have successfully been logged out!'})
@@ -90,18 +91,16 @@ def menu(request):
 def search_player(request):
     if request.method == 'GET':
         # names of logged users
-        data = LoggedUser.objects.exclude(name=request.session['user'])
-        players = [p.name for p in data]
-        return JsonResponse({'names': players})
+        players = LoggedUser.objects.exclude(name=request.session['user'])
 
     if request.method == 'POST':
+        # return JsonResponse({'names': []})
         # get particular logged user
         searched_player = request.POST['player']
-    else:
-        searched_player = ''
-    players = Player.objects.filter(name__contains=searched_player)
-    response_data = {'players': [p.name for p in players]}
-    return JsonResponse(response_data)
+        players = LoggedUser.objects.filter(name__contains=searched_player).exclude(name=request.session['user'])
+        # players = []
+
+    return JsonResponse({'names': [p.name for p in players]})
 
 
 def get_user(request):

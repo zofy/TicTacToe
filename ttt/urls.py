@@ -1,4 +1,6 @@
 from django.conf.urls import url
+
+# import server
 from . import views
 
 app_name = 'ttt'
@@ -16,4 +18,6 @@ urlpatterns = [
     url(r'^menu/$', views.menu, name='menu'),
     url(r'^menu/searchPlayer/$', views.search_player, name='search'),
     url(r'^menu/getUser/$', views.get_user, name='getUser'),
+
+    # url(r'^menu/ping/$', server.ping, name='getUser'),
 ]
