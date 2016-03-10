@@ -1,10 +1,7 @@
-# from django.contrib.auth import authenticate
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
-# from django.contrib.sessions.models import Session
-from django.utils import timezone
 
-from models import Score, Player, LoggedUser
+from models import Player, LoggedUser
 from ttt.forms import RegisterForm
 
 
@@ -37,15 +34,15 @@ def game(request, size):
 
 
 @check_session
-def gameVsComp(request, size):
+def game_vs_comp(request, size):
     listSize = range(0, int(size) ** 2)
     return render(request, 'ttt/board.html',
                   {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2), 'computer': 'true'})
 
 
 def show_scores(request):
-    scores = Score.objects.order_by('-vs_player')[:10]
-    return render(request, 'ttt/scores.html', {'scores': scores})
+    # scores = Score.objects.order_by('-vs_player')[:10]
+    return render(request, 'ttt/scores.html', {'scores': []})
 
 
 def login(request):
@@ -89,16 +86,14 @@ def menu(request):
 
 
 def search_player(request):
+    # names of logged users
     if request.method == 'GET':
-        # names of logged users
         players = LoggedUser.objects.exclude(name=request.session['user'])
 
+    # get particular logged user
     if request.method == 'POST':
-        # return JsonResponse({'names': []})
-        # get particular logged user
         searched_player = request.POST['player']
         players = LoggedUser.objects.filter(name__contains=searched_player).exclude(name=request.session['user'])
-        # players = []
 
     return JsonResponse({'names': [p.name for p in players]})
 

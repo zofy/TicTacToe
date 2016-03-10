@@ -1,6 +1,4 @@
 import json
-
-from django.http import HttpResponse
 from websocket_server import WebsocketServer
 from kernel import Game
 import os
@@ -8,7 +6,7 @@ import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TicTacToe.settings")
 django.setup()
-from ttt.models import LoggedUser
+from ttt.models import LoggedUser, Player
 
 connections = {}
 users = {}
@@ -24,6 +22,7 @@ def user_logout(func):
             else:
                 users[client['name']] -= 1
             server.send_message_to_all('make_request')
+
     return wraper
 
 
@@ -40,23 +39,70 @@ def status_check(func):
     return wraper
 
 
+# creates new LoggedUser
+def manage_logged_user(client, name):
+    if name not in users:
+        LoggedUser(name=name).save()  # create logged user
+    users.setdefault(name, 0)
+    users[name] += 1
+    server.send_message_to_all('make_request')
+    client['status'] = 0
+    client['name'] = name
+
+
 # reads json file and decides what to do according status
 def read_json(client, msg):
     if msg['status'] == 0:
         print(msg)
-        if msg['name'] not in users:
-            LoggedUser(name=msg['name']).save()  # create logged user
-        users.setdefault(msg['name'], 0)
-        users[msg['name']] += 1
-        server.send_message_to_all('make_request')
-        client['status'] = 0
-        client['name'] = msg['name']
+        manage_logged_user(client, msg['name'])
     elif msg['status'] == 1:
         if 'refresh' in msg:
             client['game'] = None
         else:
             p_point = msg['point']
-            playerVsComputer(client, server, p_point)
+            player_vs_computer(client, server, p_point)
+
+
+def connect_clients(id1, id2):
+    connections[id1] = id2
+    connections[id2] = id1
+
+
+def get_client(id):
+    for c in server.clients:
+        if c['id'] == id:
+            return c
+    print('Sorry client terminated his connection.')
+
+
+def player_vs_computer(client, server, p_point):
+    if client['game'] is None:
+        client['game'] = Game()
+    point = client['game'].create_point(p_point)
+    c_point = client['game'].play(point)  # kernel computes his move
+    if c_point[0] is not None:
+        server.send_message(client, json.dumps({"point": c_point}))  # server sends msg to user
+    else:
+        if c_point[1] == 'Computer':
+            server.send_message(client, json.dumps({'point': c_point[2]}))
+        elif c_point[1] == 'Player':
+            Player.objects.get(name=client['name']).vs_comp += 1
+        server.send_message(client, json.dumps({'end': c_point[1]}))
+    print(c_point)
+
+
+def playerVsPlayer(client, server, message):
+    if client['game'] is None:
+        client['game'] = Game()
+    point = client['game'].create_point(message)
+
+    if client['id'] in connections:
+        id = connections[client['id']]  # finds game partner
+        server.send_message(get_client(id), str(point))  # sends msg to game partner
+    else:
+        c_point = client['game'].play(point)  # kernel computes his move
+        server.send_message(client, str(c_point))  # server sends msg to user
+        print(c_point)
 
 
 # Called for every client connecting (after handshake)
@@ -73,47 +119,6 @@ def client_left(client, server):
         del connections[client['id']]
     print("Client(%d) disconnected" % client['id'])
     print(connections)
-
-
-def connect_clients(id1, id2):
-    connections[id1] = id2
-    connections[id2] = id1
-
-
-def get_client(id):
-    for c in server.clients:
-        if c['id'] == id:
-            return c
-    print('Sorry client terminated his connection.')
-
-
-def playerVsComputer(client, server, p_point):
-    if client['game'] is None:
-        client['game'] = Game()
-    point = client['game'].create_point(p_point)
-    c_point = client['game'].play(point)  # kernel computes his move
-    if c_point is not None:
-        server.send_message(client, str(c_point))  # server sends msg to user
-    else:
-        # check who wins
-        # create object Score
-        # send result message to client
-        pass
-    print(c_point)
-
-
-def playerVsPlayer(client, server, message):
-    if client['game'] is None:
-        client['game'] = Game()
-    point = client['game'].create_point(message)
-
-    if client['id'] in connections:
-        id = connections[client['id']]  # finds game partner
-        server.send_message(get_client(id), str(point))  # sends msg to game partner
-    else:
-        c_point = client['game'].play(point)  # kernel computes his move
-        server.send_message(client, str(c_point))  # server sends msg to user
-        print(c_point)
 
 
 # Called when a client sends a message

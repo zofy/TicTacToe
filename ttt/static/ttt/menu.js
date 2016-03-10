@@ -10,7 +10,7 @@
     menu.ws.onmessage = function(msg){
         try {
             var json = JSON.parse(msg.data);
-            menu.refreshPlayers(json);
+            //menu.refreshPlayers(json);
         }catch (e){
             console.log(msg.data);
             if(msg.data == 'make_request'){

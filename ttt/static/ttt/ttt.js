@@ -13,8 +13,8 @@ var game = {};
     game.squaresOfPlayer = []; // squares that have already been clicked by the player
     game.boardSize = 3; // size of the board
     game.boardPoints = [];
-    game.computer = document.querySelector('.hidden').textContent;
     game.status = -1;
+    game.msg = '';
 
 
 
@@ -34,7 +34,7 @@ var game = {};
 
     game.idxOfPoint = function(point){
         for(var i=0; i< this.boardPoints.length; i++) {
-            if (this.boardPoints[i][0] == point[1] && this.boardPoints[i][1] == point[4]) {
+            if (this.boardPoints[i][0] == point[0] && this.boardPoints[i][1] == point[1]) {
                 console.log(this.boardPoints[i][0]);
                 return i;
             }
@@ -44,18 +44,31 @@ var game = {};
 
     // server sends msg what move comp makes
     game.ws.onmessage = function(msg){
-        if(msg.data.length > 6){
+        try{
+            game.msg = JSON.parse(msg.data);
+            if('point' in game.msg){
+                game.markPoint(game.idxOfPoint(game.msg['point'])); // index of point in boardPoints
+            }else if('end' in game.msg){
+                game.changeHeading(game.msg['end']);
+            }
+        }catch (e){
             console.log(msg.data);
-        }else {
-            console.log(msg.data);
-            var point = msg.data.toString();
-            var idx = game.idxOfPoint(point); // index of point in boardPoints
-            console.log(idx);
-            game.squares[idx].style.background = game.compColor;
-            game.squares[idx].classList.add('noEvent');
-            game.boardPoints.splice(idx, 1);
-            game.squares.splice(idx, 1);
         }
+    }
+
+    game.changeHeading = function(msg){
+        if(msg === null){
+            document.querySelector('h2').textContent = "It's draw!";
+        }else{
+            document.querySelector('h2').textContent = msg + " won!";
+        }
+    }
+
+    game.markPoint = function(idx){
+        game.squares[idx].style.background = game.compColor;
+        game.squares[idx].classList.add('noEvent');
+        game.boardPoints.splice(idx, 1);
+        game.squares.splice(idx, 1);
     }
 
     game.randomColor = function(){
@@ -100,7 +113,7 @@ var game = {};
             var idx = this.squares.indexOf(square);
             if(game.ws.readyState === 1) {
                 console.log('sme tu');
-                var msg = '{"status": ' + game.status + ', "point": ' + '"' + this.boardPoints[idx] + '"' + '}';
+                var msg = '{"status": 1, "point": ' + '"' + this.boardPoints[idx] + '"' + '}';
                 console.log(msg);
                 game.ws.send(msg);
             }
@@ -139,11 +152,6 @@ var game = {};
             game.reset();
             game.ws.send('{"status": 1, "refresh": 1}');
         });
-        if(this.computer){
-            game.status = 1;
-        }else{
-            game.status = 2;
-        }
     }
 
 
