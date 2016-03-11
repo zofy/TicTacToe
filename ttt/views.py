@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
@@ -68,7 +69,9 @@ def auth_view(request):
 
 
 def invalid(request):
-    return render(request, 'ttt/login.html', {'appendix': 'Invalid input, try again!'})
+    # here comes invalid message
+    messages.error(request, 'Invalid input, try again!')
+    return render(request, 'ttt/login.html')
 
 
 def logout(request):
@@ -76,8 +79,9 @@ def logout(request):
         del request.session['user']
     except KeyError:
         pass
-    return render(request, 'ttt/login.html',
-                  {'form': RegisterForm(), 'appendix': 'You have successfully been logged out!'})
+    # here comes successful logout message
+    messages.info(request, 'You have been successfully logged out.')
+    return render(request, 'ttt/login.html')
 
 
 @check_session

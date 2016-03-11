@@ -7,6 +7,7 @@ var game = {};
 
     game.ws = new WebSocket('ws://localhost:9001/');
     game.squares = [];
+    game.freeSquares = [];
     game.playerSquare = document.querySelector('.player'); // square color of the player
     game.playerColor = ''; //color of player
     game.compColor = 'hotpink'; // color of computer
@@ -42,13 +43,26 @@ var game = {};
         return -1;
     }
 
+    game.toggleSquares = function(square, event){
+        if(event !== 'click' || square === this.playerSquare){
+            return;
+        }
+        this.freeSquares.splice(game.squares.indexOf(square), 1);
+        this.freeSquares.forEach(function(square){
+           square.classList.toggle('noEvent');
+        });
+    }
+
     // server sends msg what move comp makes
     game.ws.onmessage = function(msg){
         try{
             game.msg = JSON.parse(msg.data);
-            if('point' in game.msg){
-                game.markPoint(game.idxOfPoint(game.msg['point'])); // index of point in boardPoints
-            }else if('end' in game.msg){
+            if(game.msg['point'] != null) {
+                var idx = game.idxOfPoint(game.msg['point']);
+                game.markPoint(idx); // index of point in boardPoints
+                game.toggleSquares(game.squares[idx], 'click');
+            }
+            if('end' in game.msg){
                 game.changeHeading(game.msg['end']);
             }
         }catch (e){
@@ -123,6 +137,7 @@ var game = {};
 
     game.reset = function(){
         this.squares = [].slice.call(document.querySelectorAll('.square'));
+        this.freeSquares = this.squares.slice();
         this.boardPoints = [];
         this.setUpBoard();
         this.squaresOfPlayer = [];
@@ -143,6 +158,7 @@ var game = {};
         this.squares.forEach(function(square){
             ('click change').split(' ').forEach(function(event) {
                 square.addEventListener(event, function () {
+                    game.toggleSquares(square, event);
                     game.msgToServer(square, event);
                     game.changeColor(this);
                 });

@@ -80,14 +80,15 @@ def player_vs_computer(client, server, p_point):
         client['game'] = Game()
     point = client['game'].create_point(p_point)
     c_point = client['game'].play(point)  # kernel computes his move
-    if c_point[0] is not None:
-        server.send_message(client, json.dumps({"point": c_point}))  # server sends msg to user
+    if c_point[0] is None:
+        server.send_message(client,
+                            json.dumps({"end": c_point[1], "point": c_point[2]}))  # server sends msg (his move) to user
+        if c_point[1] == 'Player':
+            p = Player.objects.get(name=client['name'])
+            p.vs_comp += 1
+            p.save()
     else:
-        if c_point[1] == 'Computer':
-            server.send_message(client, json.dumps({'point': c_point[2]}))
-        elif c_point[1] == 'Player':
-            Player.objects.get(name=client['name']).vs_comp += 1
-        server.send_message(client, json.dumps({'end': c_point[1]}))
+        server.send_message(client, json.dumps({"point": c_point}))
     print(c_point)
 
 

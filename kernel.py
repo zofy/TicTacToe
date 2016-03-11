@@ -114,7 +114,7 @@ class Game(object):
         def wraper(self, point, *args, **kwargs):
             if len(self.board_points) > 1:
                 return func(self, point)
-            return None, None
+            return None, None, None
         return wraper
 
     @end_of_game_check
@@ -122,11 +122,12 @@ class Game(object):
         self.superior.add(point)
         self.board_points.remove(point)
         if self.check_win(point, self.superior):
-            return None, 'Player'
+            return None, 'Player', None
         self.rec(point)
         c_point = self.point_move
         self.me.add(c_point)
         self.board_points.remove(c_point)
         if self.check_win(c_point, self.me):
             return None, 'Computer', c_point
+            # return None, 'Computer', c_point
         return self.point_move
