@@ -54,10 +54,14 @@ def manage_logged_user(client, name):
 def read_json(client, msg):
     if msg['status'] == 0:
         print(msg)
-        manage_logged_user(client, msg['name'])
+        if 'request' in msg:
+            pass
+            # send_request()
+        else:
+            manage_logged_user(client, msg['name'])
     elif msg['status'] == 1:
         if 'refresh' in msg:
-            client['game'] = None
+            client['game'] = Game()
         else:
             p_point = msg['point']
             player_vs_computer(client, server, p_point)

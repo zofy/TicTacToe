@@ -7,7 +7,7 @@ class Game(object):
         self.board = ''
         self.me = set()
         self.superior = set()
-        self.board_points = [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3)]
+        self.board_points = [(a, b) for a in xrange(1, self.game_length + 1) for b in xrange(1, self.game_length + 1)]
         self.point_move = ()
 
     def __str__(self):
@@ -109,6 +109,12 @@ class Game(object):
             max_score_idx = self.find_max(scores)
             self.point_move = moves[max_score_idx]
             return scores[max_score_idx]
+
+    def refresh(self):
+        self.me = set()
+        self.superior = set()
+        self.board_points = [(a, b) for a in xrange(1, self.game_length + 1) for b in xrange(1, self.game_length + 1)]
+        self.point_move = ()
 
     def end_of_game_check(func):
         def wraper(self, point, *args, **kwargs):

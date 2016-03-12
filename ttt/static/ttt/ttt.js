@@ -60,7 +60,9 @@ var game = {};
             if(game.msg['point'] != null) {
                 var idx = game.idxOfPoint(game.msg['point']);
                 game.markPoint(idx); // index of point in boardPoints
-                game.toggleSquares(game.squares[idx], 'click');
+                if(!('end' in game.msg)) {
+                    game.toggleSquares(game.squares[idx], 'click');
+                }
             }
             if('end' in game.msg){
                 game.changeHeading(game.msg['end']);
@@ -138,6 +140,7 @@ var game = {};
     game.reset = function(){
         this.squares = [].slice.call(document.querySelectorAll('.square'));
         this.freeSquares = this.squares.slice();
+        document.querySelector('h2').textContent = '';
         this.boardPoints = [];
         this.setUpBoard();
         this.squaresOfPlayer = [];

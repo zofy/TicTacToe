@@ -31,6 +31,7 @@
         this.findPlayers();
         this.getName();
         this.vsComp();
+        this.setActions();
     }
 
     menu.vsComp = function(){
@@ -44,7 +45,7 @@
         console.log(json.names);
         json.names.forEach(function(player){
             console.log(player);
-           $('#search_results').append('<li>' + player + '</li>');
+           $('#search_results').append('<li><span style="cursor: pointer">X</span>' + player + '</li>');
         });
     }
 
@@ -69,7 +70,6 @@
         });
     }
 
-
     menu.getName = function(){
         $.ajax({
             type: 'GET',
@@ -82,6 +82,18 @@
         });
     }
 
+    menu.setActions = function(){
+        $('h1 .fa-search').click(function(){
+           $('#container input[type="text"]').fadeToggle();
+        });
+        $('#search_results').on('click', 'span', function(event){
+            // tu ma prist send request method
+	        $(this).parent().fadeOut(500, function(){
+		    $(this).remove();
+	        });
+	        event.stopPropagation();
+        });
+    }
 
 menu.init();
 
