@@ -10,7 +10,7 @@
     menu.ws.onmessage = function(msg){
         try {
             var json = JSON.parse(msg.data);
-            //menu.refreshPlayers(json);
+            $('h2').text(json.name + ' wants to play with you!');
         }catch (e){
             console.log(msg.data);
             if(msg.data == 'make_request'){
@@ -45,7 +45,7 @@
         console.log(json.names);
         json.names.forEach(function(player){
             console.log(player);
-           $('#search_results').append('<li><span style="cursor: pointer">X</span>' + player + '</li>');
+           $('#search_results').append('<li><span style="cursor: pointer"><i class="fa fa-user-plus"></i></span>' + player + '</li>');
         });
     }
 
@@ -88,6 +88,8 @@
         });
         $('#search_results').on('click', 'span', function(event){
             // tu ma prist send request method
+            console.log($(this).parent().text());
+            menu.ws.send('{"status": 0, "request": ' + '"' + $(this).parent().text() + '"' + '}');
 	        $(this).parent().fadeOut(500, function(){
 		    $(this).remove();
 	        });

@@ -10,17 +10,21 @@ from ttt.models import LoggedUser, Player
 
 connections = {}
 users = {}
+currently_unavailable = set()
 
 
 # deletes logged user from db
 def user_logout(func):
     def wraper(client, server, *args, **kwargs):
+        # ak bol user v connections, potom poslem spravu ze spojenie zlyhalo
         if client['status'] == 0:
-            if users[client['name']] == 1:
+
+            if users[client['name']]['count'] == 1:
                 del users[client['name']]
                 LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
             else:
-                users[client['name']] -= 1
+                users[client['name']]['count'] -= 1
+                users[client['name']]['ids'].remove(client['id'])
             server.send_message_to_all('make_request')
 
     return wraper
@@ -43,11 +47,36 @@ def status_check(func):
 def manage_logged_user(client, name):
     if name not in users:
         LoggedUser(name=name).save()  # create logged user
-    users.setdefault(name, 0)
-    users[name] += 1
+    users.setdefault(name, {'count': 0, 'ids': []})
+    users[name]['count'] += 1
+    users[name]['ids'].append(client['id'])
     server.send_message_to_all('make_request')
     client['status'] = 0
     client['name'] = name
+
+
+def send_request(client, server, name):
+    if client['id'] in connections:
+        # sends challenge message
+        server.send_message(get_client(connections[client['id']]), json.dumps({"name": client['name']}))
+    else:
+        # sends currently unavailable message
+        server.send_message(client, json.dumps({"answer": 'unavailable'}))
+
+
+def send_answer(client, server, answer):
+    server.send_message(get_client(connections[client['id']]), json.dumps({"answer": answer}))
+    if answer == 'no':
+        del connections[connections[client['id']]]
+        del connections[client['id']]
+
+
+def create_connection(client, server, name):
+    for id in users[name]['ids']:
+        if id not in currently_unavailable:
+            currently_unavailable.add(id)
+            connections[id] = client['id']
+            connections[client['id']] = id
 
 
 # reads json file and decides what to do according status
@@ -55,13 +84,17 @@ def read_json(client, msg):
     if msg['status'] == 0:
         print(msg)
         if 'request' in msg:
-            pass
-            # send_request()
+            create_connection(client, server, msg['request'])
+            send_request(client, server, msg['request'])
+        elif 'answer' in msg:
+            currently_unavailable.remove(client['id'])
+            send_answer(client, server, msg['answer'])
         else:
             manage_logged_user(client, msg['name'])
     elif msg['status'] == 1:
         if 'refresh' in msg:
-            client['game'] = Game()
+            client.setdefault('game', Game())
+            client['game'].refresh()
         else:
             p_point = msg['point']
             player_vs_computer(client, server, p_point)

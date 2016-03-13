@@ -94,8 +94,8 @@ def search_player(request):
     # names of logged users
     if request.method == 'GET':
         players = LoggedUser.objects.exclude(name=request.session['user'])
-        data = Session.objects.all()
-        return JsonResponse({'names': [session.get_decoded().get('user') for session in data]})
+        # data = Session.objects.all()
+        # return JsonResponse({'names': [session.get_decoded().get('user') for session in data]})
 
     # get particular logged user
     if request.method == 'POST':
