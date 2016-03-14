@@ -10,7 +10,7 @@
     menu.ws.onmessage = function(msg){
         try {
             var json = JSON.parse(msg.data);
-            $('h2').text(json.name + ' wants to play with you!');
+            menu.manageJson(json);
         }catch (e){
             console.log(msg.data);
             if(msg.data == 'make_request'){
@@ -27,11 +27,24 @@
         }
     }
 
+    menu.ws.onclose = function(){
+        menu.ws.close();
+    }
+
     menu.init = function(){
         this.findPlayers();
         this.getName();
         this.vsComp();
         this.setActions();
+    }
+
+    menu.manageJson = function(json){
+        if('name' in json){
+            $('#notifications h2').text(json.name + ' wants to play with you!');
+            $('#notifications span').html('<button>Yes</button> <button>No</button>');
+        }else if('connection_drop' in json){
+            $('#notifications h2').text('Connection with ' + json.connection_drop + ' dropped down!');
+        }
     }
 
     menu.vsComp = function(){
@@ -86,14 +99,17 @@
         $('h1 .fa-search').click(function(){
            $('#container input[type="text"]').fadeToggle();
         });
+        // sending requests for game
         $('#search_results').on('click', 'span', function(event){
-            // tu ma prist send request method
             console.log($(this).parent().text());
             menu.ws.send('{"status": 0, "request": ' + '"' + $(this).parent().text() + '"' + '}');
 	        $(this).parent().fadeOut(500, function(){
 		    $(this).remove();
 	        });
 	        event.stopPropagation();
+        });
+        $('#notifications span').on('click', 'button', function(){
+           console.log('You clicked on one of the answer buttons.');
         });
     }
 

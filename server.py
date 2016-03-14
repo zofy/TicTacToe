@@ -13,10 +13,21 @@ users = {}
 currently_unavailable = set()
 
 
+def make_available(client):
+    try:
+        currently_unavailable.remove(connections[client['id']])
+        currently_unavailable.remove(connections[connections[client['id']]])
+    except KeyError:
+        print('This error is expected, on of the users in c_u is never in a set.')
+
+
 # deletes logged user from db
 def user_logout(func):
     def wraper(client, server, *args, **kwargs):
         # ak bol user v connections, potom poslem spravu ze spojenie zlyhalo
+        if client['id'] in connections:
+            server.send_message(get_client(connections[client['id']]), json.dumps({"connection_drop": client['name']}))
+            make_available(client)
         if client['status'] == 0:
 
             if users[client['name']]['count'] == 1:
@@ -26,7 +37,7 @@ def user_logout(func):
                 users[client['name']]['count'] -= 1
                 users[client['name']]['ids'].remove(client['id'])
             server.send_message_to_all('make_request')
-
+        func(client, server)
     return wraper
 
 
@@ -55,7 +66,7 @@ def manage_logged_user(client, name):
     client['name'] = name
 
 
-def send_request(client, server, name):
+def send_request(client, server):
     if client['id'] in connections:
         # sends challenge message
         server.send_message(get_client(connections[client['id']]), json.dumps({"name": client['name']}))
@@ -71,7 +82,7 @@ def send_answer(client, server, answer):
         del connections[client['id']]
 
 
-def create_connection(client, server, name):
+def make_connection(client, server, name):
     for id in users[name]['ids']:
         if id not in currently_unavailable:
             currently_unavailable.add(id)
@@ -84,8 +95,9 @@ def read_json(client, msg):
     if msg['status'] == 0:
         print(msg)
         if 'request' in msg:
-            create_connection(client, server, msg['request'])
-            send_request(client, server, msg['request'])
+            make_connection(client, server, msg['request'])
+            print(connections)
+            send_request(client, server)
         elif 'answer' in msg:
             currently_unavailable.remove(client['id'])
             send_answer(client, server, msg['answer'])
