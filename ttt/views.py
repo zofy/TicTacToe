@@ -39,7 +39,7 @@ def game(request, size):
 def game_vs_comp(request, size):
     listSize = range(0, int(size) ** 2)
     return render(request, 'ttt/board.html',
-                  {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2), 'computer': 'true'})
+                  {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2)})
 
 
 def show_scores(request):

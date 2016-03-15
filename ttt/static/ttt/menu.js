@@ -5,31 +5,6 @@
     var menu = {};
 
     menu.name = '';
-    menu.ws = new WebSocket('ws://localhost:9001/');
-
-    menu.ws.onmessage = function(msg){
-        try {
-            var json = JSON.parse(msg.data);
-            menu.manageJson(json);
-        }catch (e){
-            console.log(msg.data);
-            if(msg.data == 'make_request'){
-                menu.refreshPlayers();
-            }
-        }
-    }
-
-    menu.ws.onopen = function(){
-        console.log('Connection established!');
-        if(menu.name != '') {
-            var msg = '{"status": 0, "name": ' + '"' + menu.name + '"' + '}';
-            menu.ws.send(msg);
-        }
-    }
-
-    menu.ws.onclose = function(){
-        menu.ws.close();
-    }
 
     menu.init = function(){
         this.findPlayers();
@@ -114,4 +89,29 @@
     }
 
 menu.init();
+menu.ws = new WebSocket('ws://localhost:9001/');
+
+    menu.ws.onmessage = function(msg){
+        try {
+            var json = JSON.parse(msg.data);
+            menu.manageJson(json);
+        }catch (e){
+            console.log(msg.data);
+            if(msg.data == 'make_request'){
+                menu.refreshPlayers();
+            }
+        }
+    }
+
+    menu.ws.onopen = function(){
+        console.log('Connection established!');
+        if(menu.name != '') {
+            var msg = '{"status": 0, "name": ' + '"' + menu.name + '"' + '}';
+            menu.ws.send(msg);
+        }
+    }
+
+    menu.ws.onclose = function(){
+        menu.ws.close();
+    }
 

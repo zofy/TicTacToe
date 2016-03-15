@@ -54,6 +54,27 @@ class PlayerTest(TestCase):
         resp = self.client.get(reverse('ttt:getUser'))
         self.assertEqual(p.name, resp.json()['name'])
 
+    def test_logout(self):
+        # login user
+        p = self.create_player()
+        self.client.post(reverse('ttt:authentication'), {'username': p.name, 'password': p.password})
+        self.assertIn('user', self.client.session)
+
+        # log him out
+        resp = self.client.get(reverse('ttt:logout'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('You have been successfully logged out.', resp.content)
+        self.assertNotIn('user', self.client.session)
+
+    def test_game_vs_comp(self):
+        # login user and let him play
+        p = self.create_player()
+        self.client.post(reverse('ttt:authentication'), {'username': p.name, 'password': p.password})
+
+        resp = self.client.get(reverse('ttt:gameVsComp', args=[4]))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(4**2, len(resp.context['size']))
+
 
 class LoggedUserTest(TestCase):
     def create_loggedUser(self, name='Novy'):
