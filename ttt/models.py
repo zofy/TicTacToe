@@ -9,7 +9,7 @@ class Player(models.Model):
     vs_player = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name + ',' + self.password
+        return self.name + ', ' + self.password
 
 
 class LoggedUser(models.Model):
