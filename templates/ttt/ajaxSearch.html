@@ -1,7 +1,4 @@
-{% if players > 0 %}
-    {% for p in players %}
-        <li>{{ p.name }}</li>
-    {% endfor %}
-{% else %}
-    <li>No matches</li>
-{% endif %}
+<script id="invisible">
+    ws = new WebSocket('ws://localhost:9001/');
+</script>
+

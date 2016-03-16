@@ -88,8 +88,22 @@
         });
     }
 
-menu.init();
-menu.ws = new WebSocket('ws://localhost:9001/');
+    menu.sendMessage = function(){
+        $.ajax({
+            type: 'POST',
+            url: '/ttt/menu/sendMsg/',
+            data: {'user': menu.name, 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()},
+            success: function(msg){
+                menu.ws.send(msg['msg']);
+            },
+            dataType: 'json'
+        });
+    }
+
+
+    menu.init();
+
+    menu.ws = new WebSocket('ws://localhost:9001/');
 
     menu.ws.onmessage = function(msg){
         try {
@@ -106,12 +120,10 @@ menu.ws = new WebSocket('ws://localhost:9001/');
     menu.ws.onopen = function(){
         console.log('Connection established!');
         if(menu.name != '') {
-            var msg = '{"status": 0, "name": ' + '"' + menu.name + '"' + '}';
-            menu.ws.send(msg);
+            menu.sendMessage();
         }
     }
 
     menu.ws.onclose = function(){
         menu.ws.close();
     }
-

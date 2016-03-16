@@ -164,7 +164,7 @@ def new_client(client, server):
 # Called for every client disconnecting
 @user_logout
 def client_left(client, server):
-    if client['id'] in connections.keys():
+    if client['id'] in connections:
         del connections[connections[client['id']]]
         del connections[client['id']]
     print("Client(%d) disconnected" % client['id'])

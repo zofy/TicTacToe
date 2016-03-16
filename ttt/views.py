@@ -1,6 +1,7 @@
+from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 
 from models import Player, LoggedUser
@@ -77,6 +78,9 @@ def invalid(request):
 
 def logout(request):
     try:
+        for session in Session.objects.all():
+            if session.get_decoded().get('user') == request.session['user']:
+                session.delete()
         del request.session['user']
     except KeyError:
         pass
@@ -107,3 +111,15 @@ def search_player(request):
 
 def get_user(request):
     return JsonResponse({'name': request.session['user']})
+
+
+def send_message(request):
+    if request.method == 'POST':
+        # secret_key = 'key123' potom mozme pouzit
+        cipher_text = '{"status": 0, "name": ' + request.POST['user'] + '}'
+
+    if request.method == 'GET':
+        cipher_text = 'Hello everybody!'
+
+    return JsonResponse({'msg': cipher_text})
+
