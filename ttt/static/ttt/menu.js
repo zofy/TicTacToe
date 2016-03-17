@@ -16,7 +16,7 @@
     menu.manageJson = function(json){
         if('name' in json){
             $('#notifications h2').text(json.name + ' wants to play with you!');
-            $('#notifications span').html('<button>Yes</button> <button>No</button>');
+            $('#notifications div').html('<button>Accept</button>    <button>Refuse</button>');
         }else if('connection_drop' in json){
             $('#notifications h2').text('Connection with ' + json.connection_drop + ' dropped down!');
         }
@@ -83,7 +83,7 @@
 	        });
 	        event.stopPropagation();
         });
-        $('#notifications span').on('click', 'button', function(){
+        $('#notifications div').on('click', 'button', function(){
            console.log('You clicked on one of the answer buttons.');
         });
     }

@@ -116,7 +116,7 @@ def get_user(request):
 def send_message(request):
     if request.method == 'POST':
         # secret_key = 'key123' potom mozme pouzit
-        cipher_text = '{"status": 0, "name": ' + request.POST['user'] + '}'
+        cipher_text = '{"status": 0, "name": ' + '"' + request.POST['user'] + '"' + '}'
 
     if request.method == 'GET':
         cipher_text = 'Hello everybody!'

@@ -63,12 +63,7 @@ input:focus {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
-.completed {
-    color: gray;
-    text-decoration: line-through;
-}
-
-span {
+li span {
     height: 40px;
     margin-right: 20px;
     text-align: center;
@@ -83,4 +78,30 @@ span {
 li:hover span {
     width: 40px;
     opacity: 1;
+}
+
+#notifications div {
+    float: left;
+    width: 20%;
+    margin: 5px 40% 5px 40%;
+    text-align: center;
+}
+
+#notifications button {
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    font-family: inherit;
+    font-size: 40px;
+    /*font-weight: 700;*/
+    height: 100%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all .2s;
+    text-align: center;
+}
+
+#notifications button:hover {
+    font-size: 50px;
 }
