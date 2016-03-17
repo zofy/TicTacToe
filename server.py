@@ -76,7 +76,7 @@ def send_request(client, server):
 
 
 def send_answer(client, server, answer):
-    server.send_message(get_client(connections[client['id']]), json.dumps({"answer": answer}))
+    server.send_message(get_client(connections[client['id']]), json.dumps({"answer": answer, "player": client['name']}))
     if answer == 'no':
         del connections[connections[client['id']]]
         del connections[client['id']]

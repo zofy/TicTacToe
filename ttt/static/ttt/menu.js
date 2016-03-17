@@ -19,6 +19,12 @@
             $('#notifications div').html('<button>Accept</button>    <button>Refuse</button>');
         }else if('connection_drop' in json){
             $('#notifications h2').text('Connection with ' + json.connection_drop + ' dropped down!');
+        }else if('answer' in json){
+            if(json.answer == 'Refuse'){
+                $('#notifications h2').text(json.player + " doesn't want to play.");
+            }else{
+                window.location.href = '/ttt/4/';
+            }
         }
     }
 
@@ -84,7 +90,13 @@
 	        event.stopPropagation();
         });
         $('#notifications div').on('click', 'button', function(){
-           console.log('You clicked on one of the answer buttons.');
+            console.log('You clicked ' + $(this).text());
+            menu.ws.send('{"status": 0, "answer": ' + '"' + $(this).text() + '"' + '}');
+            if($(this).text() == 'Accept'){
+                window.location.href = '/ttt/4/';
+            }else{
+                $('#notifications').html('<h2></h2><div></div>');
+            }
         });
     }
 
