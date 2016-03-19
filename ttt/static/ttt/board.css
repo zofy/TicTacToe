@@ -23,7 +23,7 @@ body{
     font-size: 30px;
     float: left;
 }
-.square, .player, .computer{
+.square, .player, .computer, .opponent{
     background: hotpink;
     float: left;
     /*These values are set up in accordance to the size of board*/
@@ -33,7 +33,7 @@ body{
     border-radius: 15%;
     transition: background .4s;
 }
-.player, .computer{
+.player, .computer, .opponent{
     margin: 13% 35% auto;
     float: none;
 }

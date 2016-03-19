@@ -4,7 +4,9 @@ from ttt.models import LoggedUser
 
 
 class Manager(object):
-    def __init__(self, users={}, connections={}, currently_unavailable=set()):
+
+    def __init__(self, server, users={}, connections={}, currently_unavailable=set()):
+        self.server = server
         self.users = users
         self.connections = connections
         self.currently_unavailable = currently_unavailable
@@ -40,3 +42,11 @@ class Manager(object):
         self.server.send_message_to_all('make_request')
         client['status'] = 0
         client['name'] = name
+
+    def connect_users(self, id1, id2):
+        self.connections[id1] = id2
+        self.connections[id2] = id1
+
+    def player_vs_player(self, client, point):
+        opponent = self.get_client(self.connections[client[id]])
+        self.server.send_message(opponent, json.dumps({'point': point}))

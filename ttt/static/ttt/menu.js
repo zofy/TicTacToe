@@ -67,7 +67,7 @@
     menu.getName = function(){
         $.ajax({
             type: 'GET',
-            url: '/ttt/menu/getUser/',
+            url: '/ttt/getUser/',
             success: function(name){
                 console.log(name['name']);
                 menu.name =  name['name'];

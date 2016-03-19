@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'ttt/board.css' %}"/>
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <script src="{% static 'jquery-2.2.1.min.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe</title>
+    <style>
+        .squareSize{
+            margin: {{ margin }}%;
+            width: {{ width }}%;
+            padding-bottom: {{ width }}%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <h2>Huhu haha</h2>
+
+        <div id="sideLContainer">
+            <h4>Opponent's Color</h4>
+            <div class="opponent"></div>
+        </div>
+
+        <div id="container">
+            {% for square in size %}
+                <div class="square squareSize"></div>
+            {% endfor %}
+        </div>
+
+        <div id="sideRContainer">
+            <h4>Choose your Color</h4>
+            <div class="player"></div>
+        </div>
+
+        <div id="stripe">
+            <button>Reset</button>
+        </div>
+    <script src="{% static 'ttt/pvp.js' %}"></script>
+</body>
+</html>

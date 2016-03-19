@@ -16,7 +16,7 @@ urlpatterns = [
 
     url(r'^menu/$', views.menu, name='menu'),
     url(r'^menu/searchPlayer/$', views.search_player, name='search'),
-    url(r'^menu/getUser/$', views.get_user, name='getUser'),
+    url(r'^getUser/$', views.get_user, name='getUser'),
 
     url(r'^menu/sendMsg/$', views.send_message, name='sendMsg'),
 ]

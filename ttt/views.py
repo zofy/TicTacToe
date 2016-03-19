@@ -32,7 +32,7 @@ def home(request):
 @check_session
 def game(request, size):
     listSize = range(0, int(size) ** 2)
-    return render(request, 'ttt/board.html',
+    return render(request, 'ttt/pvp.html',
                   {'size': listSize, 'width': 90.0 / int(size), 'margin': 10.0 / (int(size) * 2)})
 
 
@@ -119,7 +119,9 @@ def send_message(request):
         cipher_text = '{"status": 0, "name": ' + '"' + request.POST['user'] + '"' + '}'
 
     if request.method == 'GET':
-        cipher_text = 'Hello everybody!'
+        obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
+        message = 'The answer is no'
+        cipher_text = obj.encrypt(message).decode('ISO-8859-1').strip()
 
     return JsonResponse({'msg': cipher_text})
 
