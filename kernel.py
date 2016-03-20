@@ -11,7 +11,7 @@ class Game(object):
         self.point_move = ()
 
     def __str__(self):
-        return 'Tic Tac Toe: id: %d, size: %d, game length: %d' % (self.id, self.size, self.game_length)
+        return 'Tic Tac Toe, size: %d, game length: %d' % (self.size, self.game_length)
 
     def print_board(self):
         end = ''

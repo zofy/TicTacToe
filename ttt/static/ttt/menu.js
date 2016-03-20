@@ -22,7 +22,7 @@
         }else if('answer' in json){
             if(json.answer == 'Refuse'){
                 $('#notifications h2').text(json.player + " doesn't want to play.");
-            }else{
+            }else if(json.answer == 'Accept'){
                 window.location.href = '/ttt/4/';
             }
         }
