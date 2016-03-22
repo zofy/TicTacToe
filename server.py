@@ -11,34 +11,6 @@ PORT = 9001
 server = WebsocketServer(PORT)
 manager = Manager(server)
 
-
-# def make_available(client):
-#     try:
-#         currently_unavailable.remove(connections[client['id']])
-#         currently_unavailable.remove(connections[connections[client['id']]])
-#     except KeyError:
-#         print('This error is expected, on of the users in c_u is never in a set.')
-#
-#
-# # deletes logged user from db
-# def user_logout(func):
-#     def wraper(client, server, *args, **kwargs):
-#         # ak bol user v connections, potom poslem spravu ze spojenie zlyhalo
-#         if client['id'] in connections:
-#             server.send_message(get_client(connections[client['id']]), json.dumps({"connection_drop": client['name']}))
-#             make_available(client)
-#         if client['status'] == 0:
-#
-#             if users[client['name']]['count'] == 1:
-#                 del users[client['name']]
-#                 LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
-#             else:
-#                 users[client['name']]['count'] -= 1
-#                 users[client['name']]['ids'].remove(client['id'])
-#             server.send_message_to_all('make_request')
-#         func(client, server)
-#     return wraper
-###
 #
 # def playerVsPlayer(client, server, message):
 #     if client['game'] is None:
@@ -61,7 +33,7 @@ def new_client(client, server):
 
 
 # Called for every client disconnecting
-# @user_logout
+@manager.user_logout
 def client_left(client, server):
     print("Client(%d) disconnected" % client['id'])
 

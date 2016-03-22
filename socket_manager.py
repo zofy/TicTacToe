@@ -86,6 +86,18 @@ class Manager(object):
     def manage_2(self, client, msg):
         pass
 
+    def delete_connections(self, client):
+        if client['id'] in self.connections:
+            try:
+                self.currently_unavailable.remove(self.connections[client['id']])
+                self.currently_unavailable.remove(client['id'])
+            except KeyError:
+                print('This error is expected, on of the users in c_u is never in a set.')
+
+            self.server.send_message(self.get_client(self.connections[client['id']]), json.dumps({"connection_drop": client['name']}))
+            del self.connections[self.connections[client['id']]]
+            del self.connections[client['id']]
+
     # checks whether message contains json
     def check_message(self, func):
         def wraper(client, server, message, *args, **kwargs):
@@ -96,6 +108,22 @@ class Manager(object):
             else:
                 self.read_json(client, msg)
 
+        return wraper
+
+    # called when user goes away from page
+    def user_logout(self, func):
+        def wraper(client, *args, **kwargs):
+            # ak bol user v connections, potom poslem spravu ze spojenie zlyhalo
+            self.delete_connections(client)
+            if client['status'] == 0:
+                if self.users[client['name']]['count'] == 1:
+                    del self.users[client['name']]
+                    LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
+                else:
+                    self.users[client['name']]['count'] -= 1
+                    self.users[client['name']]['ids'].remove(client['id'])
+                self.server.send_message_to_all('make_request')
+            func(client, self.server)
         return wraper
 
     # creates new LoggedUser
