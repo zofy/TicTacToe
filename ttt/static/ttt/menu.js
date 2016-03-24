@@ -21,16 +21,17 @@
             $('#notifications h2').text('Connection with ' + json.connection_drop + ' dropped down!');
         }else if('answer' in json){
             if(json.answer == 'Refuse'){
-                $('#notifications h2').text(json.player + " doesn't want to play.");
-                $('#notifications div').html('');
+                $('#notifications h2').text(json.player + " doesn't want to play");
             }else if(json.answer == 'Accept'){
                 window.location.href = '/ttt/4/';
+            }else if(json.answer == 'unavailable'){
+                $('#notifications h2').text(json.player + " is currently unavailable");
             }
         }
     }
 
     menu.vsComp = function(){
-        $('button').click(function(){
+        $('#container button').click(function(){
             location.href = '/ttt/comp/3/';
         });
     }
@@ -90,7 +91,7 @@
 	        });
 	        event.stopPropagation();
         });
-        $('#notifications div').on('click', 'button', function(){
+        $('#notifications').on('click', 'button', function(){
             console.log('You clicked ' + $(this).text());
             menu.ws.send('{"status": 0, "answer": ' + '"' + $(this).text() + '"' + '}');
             if($(this).text() == 'Accept'){

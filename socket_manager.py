@@ -8,36 +8,33 @@ class Manager(object):
         self.server = server
         self.users = users
         self.connections = connections
-        self.currently_unavailable = currently_unavailable
 
     def get_client(self, id):
-        print(type(self.server.clients))
         for client in self.server.clients:
             if client['id'] == id:
                 return client
         print('Sorry client terminated his connection.')
 
     def send_request(self, client, name):
-        for id in self.users[name]['ids']:
-            if id not in self.currently_unavailable:
-                self.currently_unavailable.add(id)
-                self.connections[id] = client['id']
-                self.connections[client['id']] = id
-                try:
-                    c = self.get_client(id)
-                except:
-                    self.server.send_message(client, json.dumps({"connection_drop": name}))
-                else:
-                    self.server.send_message(c, json.dumps({"name": client['name']}))
-                break
-        self.server.send_message(client, json.dumps({"answer": 'unavailable'}))
+        requested_id = self.users[name]
+        if requested_id in self.connections:
+            self.server.send_message(client, json.dumps({"answer": 'unavailable', "player": name}))
+        else:
+            self.connections[client['id']] = requested_id
+            self.connections[requested_id] = client['id']
+
+            c = self.get_client(requested_id)
+            if c is None:
+                self.server.send_message(client, json.dumps({"connection_drop": name}))
+            else:
+                self.server.send_message(c, json.dumps({"name": client['name']}))
+        print(self.connections)
 
     def send_answer(self, client, answer):
         challenger = self.get_client(self.connections[client['id']])
         self.server.send_message(challenger, json.dumps({"answer": answer, "player": client['name']}))
-        if answer == 'no':
-            del self.connections[self.connections[client['id']]]
-            del self.connections[client['id']]
+        if answer == 'Refuse':
+            self.delete_connections(client)
 
     def player_vs_player(self, client, point):
         opponent = self.get_client(self.connections[client[id]])
@@ -64,14 +61,12 @@ class Manager(object):
         elif msg['status'] == 1:
             self.manage_1(client, msg)
         elif msg['status'] == 2:
-            pass
+            self.manage_2(client, msg)
 
     def manage_0(self, client, msg):
         if 'request' in msg:
             self.send_request(client, msg['request'])
-            print(self.connections)
         elif 'answer' in msg:
-            self.currently_unavailable.remove(client['id'])
             self.send_answer(client, msg['answer'])
         else:
             self.manage_logged_user(client, msg['name'])
@@ -84,25 +79,38 @@ class Manager(object):
             self.player_vs_computer(client, msg['point'])
 
     def manage_2(self, client, msg):
-        pass
+        if 'point' in msg:
+            self.player_vs_player(client, msg['point'])
+        else:
+            client['status'] = 2
+            client['name'] = msg['name']
+            self.players[msg['name']] = client['id']
+            if 'connection' in msg:
+                p1 = msg['connection'][0]
+                p2 = msg['connection'][1]
+                self.connections[self.players[p1]] = self.players[p2]
+                self.connections[self.players[p2]] = self.players[p1]
+                self.server.send_message(client, json.dumps({"start": 1}))
 
     def delete_connections(self, client):
-        if client['id'] in self.connections:
-            try:
-                self.currently_unavailable.remove(self.connections[client['id']])
-                self.currently_unavailable.remove(client['id'])
-            except KeyError:
-                print('This error is expected, on of the users in c_u is never in a set.')
+        del self.connections[self.connections[client['id']]]
+        del self.connections[client['id']]
 
-            self.server.send_message(self.get_client(self.connections[client['id']]), json.dumps({"connection_drop": client['name']}))
-            del self.connections[self.connections[client['id']]]
-            del self.connections[client['id']]
+    def logout_0(self, client):
+        if client['id'] in self.connections:
+            c = self.get_client(self.connections[client['id']])
+            self.server.send_message(c, json.dumps({"connection_drop": client['name']}))
+            self.delete_connections(client)
+        del self.users[client['name']]
+        LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
+        self.server.send_message_to_all('make_request')
 
     # checks whether message contains json
     def check_message(self, func):
         def wraper(client, server, message, *args, **kwargs):
             try:
                 msg = json.loads(message)
+                print(msg)
             except:
                 return func(client, server, message)
             else:
@@ -113,26 +121,17 @@ class Manager(object):
     # called when user goes away from page
     def user_logout(self, func):
         def wraper(client, *args, **kwargs):
-            # ak bol user v connections, potom poslem spravu ze spojenie zlyhalo
-            self.delete_connections(client)
             if client['status'] == 0:
-                if self.users[client['name']]['count'] == 1:
-                    del self.users[client['name']]
-                    LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
-                else:
-                    self.users[client['name']]['count'] -= 1
-                    self.users[client['name']]['ids'].remove(client['id'])
-                self.server.send_message_to_all('make_request')
+                self.logout_0(client)
             func(client, self.server)
+
         return wraper
 
     # creates new LoggedUser
     def manage_logged_user(self, client, name):
         if name not in self.users:
             LoggedUser(name=name).save()  # create logged user
-        self.users.setdefault(name, {'count': 0, 'ids': []})
-        self.users[name]['count'] += 1
-        self.users[name]['ids'].append(client['id'])
+        self.users.setdefault(name, client['id'])
         self.server.send_message_to_all('make_request')
         client['status'] = 0
         client['name'] = name

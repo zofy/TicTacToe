@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 
 from models import Player, LoggedUser
@@ -19,6 +19,27 @@ def check_session(func):
     def wraper(request, *args, **kwargs):
         if 'user' not in request.session:
             return HttpResponseRedirect('/ttt/login/')
+        else:
+            return func(request, *args, **kwargs)
+
+    return wraper
+
+
+def already_logged_in(func):
+    def wraper(request, *args, **kwargs):
+        if 'user' in request.session:
+            return HttpResponseRedirect('/ttt/menu/')
+        else:
+            return func(request, *args, **kwargs)
+
+    return wraper
+
+
+def check_logged_user(func):
+    def wraper(request, *args, **kwargs):
+        name = request.session['user']
+        if LoggedUser.objects.filter(name=name).exists():
+            return HttpResponseNotFound('<h1>You can maintain only one connection to server!</h1>')
         else:
             return func(request, *args, **kwargs)
 
@@ -48,6 +69,7 @@ def show_scores(request):
     return render(request, 'ttt/scores.html', {'scores': []})
 
 
+@already_logged_in
 def login(request):
     form = RegisterForm()
     return render(request, 'ttt/login.html', {'form': form})
@@ -70,6 +92,12 @@ def auth_view(request):
         return HttpResponseRedirect('/ttt/invalid/')
 
 
+def send_request(request):
+    if 'connection' in request.session:
+        return JsonResponse({"connection": 'true'})
+    else:
+        return JsonResponse({"connection": 'false'})
+
 def invalid(request):
     # here comes invalid message
     messages.error(request, 'Invalid input, try again!')
@@ -90,6 +118,7 @@ def logout(request):
 
 
 @check_session
+@check_logged_user
 def menu(request):
     return render(request, 'ttt/menu.html')
 
@@ -98,8 +127,6 @@ def search_player(request):
     # names of logged users
     if request.method == 'GET':
         players = LoggedUser.objects.exclude(name=request.session['user'])
-        # data = Session.objects.all()
-        # return JsonResponse({'names': [session.get_decoded().get('user') for session in data]})
 
     # get particular logged user
     if request.method == 'POST':
