@@ -1,13 +1,17 @@
 import json
+
+import time
+
 from kernel import Game
 from ttt.models import LoggedUser, Player
 
 
 class Manager(object):
-    def __init__(self, server, users={}, connections={}, currently_unavailable=set()):
+    def __init__(self, server, users={}, connections={}):
         self.server = server
         self.users = users
         self.connections = connections
+        self.players = {}
 
     def get_client(self, id):
         for client in self.server.clients:
@@ -36,9 +40,14 @@ class Manager(object):
         if answer == 'Refuse':
             self.delete_connections(client)
 
-    def player_vs_player(self, client, point):
-        opponent = self.get_client(self.connections[client[id]])
-        self.server.send_message(opponent, json.dumps({'point': point}))
+    def player_vs_player(self, client, point_idx):
+        try:
+            opponent = self.get_client(self.connections[client['id']])
+        except KeyError:
+            pass
+        else:
+            print('sending point')
+            self.server.send_message(opponent, json.dumps({"point": point_idx}))
 
     def player_vs_computer(self, client, p_point):
         point = client['game'].create_point(p_point)
@@ -79,22 +88,43 @@ class Manager(object):
             self.player_vs_computer(client, msg['point'])
 
     def manage_2(self, client, msg):
+        print(msg)
         if 'point' in msg:
             self.player_vs_player(client, msg['point'])
+        elif 'connection' in msg:
+            print(self.connections)
+            print('Robim conn')
+            p1 = msg['connection'][0]
+            p2 = msg['connection'][1]
+            if not self.wait_until(10, msg['connection']):
+                self.server.send_message(client, json.dumps({"connection_drop": 'Opponent'}))
+            else:
+                self.connections[self.players[p1]] = self.players[p2]
+                self.connections[self.players[p2]] = self.players[p1]
+                self.server.send_message(client, json.dumps({"go": 1}))
         else:
+            print('pridavam playera ' + msg['name'])
             client['status'] = 2
             client['name'] = msg['name']
             self.players[msg['name']] = client['id']
-            if 'connection' in msg:
-                p1 = msg['connection'][0]
-                p2 = msg['connection'][1]
-                self.connections[self.players[p1]] = self.players[p2]
-                self.connections[self.players[p2]] = self.players[p1]
-                self.server.send_message(client, json.dumps({"start": 1}))
+            # print(self.players)
 
     def delete_connections(self, client):
-        del self.connections[self.connections[client['id']]]
-        del self.connections[client['id']]
+        try:
+            del self.connections[self.connections[client['id']]]
+            del self.connections[client['id']]
+        except KeyError:
+            pass
+
+    def wait_until(self, timeout, players, period=1):
+        must_end = time.time() + timeout
+        while time.time() < must_end:
+            if players[1] in self.players and players[0] in self.players:
+                print('all in')
+                return True
+            time.sleep(period)
+        print('miss')
+        return False
 
     def logout_0(self, client):
         if client['id'] in self.connections:
@@ -104,6 +134,15 @@ class Manager(object):
         del self.users[client['name']]
         LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
         self.server.send_message_to_all('make_request')
+
+    def logout_2(self, client):
+        print(self.connections)
+        if client['id'] in self.connections:
+            c = self.get_client(self.connections[client['id']])
+            print(c['name'])
+            self.server.send_message(c, json.dumps({"connection_drop": client['name']}))
+            del self.players[client['name']]
+            self.delete_connections(client)
 
     # checks whether message contains json
     def check_message(self, func):
@@ -118,15 +157,6 @@ class Manager(object):
 
         return wraper
 
-    # called when user goes away from page
-    def user_logout(self, func):
-        def wraper(client, *args, **kwargs):
-            if client['status'] == 0:
-                self.logout_0(client)
-            func(client, self.server)
-
-        return wraper
-
     # creates new LoggedUser
     def manage_logged_user(self, client, name):
         if name not in self.users:
@@ -135,3 +165,20 @@ class Manager(object):
         self.server.send_message_to_all('make_request')
         client['status'] = 0
         client['name'] = name
+
+    # called when user goes away from page
+    # def user_logout(self, func):
+    #     def wraper(client, *args, **kwargs):
+    #         if client['status'] == 0:
+    #             self.logout_0(client)
+    #         elif client['status'] == 2:
+    #             self.logout_2(client)
+    #         func(client, self.server)
+    #
+    #     return wraper
+
+    def user_logout(self, client):
+        if client['status'] == 0:
+            self.logout_0(client)
+        elif client['status'] == 2:
+            self.logout_2(client)

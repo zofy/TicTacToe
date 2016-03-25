@@ -19,15 +19,30 @@
             $('#notifications div').html('<button>Accept</button>    <button>Refuse</button>');
         }else if('connection_drop' in json){
             $('#notifications h2').text('Connection with ' + json.connection_drop + ' dropped down!');
+            $('#notifications div').html('');
         }else if('answer' in json){
             if(json.answer == 'Refuse'){
                 $('#notifications h2').text(json.player + " doesn't want to play");
             }else if(json.answer == 'Accept'){
-                window.location.href = '/ttt/4/';
+                menu.createConnection(json.player);
+                //window.location.href = '/ttt/4/';
             }else if(json.answer == 'unavailable'){
                 $('#notifications h2').text(json.player + " is currently unavailable");
             }
         }
+    }
+
+    menu.createConnection = function(opponent){
+        console.log('Creating connection...');
+        $.ajax({
+                type: 'POST',
+                url: '/ttt/menu/createConnection/',
+                data: {'player': opponent, 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()},
+                success: function(json){
+                    window.location.href = json.redirect;
+                },
+                dataType: 'json'
+            });
     }
 
     menu.vsComp = function(){
@@ -86,9 +101,9 @@
         $('#search_results').on('click', 'span', function(event){
             console.log($(this).parent().text());
             menu.ws.send('{"status": 0, "request": ' + '"' + $(this).parent().text() + '"' + '}');
-	        $(this).parent().fadeOut(500, function(){
-		    $(this).remove();
-	        });
+	        //$(this).parent().fadeOut(500, function(){
+            //$(this).remove();
+            //});
 	        event.stopPropagation();
         });
         $('#notifications').on('click', 'button', function(){

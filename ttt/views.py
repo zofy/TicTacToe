@@ -1,6 +1,7 @@
 from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 
@@ -98,18 +99,22 @@ def send_request(request):
     else:
         return JsonResponse({"connection": 'false'})
 
+
 def invalid(request):
     # here comes invalid message
     messages.error(request, 'Invalid input, try again!')
     return render(request, 'ttt/login.html')
 
 
+@check_session
 def logout(request):
     try:
         for session in Session.objects.all():
             if session.get_decoded().get('user') == request.session['user']:
                 session.delete()
+        request.session.flush()
         del request.session['user']
+        del request.session['connection']
     except KeyError:
         pass
     # here comes successful logout message
@@ -138,6 +143,25 @@ def search_player(request):
 
 def get_user(request):
     return JsonResponse({'name': request.session['user']})
+
+
+def create_connection(request):
+    if request.method == 'POST':
+        request.session['connection'] = (request.session['user'], request.POST['player'])
+        return JsonResponse({'redirect': '/ttt/4/'})
+    if request.method == 'GET':
+        if 'connection' in request.session:
+            return JsonResponse({'me': request.session['connection'][0], 'opponent': request.session['connection'][1]})
+        else:
+            return JsonResponse({'none': 1})
+
+
+def drop_connection(request):
+    try:
+        del request.session['connection']
+    except KeyError:
+        pass
+    return HttpResponseRedirect('ttt/menu/')
 
 
 def send_message(request):

@@ -33,8 +33,9 @@ def new_client(client, server):
 
 
 # Called for every client disconnecting
-@manager.user_logout
+# @manager.user_logout
 def client_left(client, server):
+    manager.user_logout(client)
     print("Client(%d) disconnected" % client['id'])
 
 
