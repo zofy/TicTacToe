@@ -92,6 +92,9 @@ class Manager(object):
         print(msg)
         if 'point' in msg:
             self.player_vs_player(client, msg['point'])
+        elif 'color' in msg:
+            c = self.get_client(self.connections[client['id']])
+            self.server.send_message(c, json.dumps({"color": msg['color']}))
         elif 'connection' in msg:
             print(self.connections)
             print('Robim conn')
@@ -151,6 +154,7 @@ class Manager(object):
         def wraper(client, server, message, *args, **kwargs):
             try:
                 msg = json.loads(message)
+                msg['status']
                 print(msg)
             except:
                 return func(client, server, message)

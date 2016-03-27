@@ -70,10 +70,14 @@ def show_scores(request):
     return render(request, 'ttt/scores.html', {'scores': []})
 
 
-@already_logged_in
-def login(request):
+def register(request):
     form = RegisterForm()
     return render(request, 'ttt/login.html', {'form': form})
+
+
+@already_logged_in
+def login(request):
+    return render(request, 'ttt/login.html')
 
 
 def auth_view(request):

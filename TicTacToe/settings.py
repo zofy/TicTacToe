@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ttt',
-    # 'ws4redis',
-    # 'socket_server',
 ]
 
 MIDDLEWARE_CLASSES = [

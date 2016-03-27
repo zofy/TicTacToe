@@ -76,6 +76,7 @@
             $('.player').css('backgroundColor', color);
             game.myColor = color;
             game.changeColor(game.myPoints, color);
+            game.ws.send('{"status": 2, "color": ' + '"' + game.myColor + '"' + '}');
         });
 
         $('.square').on('click', function(){

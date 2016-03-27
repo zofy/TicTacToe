@@ -173,5 +173,16 @@ var game = {};
         });
     }
 
+window.onbeforeunload = function (e) {
+    var e = e || window.event;
+       $.ajax({
+        type: 'GET',
+        url: '/ttt/menu/dropConnection/'
+    });
+    // For IE and Firefox prior to version 4
+    if (e) {
+        e.returnValue = 'Do you really want to end the game?';
+    }
+};
 
 game.init();

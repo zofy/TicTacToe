@@ -32,7 +32,7 @@ li {
     color: #666;
 }
 
-li:nth-child(2n) {
+#search_results li:nth-child(2n) {
     background: #f7f7f7;
 }
 
@@ -63,7 +63,7 @@ input:focus {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
-li span {
+#search_results li span {
     height: 40px;
     margin-right: 20px;
     text-align: center;
@@ -75,7 +75,7 @@ li span {
     opacity: 0;
 }
 
-li:hover span {
+#search_results li:hover span {
     width: 40px;
     opacity: 1;
 }

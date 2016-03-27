@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^(?P<size>[3-9]+)/$', views.game, name='game'),
     url(r'^comp/(?P<size>[3-9]+)/$', views.game_vs_comp, name='gameVsComp'),
 
+    url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.login, name='login'),
     url(r'^auth/$', views.auth_view, name='authentication'),
     url(r'^invalid/$', views.invalid, name='invalidLogin'),
