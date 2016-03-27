@@ -12,11 +12,12 @@
     game.board = [];
     game.myPoints = [];
     game.opponentPoints = [];
+    game.freePoints = [];
 
     game.init = function(){
         this.setUpSquares();
         this.setUpBoard(game.size);
-        //this.setUpConnection();
+        this.fillFreePoints(game.size);
     }
 
     game.randomColor = function(){
@@ -42,16 +43,26 @@
         }
     }
 
-    game.changeColor = function(){
-        var color = this.randomColor();
-        $('.player').css('backgroundColor', color);
-        game.myColor = color;
-        $.each(game.myPoints, function(idx, value){
+    game.changeHeading = function(text){
+        $('h2').fadeIn(500, function(){
+            $(this).text(text);
+        });
+    }
+
+    game.changeColor = function(points, color){
+        $.each(points, function(idx, value){
             $($(game.squares).get(value)).css('backgroundColor', color);
-        })
+        });
+    }
+
+    game.fillFreePoints = function(size){
+        for(var i = 0; i < size*size; i++){
+           game.freePoints.push(i);
+        };
     }
 
     game.setUpSquares = function(){
+        // set me random color
         $('.square').addClass('noEvent');
         var colorP = this.randomColor();
         var colorO = this.randomColor();
@@ -59,16 +70,26 @@
         $('.opponent').css('backgroundColor', colorO);
         game.myColor = colorP;
         game.opponentColor = colorO;
+        // set action on click
         $('.player').click(function() {
-            game.changeColor();
+            var color = game.randomColor();
+            $('.player').css('backgroundColor', color);
+            game.myColor = color;
+            game.changeColor(game.myPoints, color);
         });
+
         $('.square').on('click', function(){
            var idx = game.squares.index($(this));
            console.log('You clicked on square with index ' + idx + '!')
            $(this).css('backgroundColor', game.myColor);
            game.ws.send('{"status": 2, "point": ' + idx + '}');
            game.myPoints.push(idx);
+           // here comes removing idx from free points
+           game.freePoints.splice($(game.freePoints).index(idx), 1);
            $(this).addClass('noEvent');
+           game.toggleFreeSquares();
+
+           game.changeHeading("Your opponent is on the move");
         });
     }
 
@@ -78,31 +99,51 @@
         $(game.squares.get(idx)).addClass('noEvent');
     }
 
-    game.freeSquares = function(){
-        //if not in myPoints or opPoints then remove noEvent
-        //$.each(game.squares, function(idx, value){
-        //    $($(game.squares).get(value)).css('backgroundColor', color);
-        //})
+    game.toggleFreeSquares = function(){
+        $.each(game.freePoints, function(idx, value){
+            $($(game.squares).get(value)).toggleClass('noEvent');
+        });
     }
 
     game.manageJson = function(json){
         console.log('I am here');
+        console.log(json);
         if('point' in json){
             console.log('Prisiel bod');
             this.markPoint(json['point']);
+            this.opponentPoints.push(json['point']);
+            this.freePoints.splice($(game.freePoints).index(json['point']), 1);
         }else if('go' in json){
-        //    do smth
-            // let player know it is his turn
-            this.freeSquares();
+            game.changeHeading("It's your turn!");
+            this.toggleFreeSquares();
+        }else if('connection_drop' in json){
+            game.changeHeading("Opponent went away!");
+        }else if('color' in json){
+            game.opponentColor = json['color'];
+            $('.opponent').css('backgroundColor', json['color']);
+            game.changeColor(game.opponentPoints, json['color']);
         }
     }
 
-    window.onbeforeunload = function(){
-        $.ajax({
+    //window.onbeforeunload = function(){
+    //    $.ajax({
+    //        type: 'GET',
+    //        url: '/ttt/menu/dropConnection/'
+    //    });
+    //    return null;
+    //}
+
+    window.onbeforeunload = function (e) {
+        var e = e || window.event;
+           $.ajax({
             type: 'GET',
             url: '/ttt/menu/dropConnection/'
         });
-    }
+        // For IE and Firefox prior to version 4
+        if (e) {
+            e.returnValue = 'Do you really want to end the game?';
+        }
+    };
 
     game.setUpConnection = function(){
         $.ajax({
@@ -131,16 +172,14 @@ game.init();
             this.send('{"status": 2, "name": ' + '"' + game.user + '"' + '}');
             game.setUpConnection();
         }
-    };
+    }
 
     game.ws.onmessage = function(msg){
         try{
-            var json = JSON.parse(msg);
+            var json = JSON.parse(msg.data);
             game.manageJson(json);
         }catch (e){
             console.log('Huhuuuu');
             console.log(msg);
         }
     }
-
-//game.init();

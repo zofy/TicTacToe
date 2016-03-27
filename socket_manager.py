@@ -48,6 +48,7 @@ class Manager(object):
         else:
             print('sending point')
             self.server.send_message(opponent, json.dumps({"point": point_idx}))
+            self.server.send_message(opponent, json.dumps({"go": 1}))
 
     def player_vs_computer(self, client, p_point):
         point = client['game'].create_point(p_point)
@@ -107,7 +108,7 @@ class Manager(object):
             client['status'] = 2
             client['name'] = msg['name']
             self.players[msg['name']] = client['id']
-            # print(self.players)
+            print('Connections: %s' % self.connections)
 
     def delete_connections(self, client):
         try:
@@ -136,12 +137,13 @@ class Manager(object):
         self.server.send_message_to_all('make_request')
 
     def logout_2(self, client):
+        print('Client: %s' % client['id'])
         print(self.connections)
+        del self.players[client['name']]
         if client['id'] in self.connections:
             c = self.get_client(self.connections[client['id']])
             print(c['name'])
             self.server.send_message(c, json.dumps({"connection_drop": client['name']}))
-            del self.players[client['name']]
             self.delete_connections(client)
 
     # checks whether message contains json
@@ -166,19 +168,13 @@ class Manager(object):
         client['status'] = 0
         client['name'] = name
 
-    # called when user goes away from page
-    # def user_logout(self, func):
-    #     def wraper(client, *args, **kwargs):
-    #         if client['status'] == 0:
-    #             self.logout_0(client)
-    #         elif client['status'] == 2:
-    #             self.logout_2(client)
-    #         func(client, self.server)
-    #
-    #     return wraper
-
     def user_logout(self, client):
-        if client['status'] == 0:
-            self.logout_0(client)
-        elif client['status'] == 2:
-            self.logout_2(client)
+        try:
+            client['status']
+        except TypeError:
+            pass
+        else:
+            if client['status'] == 0:
+                self.logout_0(client)
+            elif client['status'] == 2:
+                self.logout_2(client)

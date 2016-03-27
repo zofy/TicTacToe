@@ -161,7 +161,7 @@ def drop_connection(request):
         del request.session['connection']
     except KeyError:
         pass
-    return HttpResponseRedirect('ttt/menu/')
+    return HttpResponseRedirect('/ttt/menu/')
 
 
 def send_message(request):

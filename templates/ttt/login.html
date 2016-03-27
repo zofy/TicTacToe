@@ -5,22 +5,33 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'ttt/login.css' %}"/>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
 </head>
 <body>
 <div id="container">
-    <form action="/ttt/auth/" method="post">
-        {% csrf_token %}
-        <label for="username">Username: </label>
-        <input name="username" type="text" placeholder="enter your name">
-        <label for="password">Password: </label>
-        <input name="password" type="password" placeholder="password">
-        <input type="submit" value="Login"/>
-    </form>
-    {% if messages %}
-        {% for message in messages %}
-            <span>{{ message }}</span>
-        {% endfor %}
-    {% endif %}
+    <div class="row">
+        <form action="/ttt/auth/" method="post">
+            {% csrf_token %}
+            <label for="username">Username: </label>
+            <div class="form-group">
+                <input class="form-control" name="username" type="text" placeholder="name">
+            </div>
+            <label for="password">Password: </label>
+            <div class="form-group">
+                <input class="form-control" name="password" type="password" placeholder="password">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary btn-lg">Login</button>
+            </div>
+        </form>
+        <div class="control-group error">
+            {% if messages %}
+                {% for message in messages %}
+                    <label class="control-label" for="inputError">{{ message }}</label>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 </div>
 </body>
 </html>
