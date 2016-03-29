@@ -1,3 +1,29 @@
+#header {
+    text-align: right;
+    margin: 5px 10px auto;
+}
+
+#header button {
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+    font-family: inherit;
+    font-size: 20px;
+    /*font-weight: 700;*/
+    height: 100%;
+    letter-spacing: 1px;
+    transition: all .2s;
+}
+
+#header button:hover {
+    font-size: 21px;
+}
+
+#header button:active {
+    font-size: 20px;
+}
+
 body {
     background: #FC354C;
     background: -webkit-linear-gradient(to left, #FC354C, #0ABFBC);
@@ -21,7 +47,11 @@ form label, input {
 }
 
 .control-label {
-    text-align: center;
+    text-align: left;
     margin-top: 15px;
     width: 100%;
+}
+
+#msg {
+    text-align: center;
 }

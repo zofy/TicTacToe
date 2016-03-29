@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpRe
 from django.shortcuts import render
 
 from models import Player, LoggedUser
-from ttt.forms import RegisterForm
+from ttt.forms import RegisterForm, LoginForm
 
 
 def authenticate(username, password):
@@ -71,23 +71,30 @@ def show_scores(request):
 
 
 def register(request):
-    form = RegisterForm()
-    return render(request, 'ttt/login.html', {'form': form})
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+            Player.objects.create(name=name, password=password).save()
+    else:
+        form = RegisterForm()
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'SingUp', 'url': 'ttt:register'})
 
 
 @already_logged_in
 def login(request):
-    return render(request, 'ttt/login.html')
+    form = LoginForm()
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:authentication'})
 
 
 def auth_view(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    user = authenticate(username, password)
-
-    # user = User.objects.create_user(username, password)
-    # user.save()
-    # return HttpResponseRedirect('/ttt/3/')
+    form = LoginForm(request.POST)
+    user = None
+    if form.is_valid():
+        username = form.cleaned_data['name']
+        password = form.cleaned_data['password']
+        user = authenticate(username, password)
 
     if user is not None:
         request.session['user'] = user.name
@@ -105,9 +112,10 @@ def send_request(request):
 
 
 def invalid(request):
+    form = LoginForm()
     # here comes invalid message
     messages.error(request, 'Invalid input, try again!')
-    return render(request, 'ttt/login.html')
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:authentication'})
 
 
 @check_session
@@ -123,7 +131,8 @@ def logout(request):
         pass
     # here comes successful logout message
     messages.info(request, 'You have been successfully logged out.')
-    return render(request, 'ttt/login.html')
+    form = LoginForm()
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:authentication'})
 
 
 @check_session

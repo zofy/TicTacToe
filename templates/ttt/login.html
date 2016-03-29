@@ -2,32 +2,35 @@
 <html lang="en">
 <head>
     {% load staticfiles %}
+    {% load bootstrap %}
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css">
     <link rel="stylesheet" href="{% static 'ttt/login.css' %}"/>
 </head>
 <body>
+<div id="header">
+    <button onclick="location.href='/ttt/register/'"><i class="fa fa-user-plus"></i> SingUp</button>
+</div>
 <div id="container">
     <div class="row">
-        <form action="/ttt/auth/" method="post">
+        <form action={% url url %} method="post">
             {% csrf_token %}
-            <label for="username">Username: </label>
-            <div class="form-group">
-                <input class="form-control" name="username" type="text" placeholder="name">
-            </div>
-            <label for="password">Password: </label>
-            <div class="form-group">
-                <input class="form-control" name="password" type="password" placeholder="password">
-            </div>
+            {{ form|bootstrap }}
             <div class="form-actions">
-                <button class="btn btn-primary btn-md">Login</button>
+                <button class="btn btn-primary btn-md">{{ button_name }}</button>
             </div>
         </form>
         <div class="control-group error">
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p> {{ errors }} </p>
+                {% endfor %}
+            {% endif %}
             {% if messages %}
                 {% for message in messages %}
-                    <label class="control-label" for="inputError">{{ message }}</label>
+                    <label id="msg" class="control-label" for="inputError">{{ message }}</label>
                 {% endfor %}
             {% endif %}
         </div>
