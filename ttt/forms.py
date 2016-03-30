@@ -25,8 +25,11 @@ class RegisterForm(LoginForm):
                                       min_length=6)
 
     def clean(self):
+        name = self.cleaned_data.get('name')
+        if Player.objects.filter(name=name).exists():
+            raise forms.ValidationError('Name already exists, try another one!')
         p = self.cleaned_data.get('password')
         cp = self.cleaned_data.get('confirmPassword')
-        if p != cp:
+        if p != cp and (p and cp is not None):
             raise forms.ValidationError('Passwords do not match!')
-        # return self.cleaned_data
+        return self.cleaned_data

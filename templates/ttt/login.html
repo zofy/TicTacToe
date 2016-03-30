@@ -4,7 +4,7 @@
     {% load staticfiles %}
     {% load bootstrap %}
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>{{ button_name }}</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css">
     <link rel="stylesheet" href="{% static 'ttt/login.css' %}"/>
@@ -23,11 +23,6 @@
             </div>
         </form>
         <div class="control-group error">
-            {% if form.non_field_errors %}
-                {% for error in form.non_field_errors %}
-                    <p> {{ errors }} </p>
-                {% endfor %}
-            {% endif %}
             {% if messages %}
                 {% for message in messages %}
                     <label id="msg" class="control-label" for="inputError">{{ message }}</label>

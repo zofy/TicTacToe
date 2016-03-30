@@ -135,9 +135,11 @@ class Manager(object):
             c = self.get_client(self.connections[client['id']])
             self.server.send_message(c, json.dumps({"connection_drop": client['name']}))
             self.delete_connections(client)
+
         del self.users[client['name']]
         LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
-        self.server.send_message_to_all('make_request')
+        print(self.users)
+        self.send_msg_to_users(client['name'])
 
     def logout_2(self, client):
         print('Client: %s' % client['id'])
@@ -163,14 +165,21 @@ class Manager(object):
 
         return wraper
 
+    def send_msg_to_users(self, name):
+        for user in self.users:
+            if user == name:
+                continue
+            client = self.get_client(self.users[user])
+            self.server.send_message(client, 'make_request')
+
     # creates new LoggedUser
     def manage_logged_user(self, client, name):
         if name not in self.users:
             LoggedUser(name=name).save()  # create logged user
-        self.users.setdefault(name, client['id'])
-        self.server.send_message_to_all('make_request')
-        client['status'] = 0
-        client['name'] = name
+            self.users[name] = client['id']
+            self.send_msg_to_users('')
+            client['status'] = 0
+            client['name'] = name
 
     def user_logout(self, client):
         try:

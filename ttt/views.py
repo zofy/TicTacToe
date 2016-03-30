@@ -71,14 +71,16 @@ def show_scores(request):
 
 
 def register(request):
+    form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             password = form.cleaned_data['password']
             Player.objects.create(name=name, password=password).save()
-    else:
-        form = RegisterForm()
+            messages.info(request, 'Thanks for signing in!')
+            messages.info(request, 'Now you can login.')
+            return HttpResponseRedirect('/ttt/login/')
     return render(request, 'ttt/login.html', {'form': form, 'button_name': 'SingUp', 'url': 'ttt:register'})
 
 
