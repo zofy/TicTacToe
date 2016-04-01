@@ -1,19 +1,12 @@
 from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse, HttpResponseNotFound
+from django.db import transaction, IntegrityError
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound
 from django.shortcuts import render
 
 from models import Player, LoggedUser
 from ttt.forms import RegisterForm, LoginForm
-
-
-def authenticate(username, password):
-    try:
-        return Player.objects.get(name=username, password=password)
-    except:
-        return None
 
 
 def check_session(func):
@@ -70,40 +63,43 @@ def show_scores(request):
     return render(request, 'ttt/scores.html', {'scores': []})
 
 
+@transaction.atomic()
 def register(request):
     form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            password = form.cleaned_data['password']
-            Player.objects.create(name=name, password=password).save()
-            messages.info(request, 'Thanks for signing in!')
-            messages.info(request, 'Now you can login.')
-            return HttpResponseRedirect('/ttt/login/')
+        try:
+            if form.is_valid():
+                name = form.cleaned_data['name']
+                password = form.cleaned_data['password']
+                Player.objects.create(name=name, password=password).save()
+                messages.info(request, 'Thanks for signing in!')
+                messages.info(request, 'Now you can login.')
+                return HttpResponseRedirect('/ttt/login/')
+        except IntegrityError:
+            messages.error(request, 'Name already exists!')
+            messages.error(request, 'Try another one.')
+
     return render(request, 'ttt/login.html', {'form': form, 'button_name': 'SingUp', 'url': 'ttt:register'})
 
 
 @already_logged_in
 def login(request):
     form = LoginForm()
-    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:authentication'})
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        user = None
+        if form.is_valid():
+            user = form.authenticate()
 
+        if user is not None:
+            request.session['user'] = user.name
+            request.session.set_expiry(0)
+            return HttpResponseRedirect('/ttt/menu/')
+        else:
+            return HttpResponseRedirect('/ttt/invalid/')
 
-def auth_view(request):
-    form = LoginForm(request.POST)
-    user = None
-    if form.is_valid():
-        username = form.cleaned_data['name']
-        password = form.cleaned_data['password']
-        user = authenticate(username, password)
-
-    if user is not None:
-        request.session['user'] = user.name
-        request.session.set_expiry(0)
-        return HttpResponseRedirect('/ttt/menu/')
-    else:
-        return HttpResponseRedirect('/ttt/invalid/')
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:login'})
 
 
 def send_request(request):
@@ -117,7 +113,7 @@ def invalid(request):
     form = LoginForm()
     # here comes invalid message
     messages.error(request, 'Invalid input, try again!')
-    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:authentication'})
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:login'})
 
 
 @check_session
@@ -134,7 +130,7 @@ def logout(request):
     # here comes successful logout message
     messages.info(request, 'You have been successfully logged out.')
     form = LoginForm()
-    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:authentication'})
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:login'})
 
 
 @check_session

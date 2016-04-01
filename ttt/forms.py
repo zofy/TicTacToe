@@ -17,6 +17,17 @@ class LoginForm(ModelForm):
             'password': forms.PasswordInput(attrs={'placeholder': 'password'})
         }
 
+    def clean(self):
+        return self.cleaned_data
+
+    def authenticate(self):
+        name = self.cleaned_data.get('name')
+        password = self.cleaned_data.get('password')
+        try:
+            return Player.objects.get(name=name, password=password)
+        except:
+            return None
+
 
 class RegisterForm(LoginForm):
     confirmPassword = forms.CharField(label='Confirm password',
@@ -26,7 +37,7 @@ class RegisterForm(LoginForm):
 
     def clean(self):
         name = self.cleaned_data.get('name')
-        if Player.objects.filter(name=name).exists():
+        if Player.objects.select_for_update().filter(name=name).exists():
             raise forms.ValidationError('Name already exists, try another one!')
         p = self.cleaned_data.get('password')
         cp = self.cleaned_data.get('confirmPassword')
