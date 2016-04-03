@@ -5,6 +5,7 @@
     {% load staticfiles %}
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <link rel="stylesheet" href="{% static 'ttt/menu.css' %}"/>
+    <link rel="stylesheet" href="{% static 'ttt/navbar.css' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css">
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <script src="{% static 'jquery-2.2.1.min.js' %}"></script>
@@ -22,9 +23,11 @@
         <h1>Choose your superior <i class="fa fa-search"></i></h1>
         {% csrf_token %}
         <input id='search' type="text" placeholder="find your partner">
-        <ul id="search_results">
+        <div>
+            <ul id="search_results">
 
-        </ul>
+            </ul>
+        </div>
         <button>Play with Computer</button>
     </div>
     <script src="{% static 'ttt/menu.js' %}"></script>

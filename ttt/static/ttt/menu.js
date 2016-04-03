@@ -11,6 +11,7 @@
         this.getName();
         this.vsComp();
         this.setActions();
+        //this.refreshPlayers();
     }
 
     menu.manageJson = function(json){
@@ -155,4 +156,8 @@
 
     menu.ws.onclose = function(){
         menu.ws.close();
+    }
+
+    menu.ws.onerror = function(){
+        $('#notifications h2').text('An error with connection occurred!');
     }

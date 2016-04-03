@@ -1,5 +1,23 @@
-.navbar-default {
-    background-color: #232323;
+.navbar-default, .navbar-right li, .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    background-color: transparent;
     border: none;
     border-radius: 0%;
+}
+
+.navbar-default .navbar-brand {
+    margin-top: 5px;
+    color: #777;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.navbar-default .navbar-nav > li > a {
+    margin-top: 5px;
+    color: #777;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.navbar .navbar-default {
+    margin-bottom: 100px;
 }

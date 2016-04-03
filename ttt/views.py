@@ -33,7 +33,8 @@ def check_logged_user(func):
     def wraper(request, *args, **kwargs):
         name = request.session['user']
         if LoggedUser.objects.filter(name=name).exists():
-            return HttpResponseNotFound('<h1>You can maintain only one connection to server!</h1>')
+            return HttpResponseNotFound(
+                '<h1>You can maintain only one connection to server!</h1><a href="/ttt/logout/">Logout</a>')
         else:
             return func(request, *args, **kwargs)
 
@@ -119,12 +120,16 @@ def invalid(request):
 @check_session
 def logout(request):
     try:
+        name = request.session['user']
+        if LoggedUser.objects.filter(name=name).exists():
+            LoggedUser.objects.filter(name=name).delete()
+        del request.session['user']
+        del request.session['connection']
+
         for session in Session.objects.all():
             if session.get_decoded().get('user') == request.session['user']:
                 session.delete()
         request.session.flush()
-        del request.session['user']
-        del request.session['connection']
     except KeyError:
         pass
     # here comes successful logout message
@@ -186,4 +191,3 @@ def send_message(request):
         cipher_text = obj.encrypt(message).decode('ISO-8859-1').strip()
 
     return JsonResponse({'msg': cipher_text})
-

@@ -72,6 +72,10 @@ var game = {};
         }
     }
 
+    game.ws.onerror = function(){
+        document.querySelector('h2').textContent = 'An error with connection occurred!';
+    }
+
     game.changeHeading = function(msg){
         if(msg === null){
             document.querySelector('h2').textContent = "It's draw!";
