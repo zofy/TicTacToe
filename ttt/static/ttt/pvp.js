@@ -9,6 +9,7 @@
     game.opponentColor = '';
     game.squares = $('.square');
     game.size = 4;
+    game.length = 4;
     game.board = [];
     game.myPoints = [];
     game.opponentPoints = [];
@@ -61,6 +62,31 @@
         };
     }
 
+    game.checkCount = function(points, point_idx, direction){
+        num1 = point_idx;
+        num2 = point_idx;
+        count = 0;
+        while(points.indexOf(num1) != -1){
+            count++;
+            num1 -= direction;
+        }
+        while(points.indexOf(num2) != -1){
+            count++;
+            num2 += direction;
+        }
+        count--;
+        return count;
+    }
+
+    game.checkWin = function(points, point_idx){
+        for(var d = 1; d < 6; d++){
+            count = game.checkCount(points, point_idx, d);
+            if(count == game.length){
+                console.log('You won!');
+            }
+        }
+    }
+
     game.setUpSquares = function(){
         // set me random color
         $('.square').addClass('noEvent');
@@ -85,10 +111,12 @@
            $(this).css('backgroundColor', game.myColor);
            game.ws.send('{"status": 2, "point": ' + idx + '}');
            game.myPoints.push(idx);
+           game.checkWin(game.myPoints, idx);
            // here comes removing idx from free points
            game.freePoints.splice($(game.freePoints).index(idx), 1);
            $(this).addClass('noEvent');
            game.toggleFreeSquares();
+           //$('#container').addClass('noEvent');
 
            game.changeHeading("Your opponent is on the move");
         });
@@ -117,8 +145,10 @@
         }else if('go' in json){
             game.changeHeading("It's your turn!");
             this.toggleFreeSquares();
+            //$('#container').removeClass('noEvent');
         }else if('connection_drop' in json){
             game.changeHeading("Opponent went away!");
+            $('body').addClass('noEvent');
         }else if('color' in json){
             game.opponentColor = json['color'];
             $('.opponent').css('backgroundColor', json['color']);
