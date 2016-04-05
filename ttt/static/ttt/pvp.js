@@ -195,7 +195,7 @@ game.getUser();
 game.init();
 
     // Connection to the server
-    game.ws = new WebSocket('ws://localhost:9001/');
+    game.ws = new WebSocket('ws://localhost:8889/ws');
 
     game.ws.onopen = function(){
         if(game.user !== '') {

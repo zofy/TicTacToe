@@ -8,7 +8,6 @@
 
     menu.init = function(){
         this.findPlayers();
-        this.getName();
         this.vsComp();
         this.setActions();
         //this.refreshPlayers();
@@ -87,8 +86,8 @@
             type: 'GET',
             url: '/ttt/getUser/',
             success: function(name){
-                console.log(name['name']);
-                menu.name =  name['name'];
+                menu.name = name['name']
+                menu.ws.send('{"status": 0, "name": ' + '"' + name['name'] + '"' + '}')
             },
             dataType: 'json'
         });
@@ -133,7 +132,7 @@
 
     menu.init();
 
-    menu.ws = new WebSocket('ws://localhost:9001/');
+    menu.ws = new WebSocket('ws://localhost:8889/ws');
 
     menu.ws.onmessage = function(msg){
         try {
@@ -149,9 +148,7 @@
 
     menu.ws.onopen = function(){
         console.log('Connection established!');
-        if(menu.name != '') {
-            menu.sendMessage();
-        }
+        menu.getName();
     }
 
     menu.ws.onclose = function(){
