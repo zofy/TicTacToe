@@ -3,6 +3,8 @@ import logging
 import signal
 
 import time
+
+import datetime
 import tornado.httpserver
 import tornado.websocket
 import tornado.ioloop
@@ -50,6 +52,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     connections = {}
     games = {}
     players = {}
+    established = {}
 
     def open(self):
         print 'new connection'
@@ -116,26 +119,28 @@ class WSHandler(tornado.websocket.WebSocketHandler):
             print('Connecting players...')
             p1 = msg['connection'][0]
             p2 = msg['connection'][1]
-            if not self.wait_until(10, msg['connection']):
-                self.write_message(json.dumps({"connection_drop": 'Opponent'}))
-            else:
-                WSHandler.connections[WSHandler.players[p1]] = WSHandler.players[p2]
-                WSHandler.connections[WSHandler.players[p2]] = WSHandler.players[p1]
-                self.write_message(json.dumps({"go": 1}))
+            pc = tornado.ioloop.PeriodicCallback(lambda: self.check_connection(p1, p2), 100)
+            WSHandler.established[self] = pc
+            pc.start()
+            tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=3), lambda: self.stop_checking(p1, p2))
         else:
             print('Adding player ' + msg['name'])
             WSHandler.players[msg['name']] = self
+            WSHandler.players[self] = msg['name']
 
     # waiting for players to connect
-    def wait_until(self, timeout, players, period=1):
-        must_end = time.time() + timeout
-        while time.time() < must_end:
-            if players[1] in WSHandler.players and players[0] in WSHandler.players:
-                print('All players connected.')
-                return True
-            time.sleep(period)
-        print('Players have not been connected.')
-        return False
+    def check_connection(self, p1, p2):
+        if p1 in WSHandler.players and p2 in WSHandler.players:
+            WSHandler.established[self].stop()
+            WSHandler.connections[WSHandler.players[p1]] = WSHandler.players[p2]
+            WSHandler.connections[WSHandler.players[p2]] = WSHandler.players[p1]
+            self.write_message(json.dumps({"go": 1}))
+
+    def stop_checking(self, p1, p2):
+        if not (p1 in WSHandler.players and p2 in WSHandler.players):
+            WSHandler.established[self].stop()
+            self.write_message(json.dumps({"connection_drop": 'Opponent'}))
+            del WSHandler.established[self]
 
     def player_vs_player(self, point_idx):
         try:
@@ -207,16 +212,32 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         elif self in WSHandler.games:
             del WSHandler.games[self]
             print('Games: ', WSHandler.games)
+        elif self in WSHandler.connections or self in WSHandler.players:
+            self.logout2()
 
     def logout0(self):
         try:
             LoggedUser.objects.get(name=WSHandler.users[self]).delete()  # delete logged user from db
         except:
             pass
+        self.delete_connections()
         del WSHandler.users[self]
         self.send_msg_to_users()
         print(WSHandler.users)
         print(LoggedUser.objects.all())
+
+    def logout2(self):
+        try:
+            opponent = WSHandler.connections[self]
+            opponent.write_message(json.dumps({"connection_drop": 'Opponent'}))
+        except:
+            print('Already disconnected!')
+        self.delete_connections()
+        name = WSHandler.players[self]
+        del WSHandler.players[name]
+        del WSHandler.players[self]
+        print(WSHandler.players)
+        print(WSHandler.connections)
 
 
 application = tornado.web.Application([

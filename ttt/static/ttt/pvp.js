@@ -13,28 +13,28 @@
     game.board = [];
     game.myPoints = [];
     game.opponentPoints = [];
-    game.freePoints = [];
 
     game.init = function(){
         this.setUpSquares();
         this.setUpBoard(game.size);
-        this.fillFreePoints(game.size);
     }
 
     game.randomColor = function(){
         return 'rgb(' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ')';
     }
 
-    game.getUser = function(){
-        $.ajax({
-           type: 'GET',
-           url: '/ttt/getUser/',
-           success: function(json){
-               game.user = json.name;
-           },
-           dataType: 'json'
-        });
-    }
+    //game.getUser = function(){
+    //    $.ajax({
+    //       type: 'GET',
+    //       url: '/ttt/getUser/',
+    //       success: function(json){
+    //           console.log('Posielma svoje meno');
+    //           game.user = json.name;
+    //           game.ws.send('{"status": 2, "name": ' + '"' + json.name + '"' + '}');
+    //       },
+    //       dataType: 'json'
+    //    });
+    //}
 
     game.setUpBoard = function(size){
         for(var i = 1; i < size + 1; i++){
@@ -54,12 +54,6 @@
         $.each(points, function(idx, value){
             $($(game.squares).get(value)).css('backgroundColor', color);
         });
-    }
-
-    game.fillFreePoints = function(size){
-        for(var i = 0; i < size*size; i++){
-           game.freePoints.push(i);
-        };
     }
 
     game.checkCount = function(points, point_idx, direction){
@@ -89,7 +83,6 @@
 
     game.setUpSquares = function(){
         // set me random color
-        $('.square').addClass('noEvent');
         var colorP = this.randomColor();
         var colorO = this.randomColor();
         $('.player').css('backgroundColor', colorP);
@@ -113,10 +106,8 @@
            game.myPoints.push(idx);
            game.checkWin(game.myPoints, idx);
            // here comes removing idx from free points
-           game.freePoints.splice($(game.freePoints).index(idx), 1);
            $(this).addClass('noEvent');
-           game.toggleFreeSquares();
-           //$('#container').addClass('noEvent');
+           $('#container').addClass('noEvent');
 
            game.changeHeading("Your opponent is on the move");
         });
@@ -128,12 +119,6 @@
         $(game.squares.get(idx)).addClass('noEvent');
     }
 
-    game.toggleFreeSquares = function(){
-        $.each(game.freePoints, function(idx, value){
-            $($(game.squares).get(value)).toggleClass('noEvent');
-        });
-    }
-
     game.manageJson = function(json){
         console.log('I am here');
         console.log(json);
@@ -141,28 +126,19 @@
             console.log('Prisiel bod');
             this.markPoint(json['point']);
             this.opponentPoints.push(json['point']);
-            this.freePoints.splice($(game.freePoints).index(json['point']), 1);
         }else if('go' in json){
             game.changeHeading("It's your turn!");
-            this.toggleFreeSquares();
-            //$('#container').removeClass('noEvent');
+            $('#container').removeClass('noEvent');
         }else if('connection_drop' in json){
             game.changeHeading("Opponent went away!");
             $('body').addClass('noEvent');
+            window.location.replace('/ttt/menu/');
         }else if('color' in json){
             game.opponentColor = json['color'];
             $('.opponent').css('backgroundColor', json['color']);
             game.changeColor(game.opponentPoints, json['color']);
         }
     }
-
-    //window.onbeforeunload = function(){
-    //    $.ajax({
-    //        type: 'GET',
-    //        url: '/ttt/menu/dropConnection/'
-    //    });
-    //    return null;
-    //}
 
     window.onbeforeunload = function (e) {
         var e = e || window.event;
@@ -191,18 +167,28 @@
     }
 
 // get user name via ajax request
-game.getUser();
 game.init();
 
     // Connection to the server
     game.ws = new WebSocket('ws://localhost:8889/ws');
 
+    game.getUser = function(){
+        $.ajax({
+           type: 'GET',
+           url: '/ttt/getUser/',
+           success: function(json){
+               console.log('Posielam svoje meno');
+               console.log(json.name);
+               game.user = json.name;
+               game.ws.send('{"status": 2, "name": ' + '"' + json.name + '"' + '}');
+           },
+           dataType: 'json'
+        });
+    }
+
     game.ws.onopen = function(){
-        if(game.user !== '') {
-            console.log(game.user);
-            this.send('{"status": 2, "name": ' + '"' + game.user + '"' + '}');
-            game.setUpConnection();
-        }
+        game.getUser();
+        game.setUpConnection();
     }
 
     game.ws.onmessage = function(msg){
