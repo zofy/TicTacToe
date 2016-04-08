@@ -8,8 +8,8 @@
     game.myColor = '';
     game.opponentColor = '';
     game.squares = $('.square');
-    game.size = 4;
-    game.length = 4;
+    game.size = 9;
+    game.length = 5;
     game.board = [];
     game.myPoints = [];
     game.opponentPoints = [];
@@ -82,13 +82,6 @@
     }
 
     game.setUpSquares = function(){
-        // set me random color
-        var colorP = this.randomColor();
-        var colorO = this.randomColor();
-        $('.player').css('backgroundColor', colorP);
-        $('.opponent').css('backgroundColor', colorO);
-        game.myColor = colorP;
-        game.opponentColor = colorO;
         // set action on click
         $('.player').click(function() {
             var color = game.randomColor();
@@ -137,6 +130,11 @@
             game.opponentColor = json['color'];
             $('.opponent').css('backgroundColor', json['color']);
             game.changeColor(game.opponentPoints, json['color']);
+        } else if('me' in json){
+            $('.player').css('backgroundColor', json['me']);
+            $('.opponent').css('backgroundColor', json['opponent']);
+            game.myColor = json['me'];
+            game.opponentColor = json['opponent'];
         }
     }
 

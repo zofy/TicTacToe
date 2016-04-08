@@ -2,9 +2,9 @@ import json
 import logging
 import signal
 
-import time
-
 import datetime
+from random import randint
+
 import tornado.httpserver
 import tornado.websocket
 import tornado.ioloop
@@ -12,9 +12,9 @@ import tornado.web
 import socket
 import os
 import django
-from tornado.options import options
 
 from kernel import Game
+from tornado.options import options
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TicTacToe.settings")
 django.setup()
@@ -128,12 +128,23 @@ class WSHandler(tornado.websocket.WebSocketHandler):
             WSHandler.players[msg['name']] = self
             WSHandler.players[self] = msg['name']
 
+    def send_colors(self):
+        num1 = [str(randint(0, 255)) for x in xrange(0, 3)]
+        num2 = [str(randint(0, 255)) for x in xrange(0, 3)]
+        color1 = 'rgb(' + ', '.join(num1) + ')'
+        color2 = 'rgb(' + ', '.join(num2) + ')'
+        self.write_message(json.dumps({'me': color1, 'opponent': color2}))
+        WSHandler.connections[self].write_message(json.dumps({'me': color2, 'opponent': color1}))
+
+
+
     # waiting for players to connect
     def check_connection(self, p1, p2):
         if p1 in WSHandler.players and p2 in WSHandler.players:
             WSHandler.established[self].stop()
             WSHandler.connections[WSHandler.players[p1]] = WSHandler.players[p2]
             WSHandler.connections[WSHandler.players[p2]] = WSHandler.players[p1]
+            self.send_colors()
             self.write_message(json.dumps({"go": 1}))
 
     def stop_checking(self, p1, p2):

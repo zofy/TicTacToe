@@ -110,7 +110,7 @@
             console.log('You clicked ' + $(this).text());
             menu.ws.send('{"status": 0, "answer": ' + '"' + $(this).text() + '"' + '}');
             if($(this).text() == 'Accept'){
-                window.location.replace('/ttt/4/');
+                window.location.replace('/ttt/9/');
             }else{
                 $('#notifications').html('<h2></h2><div></div>');
             }

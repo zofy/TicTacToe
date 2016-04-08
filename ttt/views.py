@@ -164,7 +164,7 @@ def get_user(request):
 def create_connection(request):
     if request.method == 'POST':
         request.session['connection'] = (request.session['user'], request.POST['player'])
-        return JsonResponse({'redirect': '/ttt/4/'})
+        return JsonResponse({'redirect': '/ttt/9/'})
     if request.method == 'GET':
         if 'connection' in request.session:
             return JsonResponse({'me': request.session['connection'][0], 'opponent': request.session['connection'][1]})
