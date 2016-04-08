@@ -80,11 +80,12 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     def check_message(self, message):
         try:
             msg = json.loads(message)
-            msg['status']
         except:
             print('No json file')
+            self.send_chat_message(message)
         else:
-            self.read_json(msg)
+            if 'status' in msg:
+                self.read_json(msg)
 
     def read_json(self, msg):
         if msg['status'] == 0:
@@ -93,6 +94,14 @@ class WSHandler(tornado.websocket.WebSocketHandler):
             self.manage_1(msg)
         elif msg['status'] == 2:
             self.manage_2(msg)
+
+    def send_chat_message(self, msg):
+        try:  # in case somehow comes bad message
+            msg = msg.strip('\n')
+            print(msg)
+            WSHandler.connections[self].write_message(json.dumps({'message': msg}))
+        except KeyError:
+            print('Connection does not exist!')
 
     def manage_0(self, msg):
         if 'request' in msg:
@@ -122,7 +131,8 @@ class WSHandler(tornado.websocket.WebSocketHandler):
             pc = tornado.ioloop.PeriodicCallback(lambda: self.check_connection(p1, p2), 100)
             WSHandler.established[self] = pc
             pc.start()
-            tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=3), lambda: self.stop_checking(p1, p2))
+            tornado.ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=3),
+                                                         lambda: self.stop_checking(p1, p2))
         else:
             print('Adding player ' + msg['name'])
             WSHandler.players[msg['name']] = self
@@ -135,8 +145,6 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         color2 = 'rgb(' + ', '.join(num2) + ')'
         self.write_message(json.dumps({'me': color1, 'opponent': color2}))
         WSHandler.connections[self].write_message(json.dumps({'me': color2, 'opponent': color1}))
-
-
 
     # waiting for players to connect
     def check_connection(self, p1, p2):

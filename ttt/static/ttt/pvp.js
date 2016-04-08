@@ -17,24 +17,27 @@
     game.init = function(){
         this.setUpSquares();
         this.setUpBoard(game.size);
+        this.setUpChat();
     }
 
     game.randomColor = function(){
         return 'rgb(' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ', ' + Math.round(256*Math.random()) + ')';
     }
 
-    //game.getUser = function(){
-    //    $.ajax({
-    //       type: 'GET',
-    //       url: '/ttt/getUser/',
-    //       success: function(json){
-    //           console.log('Posielma svoje meno');
-    //           game.user = json.name;
-    //           game.ws.send('{"status": 2, "name": ' + '"' + json.name + '"' + '}');
-    //       },
-    //       dataType: 'json'
-    //    });
-    //}
+    game.setUpChat = function(){
+        $('#chat').val('');
+        $('#chat').keypress(function(event){
+           if(event.shiftKey != 1 && event.which == 13){
+               var message = $(this).val().toString();
+               console.log('Sending message to opponent...');
+               console.log('Message is: ' + message);
+               game.ws.send(message);
+               $(this).val('');
+               $('#myBubble').text(message);
+               $('#myBubble').removeClass('hidden');
+           }
+        });
+    }
 
     game.setUpBoard = function(size){
         for(var i = 1; i < size + 1; i++){
@@ -100,7 +103,7 @@
            game.checkWin(game.myPoints, idx);
            // here comes removing idx from free points
            $(this).addClass('noEvent');
-           $('#container').addClass('noEvent');
+           $('.square').addClass('noEvent');
 
            game.changeHeading("Your opponent is on the move");
         });
@@ -113,15 +116,13 @@
     }
 
     game.manageJson = function(json){
-        console.log('I am here');
         console.log(json);
         if('point' in json){
-            console.log('Prisiel bod');
             this.markPoint(json['point']);
             this.opponentPoints.push(json['point']);
         }else if('go' in json){
             game.changeHeading("It's your turn!");
-            $('#container').removeClass('noEvent');
+            $('.square').removeClass('noEvent');
         }else if('connection_drop' in json){
             game.changeHeading("Opponent went away!");
             $('body').addClass('noEvent');
@@ -130,7 +131,11 @@
             game.opponentColor = json['color'];
             $('.opponent').css('backgroundColor', json['color']);
             game.changeColor(game.opponentPoints, json['color']);
-        } else if('me' in json){
+        }else if('message' in json) {
+            console.log(json['message']);
+            $('#opBubble .chatText').text(json['message']);
+            $('#opBubble').removeClass('hidden');
+        }else if('me' in json){
             $('.player').css('backgroundColor', json['me']);
             $('.opponent').css('backgroundColor', json['opponent']);
             game.myColor = json['me'];

@@ -17,7 +17,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    visibility: hidden;
 }
 
 #sideRContainer, #sideLContainer, #container {
@@ -53,8 +53,9 @@ body {
     text-align: center;
 }
 
-#stripe textarea{
+#chat {
     resize: none;
+    margin: 20px auto;
 }
 
 #stripe button {
@@ -86,8 +87,7 @@ body {
     position: relative;
     vertical-align: top;
     max-width: 75%;
-    color: black;
-    font-size: 17px;
+    max-height: 150px;
 }
 
 .bubble::before {
@@ -106,7 +106,7 @@ body {
 }
 
 .me, .you {
-    margin: 40px auto;
+    margin: 40px auto
 }
 
 .me::before {
@@ -119,3 +119,15 @@ body {
     left: -9px;
 }
 
+.chatText {
+    text-align: center;
+    color: black;
+    font-size: 17px;
+    max-width: 100%;
+    padding-right: 10px;
+    word-wrap: break-word;
+    max-height: inherit;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}

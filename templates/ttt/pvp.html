@@ -23,36 +23,32 @@
             <h4>Opponent's Color</h4>
             <div class="opponent"></div>
 
-            <div id="opBubble">
-            <div class="bubble you">
-                HUhuhuhuhuuh
+            <div id="opBubble" class="hidden">
+                <div class="bubble you">
+                    <div class="chatText"></div>
+                </div>
             </div>
-        </div>
         </div>
 
         <div id="container">
             {% for square in size %}
                 <div class="square squareSize"></div>
             {% endfor %}
+             <div id="chatArea">
+                <textarea name="chat" id="chat" cols="40" rows="3" placeholder="send your opponent a message..."></textarea>
+    {#            <button>Reset</button>#}
+            </div>
         </div>
 
         <div id="sideRContainer">
             <h4>Choose your Color</h4>
             <div class="player"></div>
 
-            <div id="myBubble">
-            <div class="bubble me">
-                Huhuhuhuhuhuhuhu
-                Huhuhuhuhuhuhuhu
-                Huhuhuhuhuhuhuhu
-                Huhuhuhuhuhuhuhu
+            <div id="myBubble" class="hidden">
+                <div class="bubble me">
+                    <div class="chatText"></div>
+                </div>
             </div>
-        </div>
-        </div>
-
-        <div id="stripe">
-            <textarea name="chat" id="chat" cols="40" rows="3"></textarea>
-{#            <button>Reset</button>#}
         </div>
 
     <script src="{% static 'ttt/pvp.js' %}"></script>
