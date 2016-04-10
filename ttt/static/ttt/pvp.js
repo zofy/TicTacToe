@@ -10,15 +10,13 @@
     game.squares = $('.square');
     game.size = 9;
     game.length = 5;
-    game.board = [];
     game.myPoints = [];
     game.opponentPoints = [];
 
-    game.directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+    game.directions = [[[0, 1], [0, -1]], [[1, 0], [-1, 0]], [[1, 1], [-1, -1]], [[1, -1], [-1, 1]]];
 
     game.init = function(){
         this.setUpSquares();
-        this.setUpBoard(game.size);
         this.setUpChat();
     }
 
@@ -41,14 +39,6 @@
         });
     }
 
-    game.setUpBoard = function(size){
-        for(var i = 1; i < size + 1; i++){
-            for(var j = 1; j < size + 1; j++){
-                game.board.push([i, j]);
-            }
-        }
-    }
-
     game.changeHeading = function(text){
         $('h2').fadeIn(500, function(){
             $(this).text(text);
@@ -68,24 +58,26 @@
         return (point[0] - 1)*game.size + point[1] - 1;
     }
 
+    game.getPoint = function(index){
+        var a = Math.floor(index / game.size) + 1;
+        var b = index % game.size + 1;
+        return [a, b];
+    }
+
     game.checkCount = function(points, point_idx, d){
         var count = 0;
         var idx = point_idx;
-        var point = $.extend(true,{}, game.board[idx]);
-        while(points.indexOf(idx) != -1){
-            count++;
-            point[0] -= game.directions[d][0];
-            point[1] -= game.directions[d][1];
-            idx = game.getIndex(point);
-        }
-        idx = point_idx
-        point = $.extend(true,{}, game.board[idx]);
-        while(points.indexOf(idx) != -1){
-            count++;
-            point[0] += game.directions[d][0];
-            point[1] += game.directions[d][1];
-            idx = game.getIndex(point);
-        }
+        var point = [];
+        game.directions[d].forEach(function(direction){
+            idx = point_idx;
+            point = game.getPoint(point_idx);
+            while(points.indexOf(idx) != -1){
+                count++;
+                point[0] += direction[0];
+                point[1] += direction[1];
+                idx = game.getIndex(point);
+            }
+        });
         count--;
         return count;
     }
