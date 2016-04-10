@@ -97,7 +97,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def send_chat_message(self, msg):
         try:  # in case somehow comes bad message
-            msg = msg.strip('\n')
+            # msg = msg.strip('\n') already covered in js
             print(msg)
             WSHandler.connections[self].write_message(json.dumps({'message': msg}))
         except KeyError:

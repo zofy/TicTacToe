@@ -14,6 +14,8 @@
     game.myPoints = [];
     game.opponentPoints = [];
 
+    game.directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+
     game.init = function(){
         this.setUpSquares();
         this.setUpBoard(game.size);
@@ -28,12 +30,12 @@
         $('#chat').val('');
         $('#chat').keypress(function(event){
            if(event.shiftKey != 1 && event.which == 13){
-               var message = $(this).val().toString();
+               var message = $(this).val().toString().replace(/^\s+|\s+$/g, '');
                console.log('Sending message to opponent...');
                console.log('Message is: ' + message);
                game.ws.send(message);
                $(this).val('');
-               $('#myBubble').text(message);
+               $('#myBubble .chatText').text(message);
                $('#myBubble').removeClass('hidden');
            }
         });
@@ -59,27 +61,42 @@
         });
     }
 
-    game.checkCount = function(points, point_idx, direction){
-        num1 = point_idx;
-        num2 = point_idx;
-        count = 0;
-        while(points.indexOf(num1) != -1){
-            count++;
-            num1 -= direction;
+    game.getIndex = function(point){
+        if(point[0] < 1 || point[1] < 1 || point[0] > game.size || point[1] > game.size){
+            return -1;
         }
-        while(points.indexOf(num2) != -1){
+        return (point[0] - 1)*game.size + point[1] - 1;
+    }
+
+    game.checkCount = function(points, point_idx, d){
+        var count = 0;
+        var idx = point_idx;
+        var point = $.extend(true,{}, game.board[idx]);
+        while(points.indexOf(idx) != -1){
             count++;
-            num2 += direction;
+            point[0] -= game.directions[d][0];
+            point[1] -= game.directions[d][1];
+            idx = game.getIndex(point);
+        }
+        idx = point_idx
+        point = $.extend(true,{}, game.board[idx]);
+        while(points.indexOf(idx) != -1){
+            count++;
+            point[0] += game.directions[d][0];
+            point[1] += game.directions[d][1];
+            idx = game.getIndex(point);
         }
         count--;
         return count;
     }
 
     game.checkWin = function(points, point_idx){
-        for(var d = 1; d < 6; d++){
-            count = game.checkCount(points, point_idx, d);
-            if(count == game.length){
+        for(var d = 0; d < game.directions.length; d++){
+            var count = game.checkCount(points, point_idx, d);
+            console.log('Pocet pri sebe: ' + count);
+            if(count >= game.length){
                 console.log('You won!');
+                break;
             }
         }
     }
