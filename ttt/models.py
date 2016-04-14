@@ -16,11 +16,14 @@ class Player(models.Model):
 
 
 class Score(models.Model):
-    challenger = models.ForeignKey(Player, null=True, related_name='challenger')
-    opponent = models.ForeignKey(Player, null=True, related_name='opponent')
-    board_size = models.PositiveIntegerField(default=3)
-    game_lenght = models.PositiveIntegerField(default=3)
-    score = models.CharField(max_length=7)
+    player = models.ForeignKey(Player)
+    board_size = models.PositiveIntegerField(default=9)
+    game_lenght = models.PositiveIntegerField(default=5)
+    wins = models.PositiveIntegerField(default=0)
+    loses = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.player.name + ', size: ' + str(self.board_size) + ', lenght; ' + str(self.game_lenght) + ', wins: ' + str(self.wins) + ', loses: ' + str(self.loses)
 
 
 class LoggedUser(models.Model):

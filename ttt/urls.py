@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^menu/$', views.menu, name='menu'),
     url(r'^menu/searchPlayer/$', views.search_player, name='search'),
     url(r'^getUser/$', views.get_user, name='getUser'),
+    url(r'^saveScore/$', views.save_score, name='saveScore'),
 
     url(r'^menu/createConnection/$', views.create_connection, name='createConnection'),
     url(r'^menu/dropConnection/$', views.drop_connection, name='dropConnection'),

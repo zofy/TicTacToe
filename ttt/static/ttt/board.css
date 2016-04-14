@@ -131,3 +131,11 @@ body {
     overflow-y: auto;
     white-space: pre-wrap;
 }
+
+#header div .fa {
+    font-size: 2em;
+}
+
+#header div .fa:hover {
+    font-size: 2.2em;
+}

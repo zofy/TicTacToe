@@ -16,6 +16,8 @@
     game.directions = [[[0, 1], [0, -1]], [[1, 0], [-1, 0]], [[1, 1], [-1, -1]], [[1, -1], [-1, 1]]];
 
     game.init = function(){
+        game.changeHeading("Your opponent is on the move");
+        $('#squares').addClass('noEvent');
         this.setUpSquares();
         this.setUpChat();
     }
@@ -88,9 +90,14 @@
             console.log('Pocet pri sebe: ' + count);
             if(count >= game.length){
                 console.log('You won!');
-                break;
+                $('h2').text('You won!');
+                $('#header div').removeClass('hidden');
+                game.ws.send('{"status": 2, "end": ' + '"' + game.user + '"' + '}');
+                game.saveScore('winner');
+                return true;
             }
         }
+        return false;
     }
 
     game.setUpSquares = function(){
@@ -107,15 +114,29 @@
            var idx = game.squares.index($(this));
            console.log('You clicked on square with index ' + idx + '!')
            $(this).css('backgroundColor', game.myColor);
-           game.ws.send('{"status": 2, "point": ' + idx + '}');
            game.myPoints.push(idx);
-           game.checkWin(game.myPoints, idx);
-           // here comes removing idx from free points
+           game.ws.send('{"status": 2, "point": ' + idx + '}');
+           if (!(game.checkWin(game.myPoints, idx))) {
+               game.changeHeading("Your opponent is on the move");
+           }
            $(this).addClass('noEvent');
-           $('.square').addClass('noEvent');
+           $('#squares').addClass('noEvent');
+        });
 
+        $('#header div').on('click', function(){
+           console.log('Refresh...');
+           game.ws.send('{"status": 2, "refresh": 1}');
+           game.refresh();
            game.changeHeading("Your opponent is on the move");
         });
+    }
+
+    game.refresh = function(){
+       $('.square').css('background', 'hotpink');
+       $('.square').removeClass('noEvent');
+       game.myPoints = [];
+       game.opponentPoints = [];
+       $('#header div').addClass('hidden');
     }
 
     game.markPoint = function(idx){
@@ -129,9 +150,10 @@
         if('point' in json){
             this.markPoint(json['point']);
             this.opponentPoints.push(json['point']);
+            $(game.squares.get(json['point'])).addClass('noEvent');
         }else if('go' in json){
             game.changeHeading("It's your turn!");
-            $('.square').removeClass('noEvent');
+            $('#squares').removeClass('noEvent');
         }else if('connection_drop' in json){
             game.changeHeading("Opponent went away!");
             $('body').addClass('noEvent');
@@ -144,12 +166,29 @@
             console.log(json['message']);
             $('#opBubble .chatText').text(json['message']);
             $('#opBubble').removeClass('hidden');
+        }else if('end' in json){
+            $('#squares').addClass('noEvent');
+            $('h2').text(json['end'] + ' has won!');
+            $('.fa-refresh').removeClass('hidden');
+            game.saveScore('looser');
         }else if('me' in json){
             $('.player').css('backgroundColor', json['me']);
             $('.opponent').css('backgroundColor', json['opponent']);
             game.myColor = json['me'];
             game.opponentColor = json['opponent'];
+        }else if('refresh' in json){
+            game.refresh();
+            game.changeHeading("It's your turn!");
+            $('#squares').removeClass('noEvent');
         }
+    }
+
+    game.saveScore = function(result){
+        $.ajax({
+            type: 'POST',
+            url: '/ttt/saveScore/',
+            data: {'result': result, 'name': game.user, 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()}
+        });
     }
 
     window.onbeforeunload = function (e) {
@@ -208,7 +247,7 @@ game.init();
             var json = JSON.parse(msg.data);
             game.manageJson(json);
         }catch (e){
-            console.log('Huhuuuu');
+            console.log('Message accepted');
             console.log(msg);
         }
     }

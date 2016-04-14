@@ -2,10 +2,10 @@ from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.db import transaction, IntegrityError
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render
 
-from models import Player, LoggedUser
+from models import Player, LoggedUser, Score
 from ttt.forms import RegisterForm, LoginForm
 
 
@@ -42,7 +42,7 @@ def check_logged_user(func):
 
 
 def home(request):
-    return render(request, 'ttt/board.html', {'size': [0] * 3})
+    return HttpResponseRedirect('/ttt/menu/')
 
 
 @check_session
@@ -101,13 +101,6 @@ def login(request):
             return HttpResponseRedirect('/ttt/invalid/')
 
     return render(request, 'ttt/login.html', {'form': form, 'button_name': 'Login', 'url': 'ttt:login'})
-
-
-def send_request(request):
-    if 'connection' in request.session:
-        return JsonResponse({"connection": 'true'})
-    else:
-        return JsonResponse({"connection": 'false'})
 
 
 def invalid(request):
@@ -178,6 +171,21 @@ def drop_connection(request):
     except KeyError:
         pass
     return HttpResponseRedirect('/ttt/menu/')
+
+
+def save_score(request):
+    if request.method == 'POST':
+        player = Player.objects.get(name=request.POST['name'])
+        if Score.objects.filter(player=player).exists():
+            sc = Score.objects.get(player=player)
+        else:
+            sc = Score.objects.create(player=player)
+        if request.POST['result'] == 'winner':
+            sc.wins += 1
+        elif request.POST['result'] == 'looser':
+            sc.loses += 1
+        sc.save()
+    return HttpResponse()
 
 
 def send_message(request):

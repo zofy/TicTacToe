@@ -103,6 +103,10 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         except KeyError:
             print('Connection does not exist!')
 
+    def end_game(self, msg):
+        opponent = WSHandler.connections[self]
+        opponent.write_message(json.dumps({"end": msg['end']}))
+
     def manage_0(self, msg):
         if 'request' in msg:
             self.send_request(msg['request'])
@@ -124,6 +128,11 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         elif 'color' in msg:
             opponent = WSHandler.connections[self]
             opponent.write_message(json.dumps({"color": msg['color']}))
+        elif 'end' in msg:
+            self.end_game(msg)
+        elif 'refresh' in msg:
+            opponent = WSHandler.connections[self]
+            opponent.write_message(json.dumps({"refresh": 1}))
         elif 'connection' in msg:
             print('Connecting players...')
             p1 = msg['connection'][0]
@@ -176,8 +185,8 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         c_point = WSHandler.games[self].play(point)  # kernel computes his move
         if c_point[0] is None:
             self.write_message(
-                    json.dumps({"end": c_point[1],
-                                "point": c_point[2]}))  # server sends msg (his move) to user
+                json.dumps({"end": c_point[1],
+                            "point": c_point[2]}))  # server sends msg (his move) to user
         else:
             self.write_message(json.dumps({"point": c_point}))
         print(c_point)
