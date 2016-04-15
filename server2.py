@@ -18,7 +18,7 @@ from tornado.options import options
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TicTacToe.settings")
 django.setup()
-from ttt.models import LoggedUser
+from ttt.models import MenuUser
 
 '''
 This is a simple Websocket Echo server that uses the Tornado websocket handler.
@@ -27,7 +27,7 @@ This program will echo back the reverse of whatever it recieves.
 Messages are output to the terminal for debuggin purposes.
 '''
 
-LoggedUser.objects.all().delete()
+MenuUser.objects.delete_all_menu_users()
 
 is_closing = False
 
@@ -228,11 +228,11 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def manage_user(self, name):
         if name not in WSHandler.users:
-            LoggedUser.objects.create(name=name).save()  # create logged user
+            MenuUser.objects.create_menu_user(name=name)  # create logged user
             WSHandler.users[self] = name
             self.send_msg_to_users()
             print(WSHandler.users)
-            print(LoggedUser.objects.all())
+            print(MenuUser.objects.all())
 
     def user_logout(self):
         if self in WSHandler.users:
@@ -245,14 +245,14 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def logout0(self):
         try:
-            LoggedUser.objects.get(name=WSHandler.users[self]).delete()  # delete logged user from db
+            MenuUser.objects.delete_menu_user(name=WSHandler.users[self])  # delete logged user from db
         except:
             pass
         self.delete_connections()
         del WSHandler.users[self]
         self.send_msg_to_users()
         print(WSHandler.users)
-        print(LoggedUser.objects.all())
+        print(MenuUser.objects.all())
 
     def logout2(self):
         try:

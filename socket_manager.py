@@ -3,7 +3,7 @@ import json
 import time
 
 from kernel import Game
-from ttt.models import LoggedUser, Player
+from ttt.models import MenuUser, Player
 
 
 class Manager(object):
@@ -137,7 +137,7 @@ class Manager(object):
             self.delete_connections(client)
 
         del self.users[client['name']]
-        LoggedUser.objects.get(name=client['name']).delete()  # delete logged user from db
+        MenuUser.objects.get(name=client['name']).delete()  # delete logged user from db
         print(self.users)
         self.send_msg_to_users(client['name'])
 
@@ -175,7 +175,7 @@ class Manager(object):
     # creates new LoggedUser
     def manage_logged_user(self, client, name):
         if name not in self.users:
-            LoggedUser(name=name).save()  # create logged user
+            MenuUser(name=name).save()  # create logged user
             self.users[name] = client['id']
             self.send_msg_to_users('')
             client['status'] = 0

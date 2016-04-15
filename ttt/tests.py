@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from ttt.models import Player, LoggedUser
+from ttt.models import Player, MenuUser
 
 
 class PlayerTest(TestCase):
@@ -78,11 +78,11 @@ class PlayerTest(TestCase):
 
 class LoggedUserTest(TestCase):
     def create_loggedUser(self, name='Novy'):
-        return LoggedUser.objects.create(name=name)
+        return MenuUser.objects.create(name=name)
 
     def test_loggedUser_creation(self):
         u = self.create_loggedUser()
-        self.assertTrue(isinstance(u, LoggedUser))
+        self.assertTrue(isinstance(u, MenuUser))
 
     def test_search_player(self):
         # login

@@ -1,11 +1,11 @@
 from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
-from django.db import transaction, IntegrityError
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponseNotFound, HttpResponse
 from django.shortcuts import render
 
-from models import Player, LoggedUser, Score
+from models import Player, MenuUser, Score
 from ttt.forms import RegisterForm, LoginForm
 
 
@@ -32,7 +32,7 @@ def already_logged_in(func):
 def check_logged_user(func):
     def wraper(request, *args, **kwargs):
         name = request.session['user']
-        if LoggedUser.objects.filter(name=name).exists():
+        if MenuUser.objects.filter(name=name).exists():
             return HttpResponseNotFound(
                 '<h1>You can maintain only one connection to server!</h1><a href="/ttt/logout/">Logout</a>')
         else:
@@ -64,7 +64,6 @@ def show_scores(request):
     return render(request, 'ttt/scores.html', {'scores': scores})
 
 
-@transaction.atomic()
 def register(request):
     form = RegisterForm()
     if request.method == 'POST':
@@ -73,7 +72,7 @@ def register(request):
             if form.is_valid():
                 name = form.cleaned_data['name']
                 password = form.cleaned_data['password']
-                Player.objects.create(name=name, password=password).save()
+                Player.objects.create_player(name=name, password=password)
                 messages.info(request, 'Thanks for signing in!')
                 messages.info(request, 'Now you can login.')
                 return HttpResponseRedirect('/ttt/login/')
@@ -114,8 +113,8 @@ def invalid(request):
 def logout(request):
     try:
         name = request.session['user']
-        if LoggedUser.objects.filter(name=name).exists():
-            LoggedUser.objects.filter(name=name).delete()
+        if MenuUser.objects.filter(name=name).exists():
+            MenuUser.objects.filter(name=name).delete()
 
         for session in Session.objects.all():
             if session.get_decoded().get('user') == name:
@@ -145,12 +144,12 @@ def search_score(request):
 def search_player(request):
     # names of logged users
     if request.method == 'GET':
-        players = LoggedUser.objects.exclude(name=request.session['user'])
+        players = MenuUser.objects.exclude(name=request.session['user'])
 
     # get particular logged user
     if request.method == 'POST':
         searched_player = request.POST['player']
-        players = LoggedUser.objects.filter(name__contains=searched_player).exclude(name=request.session['user'])
+        players = MenuUser.objects.filter(name__contains=searched_player).exclude(name=request.session['user'])
 
     return JsonResponse({'names': [p.name for p in players]})
 
@@ -181,15 +180,7 @@ def drop_connection(request):
 def save_score(request):
     if request.method == 'POST':
         player = Player.objects.get(name=request.POST['name'])
-        if Score.objects.filter(player=player).exists():
-            sc = Score.objects.get(player=player)
-        else:
-            sc = Score.objects.create(player=player)
-        if request.POST['result'] == 'winner':
-            sc.wins += 1
-        elif request.POST['result'] == 'looser':
-            sc.loses += 1
-        sc.save()
+        Score.objects.save_result(player, request.POST['result'])
     return HttpResponse()
 
 

@@ -4,7 +4,7 @@ import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TicTacToe.settings")
 django.setup()
-from ttt.models import LoggedUser
+from ttt.models import MenuUser
 from socket_manager import Manager
 
 PORT = 9001
@@ -35,6 +35,6 @@ server.set_fn_new_client(new_client)
 server.set_fn_client_left(client_left)
 server.set_fn_message_received(message_received)
 # clear all LoggedUsers
-LoggedUser.objects.all().delete()
+MenuUser.objects.all().delete()
 # then run server
 server.run_forever()
