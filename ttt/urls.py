@@ -6,8 +6,8 @@ app_name = 'ttt'
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^scores/$', views.show_scores, name='scores'),
-    url(r'^(?P<size>[3-9]+)/$', views.game, name='game'),
-    url(r'^comp/(?P<size>[3-9]+)/$', views.game_vs_comp, name='gameVsComp'),
+    url(r'^(?P<size>[3])/$', views.game, name='game'),
+    url(r'^comp/(?P<size>[9])/$', views.game_vs_comp, name='gameVsComp'),
 
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.login, name='login'),
@@ -15,7 +15,8 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
 
     url(r'^menu/$', views.menu, name='menu'),
-    url(r'^menu/searchPlayer/$', views.search_player, name='search'),
+    url(r'^searchPlayer/$', views.search_player, name='searchPlayer'),
+    url(r'^searchScore/$', views.search_score, name='searchPlayer'),
     url(r'^getUser/$', views.get_user, name='getUser'),
     url(r'^saveScore/$', views.save_score, name='saveScore'),
 

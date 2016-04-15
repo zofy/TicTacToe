@@ -64,7 +64,7 @@
         $('#search').keyup(function () {
             $.ajax({
                 type: 'POST',
-                url: '/ttt/menu/searchPlayer/',
+                url: '/ttt/searchPlayer/',
                 data: {'player': $('#search').val(), 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()},
                 success: menu.getPlayers,
                 dataType: 'json'
@@ -75,7 +75,7 @@
     menu.refreshPlayers = function() {
         $.ajax({
             type: 'GET',
-            url: '/ttt/menu/searchPlayer/',
+            url: '/ttt/searchPlayer/',
             success: menu.getPlayers,
             dataType: 'json'
         });

@@ -1,19 +1,29 @@
+body {
+    font-family: 'Indie Flower', cursive;
+
+    background: #2BC0E4; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #2BC0E4, #EAECC6); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #2BC0E4, #EAECC6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.container {
+    margin: 10px auto;
+    width: 25%;
+    text-align: center;
+}
+
+.container th {
+    text-align: center;
+}
+
 #results{
-    width: auto;
-    margin: auto;
+    margin: 5px auto;
 }
-#results th{
-    text-align: center;
-    padding-bottom: 20px;
-    padding-right: 15px;
-}
-#results tr td{
-    text-align: center;
-    margin: auto 10px auto 5px;
-}
-#title{
-    margin: 75px;
+
+#title {
+    margin: 30px;
     text-align: center;
     font-size: 65px;
-    font-family: 'Indie Flower', cursive;
 }
+

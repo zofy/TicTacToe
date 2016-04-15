@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     {% load staticfiles %}
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="{% static 'ttt/navbar.css' %}"/>
     <link rel="stylesheet" href="{% static 'ttt/board.css' %}"/>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <meta charset="UTF-8">
@@ -15,15 +17,16 @@
     </style>
 </head>
 <body>
+    {% include 'ttt/navbar.html' %}
     <h1>Tic Tac Toe</h1>
-    <h2>Huhu haha</h2>
+    <h2></h2>
 
         <div id="sideLContainer">
             <h4>Computer Color</h4>
             <div class="computer"></div>
         </div>
 
-        <div id="container">
+        <div id="middleContainer">
             {% for square in size %}
                 <div class="square squareSize"></div>
             {% endfor %}

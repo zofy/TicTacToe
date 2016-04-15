@@ -1,11 +1,15 @@
 h1 {
-    font-size: 50px;
+    font-size: 45px;
     margin: 15px auto 10px;
 }
 
 h2 {
-    font-size: 40px;
+    font-size: 35px;
     margin: 10px auto 0;
+}
+
+h4{
+    font-size: 30px;
 }
 
 body {
@@ -20,11 +24,11 @@ body {
     visibility: hidden;
 }
 
-#sideRContainer, #sideLContainer, #container {
+#sideRContainer, #sideLContainer, #middleContainer {
     width: 30%;
     margin: 1.66%;
+    margin-bottom: 0;
     text-align: center;
-    font-size: 30px;
     float: left;
 }
 
@@ -132,10 +136,26 @@ body {
     white-space: pre-wrap;
 }
 
+textarea{
+    color: black;
+}
+
+#header{
+    margin: 10px auto;
+}
+
 #header div .fa {
     font-size: 2em;
 }
 
 #header div .fa:hover {
     font-size: 2.2em;
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a{
+    color: #fcf8e3;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav > li > a:hover{
+    color: white;
 }

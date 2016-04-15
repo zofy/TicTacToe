@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     {% load staticfiles %}
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="{% static 'ttt/navbar.css' %}"/>
     <link rel="stylesheet" href="{% static 'ttt/board.css' %}"/>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css">
@@ -17,9 +19,10 @@
     </style>
 </head>
 <body>
+    {% include 'ttt/navbar.html' %}
     {% csrf_token %}
     <div id="header">
-        <h1>Tic Tac Toe</h1>
+{#        <h1>Tic Tac Toe</h1>#}
         <h2></h2>
         <div class="hidden fa fa-refresh" aria-hidden="true" style="cursor: pointer"></div>
     </div>
@@ -35,14 +38,14 @@
         </div>
     </div>
 
-    <div id="container">
+    <div id="middleContainer">
         <div id="squares">
             {% for square in size %}
                 <div class="square squareSize"></div>
             {% endfor %}
         </div>
          <div id="chatArea">
-            <textarea name="chat" id="chat" cols="40" rows="3" placeholder="send your opponent a message..."></textarea>
+            <textarea name="chat" id="chat" cols="40" rows="2" placeholder="send your opponent a message..."></textarea>
         </div>
     </div>
 

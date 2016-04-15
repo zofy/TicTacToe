@@ -60,8 +60,8 @@ def game_vs_comp(request, size):
 
 
 def show_scores(request):
-    # scores = Score.objects.order_by('-vs_player')[:10]
-    return render(request, 'ttt/scores.html', {'scores': []})
+    scores = Score.objects.order_by('-wins')[:8]
+    return render(request, 'ttt/scores.html', {'scores': scores})
 
 
 @transaction.atomic()
@@ -116,13 +116,14 @@ def logout(request):
         name = request.session['user']
         if LoggedUser.objects.filter(name=name).exists():
             LoggedUser.objects.filter(name=name).delete()
-        del request.session['user']
-        del request.session['connection']
 
         for session in Session.objects.all():
-            if session.get_decoded().get('user') == request.session['user']:
+            if session.get_decoded().get('user') == name:
                 session.delete()
+        del request.session['user']
+        del request.session['connection']
         request.session.flush()
+
     except KeyError:
         pass
     # here comes successful logout message
@@ -135,6 +136,10 @@ def logout(request):
 @check_logged_user
 def menu(request):
     return render(request, 'ttt/menu.html')
+
+
+def search_score(request):
+    return JsonResponse({'scores': [sc.player.name for sc in Score.objects.all()]})
 
 
 def search_player(request):

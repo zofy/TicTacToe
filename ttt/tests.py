@@ -98,5 +98,5 @@ class LoggedUserTest(TestCase):
         self.assertEqual([u2.name, u3.name], resp.json()['names'])
 
         # now get only searched player (logged user)
-        resp = self.client.post(reverse('ttt:search'), {'player': u3.name})
+        resp = self.client.post(reverse('ttt:searchPlayer'), {'player': u3.name})
         self.assertEqual([u3.name], resp.json()['names'])

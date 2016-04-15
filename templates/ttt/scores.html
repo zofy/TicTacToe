@@ -5,25 +5,36 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'ttt/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'ttt/scores.css' %}">
+    <script src="{% static 'jquery-2.2.1.min.js' %}"></script>
     <title>Scores</title>
 </head>
 <body>
-    <p id="title">Scores</p>
+    {% include 'ttt/navbar.html' %}
+    <h1 id="title">Scores</h1>
+
+    <div class="container">
+    <h3>Find player <i class="fa fa-search"></i></h3>
+    {% csrf_token %}
+    <input id='search' type="text" placeholder="enter name">
+
     <table class='table table-hover' id="results">
         <tr>
             <th>Name</th>
-            <th>vs Comp</th>
-            <th>vs Player</th>
+            <th>Win</th>
+            <th>Loss</th>
         </tr>
         {% for score in scores %}
             <tr>
                 <td>{{ score.player.name }}</td>
-                <td>{{ score.vs_comp }}</td>
-                <td>{{ score.vs_player }}</td>
+                <td>{{ score.wins }}</td>
+                <td>{{ score.loses }}</td>
             </tr>
         {% endfor %}
 
     </table>
+    </div>
+    <script src="{% static 'ttt/scores.js' %}"></script>
 </body>
 </html>
