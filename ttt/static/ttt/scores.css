@@ -17,8 +17,16 @@ body {
     text-align: center;
 }
 
-#results{
+table {
     margin: 5px auto;
+}
+
+th {
+    font-size: 30px;
+}
+
+tbody tr{
+    font-size: 20px;
 }
 
 #title {

@@ -60,7 +60,7 @@ def game_vs_comp(request, size):
 
 
 def show_scores(request):
-    scores = Score.objects.order_by('-wins')[:8]
+    scores = Score.objects.order_by('-_wins')[:8]
     return render(request, 'ttt/scores.html', {'scores': scores})
 
 
@@ -138,7 +138,12 @@ def menu(request):
 
 
 def search_score(request):
-    return JsonResponse({'scores': [sc.player.name for sc in Score.objects.all()]})
+    requested_name = request.POST['player']
+    found_scores = Score.objects.filter(player__name__contains=requested_name)
+    result = {'scores': []}
+    for score in found_scores:
+        result['scores'].append([score.player.name, score.wins, score.loses])
+    return JsonResponse(result)
 
 
 def search_player(request):

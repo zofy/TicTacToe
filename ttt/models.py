@@ -42,10 +42,26 @@ class Score(models.Model):
     player = models.OneToOneField(Player)
     board_size = models.PositiveIntegerField(default=9)
     game_lenght = models.PositiveIntegerField(default=5)
-    wins = models.PositiveIntegerField(default=0)
-    loses = models.PositiveIntegerField(default=0)
+    _wins = models.PositiveIntegerField(default=0, db_column='wins')
+    _loses = models.PositiveIntegerField(default=0, db_column='loses')
 
     objects = ScoreManager()
+
+    @property
+    def wins(self):
+        return self._wins;
+
+    @wins.setter
+    def wins(self, value):
+        self._wins += value
+
+    @property
+    def loses(self):
+        return self._loses;
+
+    @loses.setter
+    def loses(self, value):
+        self._loses += value
 
     def __str__(self):
         return self.player.name + ', size: ' + str(self.board_size) + ', lenght; ' + str(self.game_lenght) + ', wins: ' + str(self.wins) + ', loses: ' + str(self.loses)
