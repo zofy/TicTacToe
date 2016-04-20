@@ -65,7 +65,7 @@ def show_scores(request):
 
 
 def register(request):
-    form = RegisterForm()
+    # form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         try:
@@ -79,6 +79,8 @@ def register(request):
         except IntegrityError:
             messages.error(request, 'Name already exists!')
             messages.error(request, 'Try another one.')
+    elif request.method == 'GET':
+        form = RegisterForm()
 
     return render(request, 'ttt/login.html', {'form': form, 'button_name': 'SingUp', 'url': 'ttt:register'})
 

@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_DIR = os.getcwd()
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrapform',
     'ttt',
+    'storages',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -81,14 +85,23 @@ WSGI_APPLICATION = 'TicTacToe.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+ADMINS = (
+    ('Patrik Puchala', 'zofy11@gmail.com')
+)
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    'default': dj_database_url.config()
 }
 
+MEDIA_ROOT = '/assets/'
 
+MEDIA_URL = ''
+
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -126,6 +139,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    ('assets', os.path.join(os.getcwd(), 'static/'))
+)
+
 WEBSOCKET_URL = '/ws/'
 
 WS4REDIS_EXPIRE = 7200
