@@ -26,7 +26,7 @@ PROJECT_DIR = os.getcwd()
 SECRET_KEY = '+nr0p@0n=madp$gat^p0m$kr2^a@y0pb+-g#6#^1au1-tx(v7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
