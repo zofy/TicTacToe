@@ -11,8 +11,13 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-from TicTacToe import settings
+# from TicTacToe import settings
+
+from whitenoise.django import DjangoWhiteNoise
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TicTacToe.settings")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'TicTacToe.settings'
-application = get_wsgi_application()
+import django.core.handlers.wsgi
+application = django.core.handlers.wsgi.WSGIHandler()
+# application = get_wsgi_application()
+application = DjangoWhiteNoise(application)
 
