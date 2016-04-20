@@ -16,7 +16,6 @@ import os
 import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_DIR = os.getcwd()
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +25,6 @@ PROJECT_DIR = os.getcwd()
 SECRET_KEY = '+nr0p@0n=madp$gat^p0m$kr2^a@y0pb+-g#6#^1au1-tx(v7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -147,3 +145,6 @@ WEBSOCKET_URL = '/ws/'
 WS4REDIS_EXPIRE = 7200
 
 WS4REDIS_PREFIX = 'ws'
+
+
+DEBUG = True
