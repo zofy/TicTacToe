@@ -15,6 +15,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import dj_database_url
 
+
+DEBUG = False
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.getcwd()
 
@@ -26,7 +29,6 @@ PROJECT_DIR = os.getcwd()
 SECRET_KEY = '+nr0p@0n=madp$gat^p0m$kr2^a@y0pb+-g#6#^1au1-tx(v7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -134,11 +136,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 
 STATICFILES_DIRS = (
     ('assets', os.path.join(os.getcwd(), 'static/'))
@@ -150,3 +151,18 @@ WS4REDIS_EXPIRE = 7200
 
 WS4REDIS_PREFIX = 'ws'
 
+try:
+    from TicTacToe.local_settings import *
+except Exception as e:
+    print e.message
+
+# if not DEBUG:
+    # AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    # AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    # AWS_SECRET_ACCESS_KEY_ID = os.environ['AWS_SECRET_ACCESS_KEY_ID']
+    # AWS_PRELOAD_METADATA = True
+    #
+    # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    # S3_URL = 'http://%s.s3.amazonaws.com/assets/' % AWS_STORAGE_BUCKET_NAME
+    # STATIC_URL = S3_URL

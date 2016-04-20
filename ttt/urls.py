@@ -1,5 +1,6 @@
 from django.conf.urls import url
 
+from TicTacToe import settings
 from . import views
 
 app_name = 'ttt'
@@ -24,3 +25,7 @@ urlpatterns = [
     url(r'^menu/dropConnection/$', views.drop_connection, name='dropConnection'),
     url(r'^menu/sendMsg/$', views.send_message, name='sendMsg'),
 ]
+
+if not settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()

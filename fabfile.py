@@ -20,15 +20,15 @@ def switch_debug(what_to_change, change_to):
 
 
 def deploy():
-    local('pip freeze > requirements.txt')
-    local('git pull')
-    local('git add .')
-
-    print('enter your commit comment: ')
-    comment = raw_input()
-    local('git commit -m "%s"' % comment)
-
-    local('git push')
+    local('pip freeze --local > requirements.txt')
+    # local('git pull')
+    # local('git add .')
+    #
+    # print('enter your commit comment: ')
+    # comment = raw_input()
+    # local('git commit -m "%s"' % comment)
+    #
+    # local('git push')
 
     switch_debug('True', 'False')
     local('python manage.py collectstatic')
