@@ -94,11 +94,11 @@ DATABASES = {
     'default': dj_database_url.config()
 }
 
-MEDIA_ROOT = '/assets/'
+# MEDIA_ROOT = '/assets/'
 
 MEDIA_URL = ''
 
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static/')
+STATIC_ROOT = PROJECT_DIR
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -137,19 +137,21 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    ('assets', os.path.join(os.getcwd(), 'static/'))
+    (os.path.join(PROJECT_DIR, 'ttt\static'), )
 )
 
 WEBSOCKET_URL = '/ws/'
+
+
 
 WS4REDIS_EXPIRE = 7200
 
 WS4REDIS_PREFIX = 'ws'
 
-# try:
-#     from TicTacToe.local_settings import *
-# except Exception as e:
-#     print e.message
+try:
+    from TicTacToe.local_settings import *
+except Exception as e:
+    print e.message
 
 # if not DEBUG:
 # AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
