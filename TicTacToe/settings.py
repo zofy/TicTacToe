@@ -17,7 +17,7 @@ import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.getcwd()
-
+PROJECT_ROOT = os.getcwd()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
@@ -98,7 +98,7 @@ DATABASES = {
 
 MEDIA_URL = ''
 
-STATIC_ROOT = PROJECT_DIR
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -137,7 +137,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    (os.path.join(PROJECT_DIR, 'ttt\static'), )
+    os.path.join(PROJECT_ROOT, 'ttt\static'),
 )
 
 WEBSOCKET_URL = '/ws/'
