@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TicTacToe/wsgi.py" afterPath="$PROJECT_DIR$/TicTacToe/wsgi.py" />
     </list>
     <ignored path="TicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -712,12 +711,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00013" summary="index.html - login form, gradient, a nejaky js &#10;.css - obsluha pre html&#10;views.py - overi uzivatela a potom nacita stranku opat s access=true">
-      <created>1456872246396</created>
-      <option name="number" value="00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1456872246396</updated>
-    </task>
     <task id="LOCAL-00014" summary="forms.py bol odstraneny kvoli tazkej manipulacii&#10;vo views pribudla authentifikacia hraca a login&#10;mierne upraveny server&#10;login.html - forma a v pripade zleho loginu pride span&#10;.css - gradient pozadie vycentrovana forma">
       <created>1456955062012</created>
       <option name="number" value="00014" />
@@ -1006,7 +999,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461159548225</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="heroku je najvacsia somarina na svete">
+      <created>1461159998889</created>
+      <option name="number" value="00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1461159998889</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="ToolWindowManager">
