@@ -1,5 +1,6 @@
 dj-database-url==0.4.1
 Django==1.9.5
 django-bootstrap-form==3.2
+django-storages==1.4.1
 gunicorn==19.4.5
 whitenoise==3.0
