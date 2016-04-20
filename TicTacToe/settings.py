@@ -153,10 +153,10 @@ WS4REDIS_EXPIRE = 7200
 
 WS4REDIS_PREFIX = 'ws'
 
-try:
-    from TicTacToe.local_settings import *
-except Exception as e:
-    print e.message
+# try:
+#     from TicTacToe.local_settings import *
+# except Exception as e:
+#     print e.message
 
 # if not DEBUG:
     # AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
