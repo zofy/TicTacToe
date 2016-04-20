@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TicTacToe/wsgi.py" afterPath="$PROJECT_DIR$/TicTacToe/wsgi.py" />
     </list>
     <ignored path="TicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -96,31 +97,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wsgi.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="wsgi.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TicTacToe/wsgi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.296296">
-              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.70029676">
+              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+              <folding>
+                <element signature="e#225#234#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="local_settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="local_settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TicTacToe/local_settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.84927535">
+            <state vertical-scroll-proportion="-10.851851">
               <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/requirements.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -130,17 +123,7 @@
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="28" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fabfile.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fabfile.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
+              <caret line="0" column="33" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -214,9 +197,9 @@
         <option value="$PROJECT_DIR$/fabfile.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/TicTacToe/settings.py" />
-        <option value="$PROJECT_DIR$/TicTacToe/wsgi.py" />
-        <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/TicTacToe/local_settings.py" />
+        <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/TicTacToe/wsgi.py" />
       </list>
     </option>
   </component>
@@ -729,18 +712,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00011" summary="server.py online hraci uz mozu hrat proti sebe">
-      <created>1456509773237</created>
-      <option name="number" value="00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1456509773237</updated>
-    </task>
-    <task id="LOCAL-00012" summary="board.html - pribudol reset button na refresh hry&#10;.css - style pre tento button (clear: both)&#10;.js - obsluha pre refresh&#10;index.html - pre sing up noveho uzivatela&#10;forms.py - django vie robit formy staci vytvorit triedu forms.py a potom vo views ju definovat ako context&#10;models.py - override __str__() pre Playera&#10;urls.py - pre login nove url&#10;views.py - metoda get_name pre index.html&#10;&#10;">
-      <created>1456673249807</created>
-      <option name="number" value="00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1456673249807</updated>
-    </task>
     <task id="LOCAL-00013" summary="index.html - login form, gradient, a nejaky js &#10;.css - obsluha pre html&#10;views.py - overi uzivatela a potom nacita stranku opat s access=true">
       <created>1456872246396</created>
       <option name="number" value="00013" />
@@ -1023,7 +994,19 @@
       <option name="project" value="LOCAL" />
       <updated>1461158487688</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="heroku je najvacsia somarina na svete">
+      <created>1461158496222</created>
+      <option name="number" value="00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1461158496222</updated>
+    </task>
+    <task id="LOCAL-00061" summary="heroku je najvacsia somarina na svete">
+      <created>1461159548225</created>
+      <option name="number" value="00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1461159548225</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1039,7 +1022,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24836601" sideWeight="0.48260212" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.49394855" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3453355" sideWeight="0.46747354" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40261865" sideWeight="0.46747354" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1450,22 +1433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="28" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TicTacToe/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.296296">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TicTacToe/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.925926">
@@ -1476,9 +1443,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/TicTacToe/local_settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84927535">
+        <state vertical-scroll-proportion="-10.851851">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="33" selection-start-line="0" selection-start-column="33" selection-end-line="0" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TicTacToe/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.70029676">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding>
+            <element signature="e#225#234#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
