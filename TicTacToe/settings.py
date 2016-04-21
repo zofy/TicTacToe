@@ -141,6 +141,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'ttt/static'),
 )
 
+
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 WEBSOCKET_URL = '/ws/'
