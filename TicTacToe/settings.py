@@ -145,14 +145,15 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 WEBSOCKET_URL = '/ws/'
 
-# WS4REDIS_EXPIRE = 7200
+WS4REDIS_EXPIRE = 7200
 #
-# WS4REDIS_PREFIX = 'ws'
+WS4REDIS_PREFIX = 'ws'
 
 try:
     from TicTacToe.local_settings import *
 except Exception as e:
     print e.message
+
 
 if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
@@ -160,6 +161,6 @@ if not DEBUG:
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     AWS_PRELOAD_METADATA = True
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    # DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL
