@@ -1,3 +1,4 @@
+boto==2.39.0
 crypto==1.4.1
 dj-database-url==0.4.1
 Django==1.9.5
