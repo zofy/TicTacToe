@@ -26,11 +26,7 @@ urlpatterns = [
     url(r'^menu/sendMsg/$', views.send_message, name='sendMsg'),
 ]
 
-# if not settings.DEBUG:
-#     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-#     urlpatterns += staticfiles_urlpatterns()
-
 if not settings.DEBUG:
-    urlpatterns += patterns('',
-    (r'^static/(?P.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    )
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()
+
