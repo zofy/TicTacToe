@@ -1,4 +1,4 @@
-from Crypto.Cipher import AES
+# from Crypto.Cipher import AES
 from django.contrib import messages
 from django.contrib.sessions.models import Session
 from django.db import IntegrityError
@@ -197,8 +197,9 @@ def send_message(request):
         cipher_text = '{"status": 0, "name": ' + '"' + request.POST['user'] + '"' + '}'
 
     if request.method == 'GET':
-        obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
-        message = 'The answer is no'
-        cipher_text = obj.encrypt(message).decode('ISO-8859-1').strip()
+        cipher_text = 'huhu'
+        # obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
+        # message = 'The answer is no'
+        # cipher_text = obj.encrypt(message).decode('ISO-8859-1').strip()
 
     return JsonResponse({'msg': cipher_text})
