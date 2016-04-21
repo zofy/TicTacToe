@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ttt/urls.py" afterPath="$PROJECT_DIR$/ttt/urls.py" />
     </list>
     <ignored path="TicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,13 +63,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ttt/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.8811189">
+              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
               <folding>
-                <element signature="e#0#32#0" expanded="true" />
+                <element signature="e#0#42#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -127,7 +127,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
@@ -200,7 +200,6 @@
         <option value="$PROJECT_DIR$/ttt/static/ttt/scores.css" />
         <option value="$PROJECT_DIR$/ttt/static/ttt/menu.js" />
         <option value="$PROJECT_DIR$/fabFile.py" />
-        <option value="$PROJECT_DIR$/ttt/urls.py" />
         <option value="$PROJECT_DIR$/fabfile.py" />
         <option value="$PROJECT_DIR$/local_settings.py" />
         <option value="$PROJECT_DIR$/TicTacToe/local_settings.py" />
@@ -209,6 +208,7 @@
         <option value="$PROJECT_DIR$/ttt/views.py" />
         <option value="$PROJECT_DIR$/TicTacToe/settings.py" />
         <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/ttt/urls.py" />
       </list>
     </option>
   </component>
@@ -663,12 +663,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00033" summary="posielanie requestov a odpovedi je funkcne&#10;treba pisat socket_managera a pvp.js">
-      <created>1458245898191</created>
-      <option name="number" value="00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1458245898191</updated>
-    </task>
     <task id="LOCAL-00034" summary="pribudlo pvp - palyer vs player &#10;pracuje sa na socket manageorvi">
       <created>1458394238061</created>
       <option name="number" value="00034" />
@@ -957,7 +951,13 @@
       <option name="project" value="LOCAL" />
       <updated>1461219914848</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="upravy">
+      <created>1461220423467</created>
+      <option name="number" value="00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1461220423467</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1401,16 +1401,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ttt/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TicTacToe/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1424,6 +1414,16 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="12" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ttt/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8811189">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#42#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

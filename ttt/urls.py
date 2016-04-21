@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, patterns
 
 from TicTacToe import settings
 from . import views
@@ -27,5 +27,10 @@ urlpatterns = [
 ]
 
 if not settings.DEBUG:
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += patterns('',
+            (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    )
+
+# if not settings.DEBUG:
+#     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+#     urlpatterns += staticfiles_urlpatterns()
