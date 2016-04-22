@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'TicTacToe.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 ADMINS = (
-    # ('Patrik Puchala', 'zofy11@gmail.com')
+    ('Patrik Puchala', 'zofy11@gmail.com')
 )
 
 DATABASES = {

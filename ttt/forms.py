@@ -37,7 +37,7 @@ class RegisterForm(LoginForm):
 
     def clean(self):
         name = self.cleaned_data.get('name')
-        if Player.objects.select_for_update().filter(name=name).exists():
+        if Player.objects.filter(name=name).exists():
             raise forms.ValidationError('Name already exists, try another one!')
         p = self.cleaned_data.get('password')
         cp = self.cleaned_data.get('confirmPassword')
