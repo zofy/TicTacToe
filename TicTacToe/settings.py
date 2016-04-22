@@ -26,7 +26,7 @@ SECRET_KEY = '+nr0p@0n=madp$gat^p0m$kr2^a@y0pb+-g#6#^1au1-tx(v7m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -155,7 +155,7 @@ except Exception as e:
     print e.message
 
 
-if not DEBUG:
+# if not DEBUG:
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
