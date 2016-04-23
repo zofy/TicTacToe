@@ -273,10 +273,6 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    # ssl_options = {
-    #     "certfile": os.path.join("ttt/certs/server.crt"),
-    #     "keyfile": os.path.join("ttt/certs/server.key")
-    # }
     http_server = tornado.httpserver.HTTPServer(application)
     tornado.options.parse_command_line()
     signal.signal(signal.SIGINT, signal_handler)

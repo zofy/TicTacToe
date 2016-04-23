@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server2.py" afterPath="$PROJECT_DIR$/server2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ttt/static/ttt/menu.js" afterPath="$PROJECT_DIR$/ttt/static/ttt/menu.js" />
     </list>
     <ignored path="TicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,13 +55,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="menu.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="menu.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ttt/static/ttt/menu.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="134" column="32" selection-start-line="134" selection-start-column="32" selection-end-line="134" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.4790419">
+              <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
               <folding>
-                <marker date="1461406119331" expanded="true" signature="2018:2033" placeholder="..." />
+                <marker date="1461419925914" expanded="true" signature="2018:2033" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -68,7 +70,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ttt/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.296296">
+            <state vertical-scroll-proportion="0.0">
               <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
@@ -111,27 +113,17 @@
         <entry file="file://$PROJECT_DIR$/server2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="276" column="59" selection-start-line="276" selection-start-column="59" selection-end-line="276" selection-end-column="59" />
+              <caret line="275" column="0" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="87" selection-start-line="0" selection-start-column="87" selection-end-line="0" selection-end-column="87" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProcfileFree" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ProcfileFree">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
+              <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -204,13 +196,13 @@
         <option value="$PROJECT_DIR$/TicTacToe/wsgi.py" />
         <option value="$PROJECT_DIR$/ttt/models.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/ttt/static/ttt/menu.js" />
-        <option value="$PROJECT_DIR$/server2.py" />
         <option value="$PROJECT_DIR$/ttt/static/ttt/board.js" />
         <option value="$PROJECT_DIR$/ttt/static/ttt/pvp.js" />
         <option value="$PROJECT_DIR$/TicTacToe/settings.py" />
         <option value="$PROJECT_DIR$/ProcfileFree" />
         <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/server2.py" />
+        <option value="$PROJECT_DIR$/ttt/static/ttt/menu.js" />
       </list>
     </option>
   </component>
@@ -723,18 +715,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00068" summary="heroku je najvacsia somarina na svete">
-      <created>1461162287986</created>
-      <option name="number" value="00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1461162287986</updated>
-    </task>
-    <task id="LOCAL-00069" summary="heroku je najvacsia somarina na svete">
-      <created>1461162359895</created>
-      <option name="number" value="00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1461162359895</updated>
-    </task>
     <task id="LOCAL-00070" summary="heroku je najvacsia somarina na svete">
       <created>1461162484778</created>
       <option name="number" value="00070" />
@@ -1017,7 +997,19 @@
       <option name="project" value="LOCAL" />
       <updated>1461416657276</updated>
     </task>
-    <option name="localTasksCounter" value="117" />
+    <task id="LOCAL-00117" summary="foreman - local">
+      <created>1461416803731</created>
+      <option name="number" value="00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1461416803731</updated>
+    </task>
+    <task id="LOCAL-00118" summary="web and worker in procfile">
+      <created>1461417055710</created>
+      <option name="number" value="00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1461417055710</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1060,8 +1052,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/piskvor" />
     </ignored-roots>
-    <MESSAGE value="pridany navbar a posielanie farieb v pvp&#10;bootstrap je v menu&#10;menu, navbar treba stylovat&#10; &#10;pribudol singup - chcem vyskusat cez RegisterForm v login.html" />
-    <MESSAGE value="login.html - spraveny cez bootstrap form {{ form|bootstrap }}&#10;a taktiez validation errory&#10;forms.py - loginForm a od nej odvodena RegisterForm s metedou clean, ktora kontroluje ci sa hesla rovnaju&#10;views.py - register - creates new Player&#10;settings.py - installedApps - bootstrap&#10;" />
     <MESSAGE value="login.html / forms.py - valdicia dokonecma errory vyhadzuje ok -treba checknut este message po singUp&#10;server.py / socketMaager - server sa nepretazuje a nepada po logoutnuti...do userov treb ukladat clientov a nie idcka" />
     <MESSAGE value="forms - pribudla metoda clean ktora len vrati cleaned data, metoda authenticate sa premiesntila do forms.py&#10;models - pribudol prinmary key na name&#10;urls - odislo authenticate&#10;views - odislo authenticate a auth_view...-&gt; login&#10;&#10;race condition odchytena cez IntegrityError" />
     <MESSAGE value="menu - nastylovane - da sa na to pozerat&#10;navbar - prisposobeny na menu" />
@@ -1085,7 +1075,9 @@
     <MESSAGE value="zrusenie https v settings" />
     <MESSAGE value="vsade je wss:&#10;a skusame spustit gunicorn apolu s tornado v 1 dyno" />
     <MESSAGE value="zmena v procfile" />
-    <option name="LAST_COMMIT_MESSAGE" value="zmena v procfile" />
+    <MESSAGE value="foreman - local" />
+    <MESSAGE value="web and worker in procfile" />
+    <option name="LAST_COMMIT_MESSAGE" value="web and worker in procfile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1393,24 +1385,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ttt/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.296296">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ttt/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.0673914">
@@ -1430,14 +1404,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ttt/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="51" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ttt/static/ttt/board.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1454,6 +1420,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="275" column="0" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ttt/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="51" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TicTacToe/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1462,37 +1444,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server2.py">
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="276" column="59" selection-start-line="276" selection-start-column="59" selection-end-line="276" selection-end-column="59" />
+          <caret line="21" column="12" selection-start-line="21" selection-start-column="12" selection-end-line="21" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ttt/static/ttt/menu.js">
+    <entry file="file://$PROJECT_DIR$/ttt/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="134" column="32" selection-start-line="134" selection-start-column="32" selection-end-line="134" selection-end-column="32" />
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
-            <marker date="1461406119331" expanded="true" signature="2018:2033" placeholder="..." />
+            <element signature="e#0#42#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ProcfileFree">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1" column="26" selection-start-line="1" selection-start-column="26" selection-end-line="1" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="87" selection-start-line="0" selection-start-column="87" selection-end-line="0" selection-end-column="87" />
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ttt/static/ttt/menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4790419">
+          <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <folding>
+            <marker date="1461419925914" expanded="true" signature="2018:2033" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
