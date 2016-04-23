@@ -132,7 +132,7 @@
 
     menu.init();
 
-    menu.ws = new WebSocket('wss://' + location.host + ':8889/ws');
+    menu.ws = new WebSocket('wss://localhost:8889/ws');
 
     menu.ws.onmessage = function(msg){
         try {
