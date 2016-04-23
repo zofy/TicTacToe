@@ -5,7 +5,7 @@
 
 var game = {};
 
-    game.ws = new WebSocket('ws://localhost:8889/ws');
+    game.ws = new WebSocket('wss://localhost:8889/ws');
     game.squares = [];
     game.freeSquares = [];
     game.playerSquare = document.querySelector('.player'); // square color of the player

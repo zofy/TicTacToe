@@ -1,0 +1,2 @@
+web: gunicorn TicTacToe.wsgi --log-file -
+tornado: python server2.py
