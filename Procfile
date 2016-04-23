@@ -1,1 +1,2 @@
-web: env > .env; env GEM_HOME=$HOME/.ruby-gems env PATH=$PATH:$HOME/.ruby-gems/bin local start -f ProcfileFree
+web: gunicorn TicTacToe.wsgi --log-file -
+worker: python server2.py
