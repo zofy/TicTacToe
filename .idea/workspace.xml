@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="vsade je wss:&#10;a skusame spustit gunicorn apolu s tornado v 1 dyno">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ProcfileFree" />
+    <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TicTacToe/settings.py" afterPath="$PROJECT_DIR$/TicTacToe/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ttt/static/ttt/board.js" afterPath="$PROJECT_DIR$/ttt/static/ttt/board.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ttt/static/ttt/pvp.js" afterPath="$PROJECT_DIR$/ttt/static/ttt/pvp.js" />
     </list>
     <ignored path="TicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -125,7 +121,7 @@
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="112" selection-start-line="0" selection-start-column="112" selection-end-line="0" selection-end-column="112" />
+              <caret line="0" column="87" selection-start-line="0" selection-start-column="87" selection-end-line="0" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -727,18 +723,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00066" summary="heroku je najvacsia somarina na svete">
-      <created>1461162007554</created>
-      <option name="number" value="00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1461162007554</updated>
-    </task>
-    <task id="LOCAL-00067" summary="heroku je najvacsia somarina na svete">
-      <created>1461162120991</created>
-      <option name="number" value="00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1461162120991</updated>
-    </task>
     <task id="LOCAL-00068" summary="heroku je najvacsia somarina na svete">
       <created>1461162287986</created>
       <option name="number" value="00068" />
@@ -1021,12 +1005,24 @@
       <option name="project" value="LOCAL" />
       <updated>1461414186041</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="vsade je wss:&#10;a skusame spustit gunicorn apolu s tornado v 1 dyno">
+      <created>1461416335800</created>
+      <option name="number" value="00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1461416335804</updated>
+    </task>
+    <task id="LOCAL-00116" summary="zmena v procfile">
+      <created>1461416657276</created>
+      <option name="number" value="00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1461416657276</updated>
+    </task>
+    <option name="localTasksCounter" value="117" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23903178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1064,7 +1060,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/piskvor" />
     </ignored-roots>
-    <MESSAGE value="prepojenie pvp je funkcne: vyzivatel po akceptovani vyzvy caka na oponenta, - strata spojenia je odchytena&#10;&#10;pridany bootstrap na login a planuje sa navbar na vsetky html&#10;&#10;pvp - posielanie a prijimanie bodov je funkcne, treba doimplem,entovat zmenu velkosti, zmenu farby a game_length" />
     <MESSAGE value="pridany navbar a posielanie farieb v pvp&#10;bootstrap je v menu&#10;menu, navbar treba stylovat&#10; &#10;pribudol singup - chcem vyskusat cez RegisterForm v login.html" />
     <MESSAGE value="login.html - spraveny cez bootstrap form {{ form|bootstrap }}&#10;a taktiez validation errory&#10;forms.py - loginForm a od nej odvodena RegisterForm s metedou clean, ktora kontroluje ci sa hesla rovnaju&#10;views.py - register - creates new Player&#10;settings.py - installedApps - bootstrap&#10;" />
     <MESSAGE value="login.html / forms.py - valdicia dokonecma errory vyhadzuje ok -treba checknut este message po singUp&#10;server.py / socketMaager - server sa nepretazuje a nepada po logoutnuti...do userov treb ukladat clientov a nie idcka" />
@@ -1089,7 +1084,8 @@
     <MESSAGE value="tornado pridane" />
     <MESSAGE value="zrusenie https v settings" />
     <MESSAGE value="vsade je wss:&#10;a skusame spustit gunicorn apolu s tornado v 1 dyno" />
-    <option name="LAST_COMMIT_MESSAGE" value="vsade je wss:&#10;a skusame spustit gunicorn apolu s tornado v 1 dyno" />
+    <MESSAGE value="zmena v procfile" />
+    <option name="LAST_COMMIT_MESSAGE" value="zmena v procfile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1495,7 +1491,7 @@
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="112" selection-start-line="0" selection-start-column="112" selection-end-line="0" selection-end-column="112" />
+          <caret line="0" column="87" selection-start-line="0" selection-start-column="87" selection-end-line="0" selection-end-column="87" />
           <folding />
         </state>
       </provider>
