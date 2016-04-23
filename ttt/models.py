@@ -6,8 +6,8 @@ from django.core.validators import MinLengthValidator
 class PlayerManager(models.Manager):
     def create_player(self, name, password):
         player = Player(name=name, password=password)
-        Score.objects.create_score(player)
         player.save()
+        Score.objects.create_score(player)
         return player
 
 
