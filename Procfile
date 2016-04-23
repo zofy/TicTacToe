@@ -1,1 +1,1 @@
-web: gunicorn TicTacToe.wsgi --log-file -
+web: python server2.py
