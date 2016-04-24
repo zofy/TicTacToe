@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2324f5e7-99ee-467a-9123-2ec9c8cd3a0b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server2.py" afterPath="$PROJECT_DIR$/server2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
     </list>
     <ignored path="TicTacToe.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -107,10 +107,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.530303">
+            <state vertical-scroll-proportion="0.0">
               <caret line="278" column="46" selection-start-line="278" selection-start-column="46" selection-end-line="278" selection-end-column="46" />
               <folding />
             </state>
@@ -127,11 +127,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="22" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="22" />
+              <caret line="0" column="3" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -209,8 +209,8 @@
         <option value="$PROJECT_DIR$/ProcfileFree" />
         <option value="$PROJECT_DIR$/ttt/static/ttt/menu.js" />
         <option value="$PROJECT_DIR$/ttt/static/ttt/board.js" />
-        <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/server2.py" />
+        <option value="$PROJECT_DIR$/Procfile" />
       </list>
     </option>
   </component>
@@ -705,18 +705,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00082" summary="upravy">
-      <created>1461220423467</created>
-      <option name="number" value="00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1461220423467</updated>
-    </task>
-    <task id="LOCAL-00083" summary="upravy">
-      <created>1461221084678</created>
-      <option name="number" value="00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1461221084678</updated>
-    </task>
     <task id="LOCAL-00084" summary="upravy">
       <created>1461221766614</created>
       <option name="number" value="00084" />
@@ -999,7 +987,19 @@
       <option name="project" value="LOCAL" />
       <updated>1461508129798</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="zmeneny port">
+      <created>1461508233130</created>
+      <option name="number" value="00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1461508233130</updated>
+    </task>
+    <task id="LOCAL-00132" summary="skusim spustit websocket cez workera">
+      <created>1461509859988</created>
+      <option name="number" value="00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1461509859988</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1014,7 +1014,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24713585" sideWeight="0.48260212" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32733223" sideWeight="0.49394855" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.63011456" sideWeight="0.46747354" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2487725" sideWeight="0.46747354" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1042,7 +1042,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/piskvor" />
     </ignored-roots>
-    <MESSAGE value="pvp.js - kontrola end of game" />
     <MESSAGE value="ttt.js prepisany na board.js&#10;postupne sme takmer nahradili server.py za novy tornado socket server&#10;menu.js - zmena pri posielani spravy po connection established - ked je connection established tak zistim meno usera zo session a nasledne to poslem socket servru" />
     <MESSAGE value="server2 - kompletne vymeneny&#10;pribudol IOLoop.periodiccallback a .instance().add_timeout&#10;pvp.js - noEvent davame na cely conatianer a odstranili sme metodu toggleSquares" />
     <MESSAGE value="pvp.html - pridane chat bubbles pre opponenta a pre hraca + textarea pre chat&#10;baord.css - stylovanie tyctho bublin a text arey" />
@@ -1067,7 +1066,8 @@
     <MESSAGE value="location.host v js pre websocket" />
     <MESSAGE value="hranie sa s procfile" />
     <MESSAGE value="zmeneny port" />
-    <option name="LAST_COMMIT_MESSAGE" value="zmeneny port" />
+    <MESSAGE value="skusim spustit websocket cez workera" />
+    <option name="LAST_COMMIT_MESSAGE" value="skusim spustit websocket cez workera" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1456,18 +1456,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
+    <entry file="file://$PROJECT_DIR$/server2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="22" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="22" />
+          <caret line="278" column="46" selection-start-line="278" selection-start-column="46" selection-end-line="278" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server2.py">
+    <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.530303">
-          <caret line="278" column="46" selection-start-line="278" selection-start-column="46" selection-end-line="278" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="3" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
           <folding />
         </state>
       </provider>
