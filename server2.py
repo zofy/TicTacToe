@@ -276,7 +276,7 @@ if __name__ == "__main__":
     http_server = tornado.httpserver.HTTPServer(application)
     tornado.options.parse_command_line()
     signal.signal(signal.SIGINT, signal_handler)
-    http_server.listen(os.environ.get("PORT", 5000))
+    http_server.listen(os.environ.get(int("PORT", '5000')))
     myIP = socket.gethostbyname(socket.gethostname())
     print '*** Websocket Server Started at %s***' % myIP
     tornado.ioloop.PeriodicCallback(try_exit, 100).start()
