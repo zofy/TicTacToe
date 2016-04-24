@@ -1,1 +1,1 @@
-web: python server2. --port=$PORT
+web: python server2.py --port=$PORT

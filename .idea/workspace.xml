@@ -111,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/server2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="278" column="51" selection-start-line="278" selection-start-column="51" selection-end-line="278" selection-end-column="51" />
+              <caret line="280" column="51" selection-start-line="280" selection-start-column="51" selection-end-line="280" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -705,18 +705,6 @@
       <option name="number" value="Default" />
       <updated>1453887637488</updated>
     </task>
-    <task id="LOCAL-00078" summary="upravy">
-      <created>1461218211652</created>
-      <option name="number" value="00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1461218211652</updated>
-    </task>
-    <task id="LOCAL-00079" summary="upravy">
-      <created>1461218392899</created>
-      <option name="number" value="00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1461218392899</updated>
-    </task>
     <task id="LOCAL-00080" summary="upravy">
       <created>1461219371133</created>
       <option name="number" value="00080" />
@@ -999,7 +987,19 @@
       <option name="project" value="LOCAL" />
       <updated>1461507049518</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="zmeneny port">
+      <created>1461507264878</created>
+      <option name="number" value="00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1461507264878</updated>
+    </task>
+    <task id="LOCAL-00128" summary="zmeneny port">
+      <created>1461507669968</created>
+      <option name="number" value="00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1461507669968</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1459,7 +1459,7 @@
     <entry file="file://$PROJECT_DIR$/server2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="278" column="51" selection-start-line="278" selection-start-column="51" selection-end-line="278" selection-end-column="51" />
+          <caret line="280" column="51" selection-start-line="280" selection-start-column="51" selection-end-line="280" selection-end-column="51" />
           <folding />
         </state>
       </provider>
