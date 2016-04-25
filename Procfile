@@ -1,1 +1,1 @@
-web: python server2.py
+web: gunicorn TicTacToe.wsgi
