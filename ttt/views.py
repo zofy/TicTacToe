@@ -162,7 +162,7 @@ def search_player(request):
 
 
 def get_user(request):
-    return JsonResponse({'name': request.session['user']})
+    return JsonResponse({'name': request.session.get('user')})
 
 
 def create_connection(request):

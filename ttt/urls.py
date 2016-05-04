@@ -17,7 +17,7 @@ urlpatterns = [
 
     url(r'^menu/$', views.menu, name='menu'),
     url(r'^searchPlayer/$', views.search_player, name='searchPlayer'),
-    url(r'^searchScore/$', views.search_score, name='searchPlayer'),
+    url(r'^searchScore/$', views.search_score, name='searchScore'),
     url(r'^getUser/$', views.get_user, name='getUser'),
     url(r'^saveScore/$', views.save_score, name='saveScore'),
 
