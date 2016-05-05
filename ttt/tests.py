@@ -1,6 +1,8 @@
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.test import TestCase, LiveServerTestCase
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 from ttt.models import Player, MenuUser
 
@@ -109,7 +111,7 @@ class LoggedUserTest(TestCase):
 
 
 # Selenium tests
-class SeleniumTestCase(LiveServerTestCase):
+class SeleniumTestCase(StaticLiveServerTestCase):
     def open(self, url):
         self.wd.get("%s%s" % (self.live_server_url, url))
 
@@ -128,6 +130,25 @@ class SeleniumTestCase(LiveServerTestCase):
         # the browser is closed after the tests are ran
         self.wd.quit()
 
+    def create_player(self):
+        return Player.objects.create(name='Bubak', password='bububu')
+
     def test_login(self):
         self.open(reverse('ttt:login'))
-        b = self.wd.find_element_by_tag_name('button')
+
+        self.assertIn('Login', self.wd.title)
+
+        body = self.wd.find_element_by_tag_name('body')
+        self.assertIn('Username', body.text)
+        self.assertIn('Password', body.text)
+
+        user = self.create_player()
+        name_input = self.wd.find_element_by_id('id_name')
+        pw_input = self.wd.find_element_by_id('id_password')
+        name_input.send_keys(user.name)
+        pw_input.send_keys(user.password)
+        pw_input.send_keys(Keys.RETURN)
+        self.assertIn('TicTacToe', self.wd.title)
+
+    def test_signUp(self):
+        pass
