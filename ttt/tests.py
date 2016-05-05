@@ -2,9 +2,11 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.test import TestCase, LiveServerTestCase
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
 
-from ttt.models import Player, MenuUser
+from ttt.models import Player, MenuUser, Score
 
 
 class PlayerTest(TestCase):
@@ -111,6 +113,24 @@ class LoggedUserTest(TestCase):
 
 
 # Selenium tests
+class CustomWebDriver(webdriver.Firefox):
+    """Our own WebDriver with some helpers added"""
+
+    def find_css(self, css_selector):
+        """Shortcut to find elements by CSS. Returns either a list or singleton"""
+        elems = self.find_elements_by_css_selector(css_selector)
+        found = len(elems)
+        if found == 1:
+            return elems[0]
+        elif not elems:
+            raise NoSuchElementException(css_selector)
+        return elems
+
+    def wait_for_css(self, css_selector, timeout=7):
+        """ Shortcut for WebDriverWait"""
+        return WebDriverWait(self, timeout).until(lambda driver: driver.find_css(css_selector))
+
+
 class SeleniumTestCase(StaticLiveServerTestCase):
     def open(self, url):
         self.wd.get("%s%s" % (self.live_server_url, url))
@@ -123,7 +143,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         #                               email='info@lincolnloop.com')
 
         # Instantiating the WebDriver will load your browser
-        self.wd = webdriver.Firefox()
+        self.wd = CustomWebDriver()
 
     def tearDown(self):
         # Don't forget to call quit on your webdriver, so that
@@ -131,7 +151,20 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         self.wd.quit()
 
     def create_player(self):
-        return Player.objects.create(name='Bubak', password='bububu')
+        p = Player.objects.create(name='Bubak', password='bububu')
+        self.create_score(p)
+        return p
+
+    def create_score(self, player):
+        return Score.objects.create(player=player)
+
+    def login(self):
+        user = self.create_player()
+        name_input = self.wd.find_element_by_id('id_name')
+        pw_input = self.wd.find_element_by_id('id_password')
+        name_input.send_keys(user.name)
+        pw_input.send_keys(user.password)
+        pw_input.send_keys(Keys.RETURN)
 
     def test_login(self):
         self.open(reverse('ttt:login'))
@@ -142,12 +175,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         self.assertIn('Username', body.text)
         self.assertIn('Password', body.text)
 
-        user = self.create_player()
-        name_input = self.wd.find_element_by_id('id_name')
-        pw_input = self.wd.find_element_by_id('id_password')
-        name_input.send_keys(user.name)
-        pw_input.send_keys(user.password)
-        pw_input.send_keys(Keys.RETURN)
+        self.login()
         self.assertIn('TicTacToe', self.wd.title)
 
     def test_signUp(self):
@@ -164,3 +192,10 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         body = self.wd.find_element_by_tag_name('body')
         self.assertIn('Thanks for signing in!', body.text)
 
+    def test_scoreSearch(self):
+        self.open(reverse('ttt:login'))
+        self.login()
+        self.open(reverse('ttt:scores'))
+        self.wd.find_element_by_id('search').send_keys('ba')
+        table = self.wd.find_element_by_css_selector('table tbody tr td')
+        self.assertEqual('Bubak', table.text)
