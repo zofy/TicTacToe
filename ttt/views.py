@@ -82,7 +82,7 @@ def register(request):
     elif request.method == 'GET':
         form = RegisterForm()
 
-    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'SingUp', 'url': 'ttt:register'})
+    return render(request, 'ttt/login.html', {'form': form, 'button_name': 'SignUp', 'url': 'ttt:register'})
 
 
 @already_logged_in

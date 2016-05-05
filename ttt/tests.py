@@ -151,4 +151,16 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         self.assertIn('TicTacToe', self.wd.title)
 
     def test_signUp(self):
-        pass
+        self.open(reverse('ttt:register'))
+        self.assertIn('SignUp', self.wd.title)
+
+        self.wd.find_element_by_id('id_name').send_keys('Barney')
+        self.wd.find_element_by_id('id_password').send_keys('bububu')
+        self.wd.find_element_by_id('id_confirmPassword').send_keys('bububu')
+        self.wd.find_element_by_id('id_confirmPassword').send_keys(Keys.RETURN)
+        # self.wd.find_element_by_tag_name('button').click()
+
+        self.assertIn('Login', self.wd.title)
+        body = self.wd.find_element_by_tag_name('body')
+        self.assertIn('Thanks for signing in!', body.text)
+
