@@ -150,21 +150,22 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         # the browser is closed after the tests are ran
         self.wd.quit()
 
-    def create_player(self):
-        p = Player.objects.create(name='Bubak', password='bububu')
+    def create_player(self, name, password):
+        p = Player.objects.create(name=name, password=password)
         self.create_score(p)
         return p
 
     def create_score(self, player):
         return Score.objects.create(player=player)
 
-    def login(self):
-        user = self.create_player()
+    def login(self, name='Bubak', password='bububu'):
+        user = self.create_player(name, password)
         name_input = self.wd.find_element_by_id('id_name')
         pw_input = self.wd.find_element_by_id('id_password')
         name_input.send_keys(user.name)
         pw_input.send_keys(user.password)
-        pw_input.send_keys(Keys.RETURN)
+        # pw_input.send_keys(Keys.RETURN)
+        self.wd.find_element_by_css_selector('.form-actions button').click()
 
     def test_login(self):
         self.open(reverse('ttt:login'))
@@ -185,8 +186,8 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         self.wd.find_element_by_id('id_name').send_keys('Barney')
         self.wd.find_element_by_id('id_password').send_keys('bububu')
         self.wd.find_element_by_id('id_confirmPassword').send_keys('bububu')
-        self.wd.find_element_by_id('id_confirmPassword').send_keys(Keys.RETURN)
-        # self.wd.find_element_by_tag_name('button').click()
+        # self.wd.find_element_by_id('id_confirmPassword').send_keys(Keys.RETURN)
+        self.wd.find_element_by_css_selector('.form-actions button').click()
 
         self.assertIn('Login', self.wd.title)
         body = self.wd.find_element_by_tag_name('body')
