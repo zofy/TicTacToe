@@ -144,6 +144,7 @@ class SeleniumTestCase(StaticLiveServerTestCase):
 
         # Instantiating the WebDriver will load your browser
         self.wd = CustomWebDriver()
+        self.wd.implicitly_wait(5)
 
     def tearDown(self):
         # Don't forget to call quit on your webdriver, so that
@@ -197,6 +198,6 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         self.open(reverse('ttt:login'))
         self.login()
         self.open(reverse('ttt:scores'))
-        self.wd.find_element_by_id('search').send_keys('ba')
+        self.wd.find_element_by_id('search').send_keys('bu')
         table = self.wd.find_element_by_css_selector('table tbody tr td')
         self.assertEqual('Bubak', table.text)
