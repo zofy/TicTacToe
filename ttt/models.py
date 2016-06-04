@@ -44,12 +44,21 @@ class Score(models.Model):
     game_lenght = models.PositiveIntegerField(default=5)
     _wins = models.PositiveIntegerField(default=0, db_column='wins')
     _loses = models.PositiveIntegerField(default=0, db_column='loses')
+    _lower_bound = models.FloatField(default=0)
 
     objects = ScoreManager()
 
     @property
+    def lower_bound(self):
+        return self._lower_bound
+
+    @lower_bound.setter
+    def lower_bound(self, value):
+        self._lower_bound = value
+
+    @property
     def wins(self):
-        return self._wins;
+        return self._wins
 
     @wins.setter
     def wins(self, value):
@@ -57,7 +66,7 @@ class Score(models.Model):
 
     @property
     def loses(self):
-        return self._loses;
+        return self._loses
 
     @loses.setter
     def loses(self, value):

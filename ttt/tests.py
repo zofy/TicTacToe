@@ -201,3 +201,6 @@ class SeleniumTestCase(StaticLiveServerTestCase):
         self.wd.find_element_by_id('search').send_keys('bu')
         table = self.wd.find_element_by_css_selector('table tbody tr td')
         self.assertEqual('Bubak', table.text)
+
+    def test_alreadyLogged(self):
+        pass

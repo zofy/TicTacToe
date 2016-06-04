@@ -221,7 +221,7 @@
 game.init();
 
     // Connection to the server
-    game.ws = new WebSocket('wss://localhost:8889/ws');
+    game.ws = new WebSocket('ws://localhost:8889/ws');
 
     game.getUser = function(){
         $.ajax({
