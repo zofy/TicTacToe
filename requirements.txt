@@ -8,7 +8,7 @@ dj-static==0.0.6
 Django==1.9.5
 django-bootstrap-form==3.2
 django-storages==1.4.1
-gunicorn==19.4.5
+gunicorn==19.5.0
 Naked==0.1.31
 psycopg2==2.6.1
 PyYAML==5.4
